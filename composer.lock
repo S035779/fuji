@@ -4,22 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "701e7174be63109a462bc908ebd99241",
+    "content-hash": "114d5070d66a246e7b6945445582b99d",
     "packages": [
         {
             "name": "apache/thrift",
-            "version": "0.10.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://git-wip-us.apache.org/repos/asf/thrift.git",
-                "reference": "b2a4d4ae21c789b689dd162deb819665567f481c"
+                "reference": "20e16bc6a41c6faead040aed7f3c00b9d2e7f842"
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "type": "library",
             "extra": {
-                "branch-alias": []
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
             },
             "autoload": {
                 "psr-0": {
@@ -39,13 +41,15 @@
             ],
             "description": "Apache Thrift RPC system",
             "homepage": "http://thrift.apache.org/",
-            "time": "2016-04-04T18:25:03+00:00"
+            "time": "2017-11-21T19:20:26+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "apache/thrift": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
