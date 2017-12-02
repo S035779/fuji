@@ -1,0 +1,10 @@
+{
+  "name": "s035779/fuji",
+  "license": "MIT",
+  "autoload": {
+    "classmap": ["gen-php/"]
+  },
+  "require": {
+    "apache/thrift": "0.10.0"
+  }
+}
