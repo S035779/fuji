@@ -7,7 +7,7 @@
 
 //HELPER FUNCTIONS AND STRUCTURES
 
-SharedService_getStruct_args = function(args) {
+shared.SharedService_getStruct_args = function(args) {
   this.key = null;
   if (args) {
     if (args.key !== undefined && args.key !== null) {
@@ -15,8 +15,8 @@ SharedService_getStruct_args = function(args) {
     }
   }
 };
-SharedService_getStruct_args.prototype = {};
-SharedService_getStruct_args.prototype.read = function(input) {
+shared.SharedService_getStruct_args.prototype = {};
+shared.SharedService_getStruct_args.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -48,7 +48,7 @@ SharedService_getStruct_args.prototype.read = function(input) {
   return;
 };
 
-SharedService_getStruct_args.prototype.write = function(output) {
+shared.SharedService_getStruct_args.prototype.write = function(output) {
   output.writeStructBegin('SharedService_getStruct_args');
   if (this.key !== null && this.key !== undefined) {
     output.writeFieldBegin('key', Thrift.Type.I32, 1);
@@ -60,16 +60,16 @@ SharedService_getStruct_args.prototype.write = function(output) {
   return;
 };
 
-SharedService_getStruct_result = function(args) {
+shared.SharedService_getStruct_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new SharedStruct(args.success);
+      this.success = new shared.SharedStruct(args.success);
     }
   }
 };
-SharedService_getStruct_result.prototype = {};
-SharedService_getStruct_result.prototype.read = function(input) {
+shared.SharedService_getStruct_result.prototype = {};
+shared.SharedService_getStruct_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -84,7 +84,7 @@ SharedService_getStruct_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new SharedStruct();
+        this.success = new shared.SharedStruct();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -102,7 +102,7 @@ SharedService_getStruct_result.prototype.read = function(input) {
   return;
 };
 
-SharedService_getStruct_result.prototype.write = function(output) {
+shared.SharedService_getStruct_result.prototype.write = function(output) {
   output.writeStructBegin('SharedService_getStruct_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
@@ -114,35 +114,44 @@ SharedService_getStruct_result.prototype.write = function(output) {
   return;
 };
 
-SharedServiceClient = function(input, output) {
+shared.SharedServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
     this.seqid = 0;
 };
-SharedServiceClient.prototype = {};
-SharedServiceClient.prototype.getStruct = function(key, callback) {
-  if (callback === undefined) {
-    this.send_getStruct(key);
+shared.SharedServiceClient.prototype = {};
+shared.SharedServiceClient.prototype.getStruct = function(key, callback) {
+  this.send_getStruct(key, callback); 
+  if (!callback) {
     return this.recv_getStruct();
-  } else {
-    var postData = this.send_getStruct(key, true);
-    return this.output.getTransport()
-      .jqRequest(this, postData, arguments, this.recv_getStruct);
   }
 };
 
-SharedServiceClient.prototype.send_getStruct = function(key, callback) {
+shared.SharedServiceClient.prototype.send_getStruct = function(key, callback) {
   this.output.writeMessageBegin('getStruct', Thrift.MessageType.CALL, this.seqid);
   var params = {
     key: key
   };
-  var args = new SharedService_getStruct_args(params);
+  var args = new shared.SharedService_getStruct_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
-  return this.output.getTransport().flush(callback);
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_getStruct();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
 };
 
-SharedServiceClient.prototype.recv_getStruct = function() {
+shared.SharedServiceClient.prototype.recv_getStruct = function() {
   var ret = this.input.readMessageBegin();
   var fname = ret.fname;
   var mtype = ret.mtype;
@@ -153,7 +162,7 @@ SharedServiceClient.prototype.recv_getStruct = function() {
     this.input.readMessageEnd();
     throw x;
   }
-  var result = new SharedService_getStruct_result();
+  var result = new shared.SharedService_getStruct_result();
   result.read(this.input);
   this.input.readMessageEnd();
 

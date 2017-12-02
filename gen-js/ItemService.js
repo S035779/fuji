@@ -7,132 +7,16 @@
 
 //HELPER FUNCTIONS AND STRUCTURES
 
-Fuji.Item.ItemService_ping_args = function(args) {
-};
-Fuji.Item.ItemService_ping_args.prototype = {};
-Fuji.Item.ItemService_ping_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_ping_args.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_ping_args');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_ping_result = function(args) {
-};
-Fuji.Item.ItemService_ping_result.prototype = {};
-Fuji.Item.ItemService_ping_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_ping_result.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_ping_result');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_zip_args = function(args) {
-};
-Fuji.Item.ItemService_zip_args.prototype = {};
-Fuji.Item.ItemService_zip_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_zip_args.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_zip_args');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_zip_result = function(args) {
-};
-Fuji.Item.ItemService_zip_result.prototype = {};
-Fuji.Item.ItemService_zip_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_zip_result.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_zip_result');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_add_args = function(args) {
-  this.num1 = null;
-  this.num2 = null;
+Fuji.Item.ItemService_NewReleases_args = function(args) {
+  this.node_id = null;
   if (args) {
-    if (args.num1 !== undefined && args.num1 !== null) {
-      this.num1 = args.num1;
-    }
-    if (args.num2 !== undefined && args.num2 !== null) {
-      this.num2 = args.num2;
+    if (args.node_id !== undefined && args.node_id !== null) {
+      this.node_id = args.node_id;
     }
   }
 };
-Fuji.Item.ItemService_add_args.prototype = {};
-Fuji.Item.ItemService_add_args.prototype.read = function(input) {
+Fuji.Item.ItemService_NewReleases_args.prototype = {};
+Fuji.Item.ItemService_NewReleases_args.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -147,18 +31,14 @@ Fuji.Item.ItemService_add_args.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.I64) {
-        this.num1 = input.readI64().value;
+        this.node_id = input.readI64().value;
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
-      if (ftype == Thrift.Type.I64) {
-        this.num2 = input.readI64().value;
-      } else {
+      case 0:
         input.skip(ftype);
-      }
-      break;
+        break;
       default:
         input.skip(ftype);
     }
@@ -168,16 +48,11 @@ Fuji.Item.ItemService_add_args.prototype.read = function(input) {
   return;
 };
 
-Fuji.Item.ItemService_add_args.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_add_args');
-  if (this.num1 !== null && this.num1 !== undefined) {
-    output.writeFieldBegin('num1', Thrift.Type.I64, 1);
-    output.writeI64(this.num1);
-    output.writeFieldEnd();
-  }
-  if (this.num2 !== null && this.num2 !== undefined) {
-    output.writeFieldBegin('num2', Thrift.Type.I64, 2);
-    output.writeI64(this.num2);
+Fuji.Item.ItemService_NewReleases_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_NewReleases_args');
+  if (this.node_id !== null && this.node_id !== undefined) {
+    output.writeFieldBegin('node_id', Thrift.Type.I64, 1);
+    output.writeI64(this.node_id);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -185,16 +60,16 @@ Fuji.Item.ItemService_add_args.prototype.write = function(output) {
   return;
 };
 
-Fuji.Item.ItemService_add_result = function(args) {
+Fuji.Item.ItemService_NewReleases_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = args.success;
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Tops]);
     }
   }
 };
-Fuji.Item.ItemService_add_result.prototype = {};
-Fuji.Item.ItemService_add_result.prototype.read = function(input) {
+Fuji.Item.ItemService_NewReleases_result.prototype = {};
+Fuji.Item.ItemService_NewReleases_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -208,174 +83,10 @@ Fuji.Item.ItemService_add_result.prototype.read = function(input) {
     switch (fid)
     {
       case 0:
-      if (ftype == Thrift.Type.I64) {
-        this.success = input.readI64().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_add_result.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_add_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.I64, 0);
-    output.writeI64(this.success);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_findById_args = function(args) {
-  this.id = null;
-  if (args) {
-    if (args.id !== undefined && args.id !== null) {
-      this.id = args.id;
-    }
-  }
-};
-Fuji.Item.ItemService_findById_args.prototype = {};
-Fuji.Item.ItemService_findById_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-      if (ftype == Thrift.Type.I64) {
-        this.id = input.readI64().value;
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_findById_args.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_findById_args');
-  if (this.id !== null && this.id !== undefined) {
-    output.writeFieldBegin('id', Thrift.Type.I64, 1);
-    output.writeI64(this.id);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_findById_result = function(args) {
-  this.success = null;
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = new Fuji.Item.Item(args.success);
-    }
-  }
-};
-Fuji.Item.ItemService_findById_result.prototype = {};
-Fuji.Item.ItemService_findById_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.success = new Fuji.Item.Item();
-        this.success.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_findById_result.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_findById_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
-    this.success.write(output);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-Fuji.Item.ItemService_findByIds_args = function(args) {
-  this.ids = null;
-  this.opt = null;
-  if (args) {
-    if (args.ids !== undefined && args.ids !== null) {
-      this.ids = Thrift.copyList(args.ids, [null]);
-    }
-    if (args.opt !== undefined && args.opt !== null) {
-      this.opt = new Fuji.Item.ItemOption(args.opt);
-    }
-  }
-};
-Fuji.Item.ItemService_findByIds_args.prototype = {};
-Fuji.Item.ItemService_findByIds_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
       if (ftype == Thrift.Type.LIST) {
         var _size0 = 0;
         var _rtmp34;
-        this.ids = [];
+        this.success = [];
         var _etype3 = 0;
         _rtmp34 = input.readListBegin();
         _etype3 = _rtmp34.etype;
@@ -383,22 +94,18 @@ Fuji.Item.ItemService_findByIds_args.prototype.read = function(input) {
         for (var _i5 = 0; _i5 < _size0; ++_i5)
         {
           var elem6 = null;
-          elem6 = input.readI64().value;
-          this.ids.push(elem6);
+          elem6 = new Fuji.Item.Tops();
+          elem6.read(input);
+          this.success.push(elem6);
         }
         input.readListEnd();
       } else {
         input.skip(ftype);
       }
       break;
-      case 2:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.opt = new Fuji.Item.ItemOption();
-        this.opt.read(input);
-      } else {
+      case 0:
         input.skip(ftype);
-      }
-      break;
+        break;
       default:
         input.skip(ftype);
     }
@@ -408,25 +115,20 @@ Fuji.Item.ItemService_findByIds_args.prototype.read = function(input) {
   return;
 };
 
-Fuji.Item.ItemService_findByIds_args.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_findByIds_args');
-  if (this.ids !== null && this.ids !== undefined) {
-    output.writeFieldBegin('ids', Thrift.Type.LIST, 1);
-    output.writeListBegin(Thrift.Type.I64, this.ids.length);
-    for (var iter7 in this.ids)
+Fuji.Item.ItemService_NewReleases_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_NewReleases_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter7 in this.success)
     {
-      if (this.ids.hasOwnProperty(iter7))
+      if (this.success.hasOwnProperty(iter7))
       {
-        iter7 = this.ids[iter7];
-        output.writeI64(iter7);
+        iter7 = this.success[iter7];
+        iter7.write(output);
       }
     }
     output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  if (this.opt !== null && this.opt !== undefined) {
-    output.writeFieldBegin('opt', Thrift.Type.STRUCT, 2);
-    this.opt.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -434,16 +136,69 @@ Fuji.Item.ItemService_findByIds_args.prototype.write = function(output) {
   return;
 };
 
-Fuji.Item.ItemService_findByIds_result = function(args) {
-  this.success = null;
+Fuji.Item.ItemService_BestSellers_args = function(args) {
+  this.node_id = null;
   if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = Thrift.copyList(args.success, [Fuji.Item.Item]);
+    if (args.node_id !== undefined && args.node_id !== null) {
+      this.node_id = args.node_id;
     }
   }
 };
-Fuji.Item.ItemService_findByIds_result.prototype = {};
-Fuji.Item.ItemService_findByIds_result.prototype.read = function(input) {
+Fuji.Item.ItemService_BestSellers_args.prototype = {};
+Fuji.Item.ItemService_BestSellers_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.node_id = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_BestSellers_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_BestSellers_args');
+  if (this.node_id !== null && this.node_id !== undefined) {
+    output.writeFieldBegin('node_id', Thrift.Type.I64, 1);
+    output.writeI64(this.node_id);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_BestSellers_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Tops]);
+    }
+  }
+};
+Fuji.Item.ItemService_BestSellers_result.prototype = {};
+Fuji.Item.ItemService_BestSellers_result.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -468,7 +223,7 @@ Fuji.Item.ItemService_findByIds_result.prototype.read = function(input) {
         for (var _i13 = 0; _i13 < _size8; ++_i13)
         {
           var elem14 = null;
-          elem14 = new Fuji.Item.Item();
+          elem14 = new Fuji.Item.Tops();
           elem14.read(input);
           this.success.push(elem14);
         }
@@ -489,8 +244,8 @@ Fuji.Item.ItemService_findByIds_result.prototype.read = function(input) {
   return;
 };
 
-Fuji.Item.ItemService_findByIds_result.prototype.write = function(output) {
-  output.writeStructBegin('ItemService_findByIds_result');
+Fuji.Item.ItemService_BestSellers_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_BestSellers_result');
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
@@ -510,89 +265,773 @@ Fuji.Item.ItemService_findByIds_result.prototype.write = function(output) {
   return;
 };
 
+Fuji.Item.ItemService_ReleaseDate_args = function(args) {
+  this.node_id = null;
+  this.category = null;
+  this.page = null;
+  if (args) {
+    if (args.node_id !== undefined && args.node_id !== null) {
+      this.node_id = args.node_id;
+    }
+    if (args.category !== undefined && args.category !== null) {
+      this.category = args.category;
+    }
+    if (args.page !== undefined && args.page !== null) {
+      this.page = args.page;
+    }
+  }
+};
+Fuji.Item.ItemService_ReleaseDate_args.prototype = {};
+Fuji.Item.ItemService_ReleaseDate_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.node_id = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.category = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.I64) {
+        this.page = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ReleaseDate_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_ReleaseDate_args');
+  if (this.node_id !== null && this.node_id !== undefined) {
+    output.writeFieldBegin('node_id', Thrift.Type.I64, 1);
+    output.writeI64(this.node_id);
+    output.writeFieldEnd();
+  }
+  if (this.category !== null && this.category !== undefined) {
+    output.writeFieldBegin('category', Thrift.Type.STRING, 2);
+    output.writeString(this.category);
+    output.writeFieldEnd();
+  }
+  if (this.page !== null && this.page !== undefined) {
+    output.writeFieldBegin('page', Thrift.Type.I64, 3);
+    output.writeI64(this.page);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ReleaseDate_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Item]);
+    }
+  }
+};
+Fuji.Item.ItemService_ReleaseDate_result.prototype = {};
+Fuji.Item.ItemService_ReleaseDate_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size16 = 0;
+        var _rtmp320;
+        this.success = [];
+        var _etype19 = 0;
+        _rtmp320 = input.readListBegin();
+        _etype19 = _rtmp320.etype;
+        _size16 = _rtmp320.size;
+        for (var _i21 = 0; _i21 < _size16; ++_i21)
+        {
+          var elem22 = null;
+          elem22 = new Fuji.Item.Item();
+          elem22.read(input);
+          this.success.push(elem22);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ReleaseDate_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_ReleaseDate_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter23 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter23))
+      {
+        iter23 = this.success[iter23];
+        iter23.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_SalesRanking_args = function(args) {
+  this.node_id = null;
+  this.category = null;
+  this.page = null;
+  if (args) {
+    if (args.node_id !== undefined && args.node_id !== null) {
+      this.node_id = args.node_id;
+    }
+    if (args.category !== undefined && args.category !== null) {
+      this.category = args.category;
+    }
+    if (args.page !== undefined && args.page !== null) {
+      this.page = args.page;
+    }
+  }
+};
+Fuji.Item.ItemService_SalesRanking_args.prototype = {};
+Fuji.Item.ItemService_SalesRanking_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.node_id = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.category = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.I64) {
+        this.page = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_SalesRanking_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_SalesRanking_args');
+  if (this.node_id !== null && this.node_id !== undefined) {
+    output.writeFieldBegin('node_id', Thrift.Type.I64, 1);
+    output.writeI64(this.node_id);
+    output.writeFieldEnd();
+  }
+  if (this.category !== null && this.category !== undefined) {
+    output.writeFieldBegin('category', Thrift.Type.STRING, 2);
+    output.writeString(this.category);
+    output.writeFieldEnd();
+  }
+  if (this.page !== null && this.page !== undefined) {
+    output.writeFieldBegin('page', Thrift.Type.I64, 3);
+    output.writeI64(this.page);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_SalesRanking_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Item]);
+    }
+  }
+};
+Fuji.Item.ItemService_SalesRanking_result.prototype = {};
+Fuji.Item.ItemService_SalesRanking_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size24 = 0;
+        var _rtmp328;
+        this.success = [];
+        var _etype27 = 0;
+        _rtmp328 = input.readListBegin();
+        _etype27 = _rtmp328.etype;
+        _size24 = _rtmp328.size;
+        for (var _i29 = 0; _i29 < _size24; ++_i29)
+        {
+          var elem30 = null;
+          elem30 = new Fuji.Item.Item();
+          elem30.read(input);
+          this.success.push(elem30);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_SalesRanking_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_SalesRanking_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter31 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter31))
+      {
+        iter31 = this.success[iter31];
+        iter31.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemLookup_args = function(args) {
+  this.item_id = null;
+  this.id_type = null;
+  if (args) {
+    if (args.item_id !== undefined && args.item_id !== null) {
+      this.item_id = args.item_id;
+    }
+    if (args.id_type !== undefined && args.id_type !== null) {
+      this.id_type = args.id_type;
+    }
+  }
+};
+Fuji.Item.ItemService_ItemLookup_args.prototype = {};
+Fuji.Item.ItemService_ItemLookup_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.item_id = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.id_type = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemLookup_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_ItemLookup_args');
+  if (this.item_id !== null && this.item_id !== undefined) {
+    output.writeFieldBegin('item_id', Thrift.Type.STRING, 1);
+    output.writeString(this.item_id);
+    output.writeFieldEnd();
+  }
+  if (this.id_type !== null && this.id_type !== undefined) {
+    output.writeFieldBegin('id_type', Thrift.Type.STRING, 2);
+    output.writeString(this.id_type);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemLookup_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Item]);
+    }
+  }
+};
+Fuji.Item.ItemService_ItemLookup_result.prototype = {};
+Fuji.Item.ItemService_ItemLookup_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size32 = 0;
+        var _rtmp336;
+        this.success = [];
+        var _etype35 = 0;
+        _rtmp336 = input.readListBegin();
+        _etype35 = _rtmp336.etype;
+        _size32 = _rtmp336.size;
+        for (var _i37 = 0; _i37 < _size32; ++_i37)
+        {
+          var elem38 = null;
+          elem38 = new Fuji.Item.Item();
+          elem38.read(input);
+          this.success.push(elem38);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemLookup_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_ItemLookup_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter39 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter39))
+      {
+        iter39 = this.success[iter39];
+        iter39.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemList_args = function(args) {
+  this.keyword = null;
+  this.page = null;
+  if (args) {
+    if (args.keyword !== undefined && args.keyword !== null) {
+      this.keyword = args.keyword;
+    }
+    if (args.page !== undefined && args.page !== null) {
+      this.page = args.page;
+    }
+  }
+};
+Fuji.Item.ItemService_ItemList_args.prototype = {};
+Fuji.Item.ItemService_ItemList_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.keyword = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I64) {
+        this.page = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemList_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_ItemList_args');
+  if (this.keyword !== null && this.keyword !== undefined) {
+    output.writeFieldBegin('keyword', Thrift.Type.STRING, 1);
+    output.writeString(this.keyword);
+    output.writeFieldEnd();
+  }
+  if (this.page !== null && this.page !== undefined) {
+    output.writeFieldBegin('page', Thrift.Type.I64, 2);
+    output.writeI64(this.page);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemList_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Item]);
+    }
+  }
+};
+Fuji.Item.ItemService_ItemList_result.prototype = {};
+Fuji.Item.ItemService_ItemList_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size40 = 0;
+        var _rtmp344;
+        this.success = [];
+        var _etype43 = 0;
+        _rtmp344 = input.readListBegin();
+        _etype43 = _rtmp344.etype;
+        _size40 = _rtmp344.size;
+        for (var _i45 = 0; _i45 < _size40; ++_i45)
+        {
+          var elem46 = null;
+          elem46 = new Fuji.Item.Item();
+          elem46.read(input);
+          this.success.push(elem46);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_ItemList_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_ItemList_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter47 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter47))
+      {
+        iter47 = this.success[iter47];
+        iter47.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_NodeList_args = function(args) {
+  this.node_id = null;
+  if (args) {
+    if (args.node_id !== undefined && args.node_id !== null) {
+      this.node_id = args.node_id;
+    }
+  }
+};
+Fuji.Item.ItemService_NodeList_args.prototype = {};
+Fuji.Item.ItemService_NodeList_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.node_id = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_NodeList_args.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_NodeList_args');
+  if (this.node_id !== null && this.node_id !== undefined) {
+    output.writeFieldBegin('node_id', Thrift.Type.I64, 1);
+    output.writeI64(this.node_id);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_NodeList_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [Fuji.Item.Node]);
+    }
+  }
+};
+Fuji.Item.ItemService_NodeList_result.prototype = {};
+Fuji.Item.ItemService_NodeList_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size48 = 0;
+        var _rtmp352;
+        this.success = [];
+        var _etype51 = 0;
+        _rtmp352 = input.readListBegin();
+        _etype51 = _rtmp352.etype;
+        _size48 = _rtmp352.size;
+        for (var _i53 = 0; _i53 < _size48; ++_i53)
+        {
+          var elem54 = null;
+          elem54 = new Fuji.Item.Node();
+          elem54.read(input);
+          this.success.push(elem54);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.ItemService_NodeList_result.prototype.write = function(output) {
+  output.writeStructBegin('ItemService_NodeList_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter55 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter55))
+      {
+        iter55 = this.success[iter55];
+        iter55.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 Fuji.Item.ItemServiceClient = function(input, output) {
     this.input = input;
     this.output = (!output) ? input : output;
     this.seqid = 0;
 };
 Fuji.Item.ItemServiceClient.prototype = {};
-Fuji.Item.ItemServiceClient.prototype.ping = function(callback) {
-  if (callback === undefined) {
-    this.send_ping();
-    this.recv_ping();
-  } else {
-    var postData = this.send_ping(true);
-    return this.output.getTransport()
-      .jqRequest(this, postData, arguments, this.recv_ping);
+Fuji.Item.ItemServiceClient.prototype.NewReleases = function(node_id, callback) {
+  this.send_NewReleases(node_id, callback); 
+  if (!callback) {
+    return this.recv_NewReleases();
   }
 };
 
-Fuji.Item.ItemServiceClient.prototype.send_ping = function(callback) {
-  this.output.writeMessageBegin('ping', Thrift.MessageType.CALL, this.seqid);
-  var args = new Fuji.Item.ItemService_ping_args();
-  args.write(this.output);
-  this.output.writeMessageEnd();
-  return this.output.getTransport().flush(callback);
-};
-
-Fuji.Item.ItemServiceClient.prototype.recv_ping = function() {
-  var ret = this.input.readMessageBegin();
-  var fname = ret.fname;
-  var mtype = ret.mtype;
-  var rseqid = ret.rseqid;
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(this.input);
-    this.input.readMessageEnd();
-    throw x;
-  }
-  var result = new Fuji.Item.ItemService_ping_result();
-  result.read(this.input);
-  this.input.readMessageEnd();
-
-  return;
-};
-Fuji.Item.ItemServiceClient.prototype.zip = function(callback) {
-  if (callback === undefined) {
-    this.send_zip();
-  } else {
-    var postData = this.send_zip(true);
-    return this.output.getTransport()
-      .jqRequest(this, postData, arguments, this.recv_zip);
-  }
-};
-
-Fuji.Item.ItemServiceClient.prototype.send_zip = function(callback) {
-  this.output.writeMessageBegin('zip', Thrift.MessageType.ONEWAY, this.seqid);
-  var args = new Fuji.Item.ItemService_zip_args();
-  args.write(this.output);
-  this.output.writeMessageEnd();
-  return this.output.getTransport().flush(callback);
-};
-Fuji.Item.ItemServiceClient.prototype.add = function(num1, num2, callback) {
-  if (callback === undefined) {
-    this.send_add(num1, num2);
-    return this.recv_add();
-  } else {
-    var postData = this.send_add(num1, num2, true);
-    return this.output.getTransport()
-      .jqRequest(this, postData, arguments, this.recv_add);
-  }
-};
-
-Fuji.Item.ItemServiceClient.prototype.send_add = function(num1, num2, callback) {
-  this.output.writeMessageBegin('add', Thrift.MessageType.CALL, this.seqid);
+Fuji.Item.ItemServiceClient.prototype.send_NewReleases = function(node_id, callback) {
+  this.output.writeMessageBegin('NewReleases', Thrift.MessageType.CALL, this.seqid);
   var params = {
-    num1: num1,
-    num2: num2
+    node_id: node_id
   };
-  var args = new Fuji.Item.ItemService_add_args(params);
+  var args = new Fuji.Item.ItemService_NewReleases_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
-  return this.output.getTransport().flush(callback);
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_NewReleases();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
 };
 
-Fuji.Item.ItemServiceClient.prototype.recv_add = function() {
+Fuji.Item.ItemServiceClient.prototype.recv_NewReleases = function() {
   var ret = this.input.readMessageBegin();
   var fname = ret.fname;
   var mtype = ret.mtype;
@@ -603,38 +1042,47 @@ Fuji.Item.ItemServiceClient.prototype.recv_add = function() {
     this.input.readMessageEnd();
     throw x;
   }
-  var result = new Fuji.Item.ItemService_add_result();
+  var result = new Fuji.Item.ItemService_NewReleases_result();
   result.read(this.input);
   this.input.readMessageEnd();
 
   if (null !== result.success) {
     return result.success;
   }
-  throw 'add failed: unknown result';
+  throw 'NewReleases failed: unknown result';
 };
-Fuji.Item.ItemServiceClient.prototype.findById = function(id, callback) {
-  if (callback === undefined) {
-    this.send_findById(id);
-    return this.recv_findById();
-  } else {
-    var postData = this.send_findById(id, true);
-    return this.output.getTransport()
-      .jqRequest(this, postData, arguments, this.recv_findById);
+Fuji.Item.ItemServiceClient.prototype.BestSellers = function(node_id, callback) {
+  this.send_BestSellers(node_id, callback); 
+  if (!callback) {
+    return this.recv_BestSellers();
   }
 };
 
-Fuji.Item.ItemServiceClient.prototype.send_findById = function(id, callback) {
-  this.output.writeMessageBegin('findById', Thrift.MessageType.CALL, this.seqid);
+Fuji.Item.ItemServiceClient.prototype.send_BestSellers = function(node_id, callback) {
+  this.output.writeMessageBegin('BestSellers', Thrift.MessageType.CALL, this.seqid);
   var params = {
-    id: id
+    node_id: node_id
   };
-  var args = new Fuji.Item.ItemService_findById_args(params);
+  var args = new Fuji.Item.ItemService_BestSellers_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
-  return this.output.getTransport().flush(callback);
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_BestSellers();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
 };
 
-Fuji.Item.ItemServiceClient.prototype.recv_findById = function() {
+Fuji.Item.ItemServiceClient.prototype.recv_BestSellers = function() {
   var ret = this.input.readMessageBegin();
   var fname = ret.fname;
   var mtype = ret.mtype;
@@ -645,39 +1093,49 @@ Fuji.Item.ItemServiceClient.prototype.recv_findById = function() {
     this.input.readMessageEnd();
     throw x;
   }
-  var result = new Fuji.Item.ItemService_findById_result();
+  var result = new Fuji.Item.ItemService_BestSellers_result();
   result.read(this.input);
   this.input.readMessageEnd();
 
   if (null !== result.success) {
     return result.success;
   }
-  throw 'findById failed: unknown result';
+  throw 'BestSellers failed: unknown result';
 };
-Fuji.Item.ItemServiceClient.prototype.findByIds = function(ids, opt, callback) {
-  if (callback === undefined) {
-    this.send_findByIds(ids, opt);
-    return this.recv_findByIds();
-  } else {
-    var postData = this.send_findByIds(ids, opt, true);
-    return this.output.getTransport()
-      .jqRequest(this, postData, arguments, this.recv_findByIds);
+Fuji.Item.ItemServiceClient.prototype.ReleaseDate = function(node_id, category, page, callback) {
+  this.send_ReleaseDate(node_id, category, page, callback); 
+  if (!callback) {
+    return this.recv_ReleaseDate();
   }
 };
 
-Fuji.Item.ItemServiceClient.prototype.send_findByIds = function(ids, opt, callback) {
-  this.output.writeMessageBegin('findByIds', Thrift.MessageType.CALL, this.seqid);
+Fuji.Item.ItemServiceClient.prototype.send_ReleaseDate = function(node_id, category, page, callback) {
+  this.output.writeMessageBegin('ReleaseDate', Thrift.MessageType.CALL, this.seqid);
   var params = {
-    ids: ids,
-    opt: opt
+    node_id: node_id,
+    category: category,
+    page: page
   };
-  var args = new Fuji.Item.ItemService_findByIds_args(params);
+  var args = new Fuji.Item.ItemService_ReleaseDate_args(params);
   args.write(this.output);
   this.output.writeMessageEnd();
-  return this.output.getTransport().flush(callback);
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_ReleaseDate();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
 };
 
-Fuji.Item.ItemServiceClient.prototype.recv_findByIds = function() {
+Fuji.Item.ItemServiceClient.prototype.recv_ReleaseDate = function() {
   var ret = this.input.readMessageBegin();
   var fname = ret.fname;
   var mtype = ret.mtype;
@@ -688,12 +1146,220 @@ Fuji.Item.ItemServiceClient.prototype.recv_findByIds = function() {
     this.input.readMessageEnd();
     throw x;
   }
-  var result = new Fuji.Item.ItemService_findByIds_result();
+  var result = new Fuji.Item.ItemService_ReleaseDate_result();
   result.read(this.input);
   this.input.readMessageEnd();
 
   if (null !== result.success) {
     return result.success;
   }
-  throw 'findByIds failed: unknown result';
+  throw 'ReleaseDate failed: unknown result';
+};
+Fuji.Item.ItemServiceClient.prototype.SalesRanking = function(node_id, category, page, callback) {
+  this.send_SalesRanking(node_id, category, page, callback); 
+  if (!callback) {
+    return this.recv_SalesRanking();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.send_SalesRanking = function(node_id, category, page, callback) {
+  this.output.writeMessageBegin('SalesRanking', Thrift.MessageType.CALL, this.seqid);
+  var params = {
+    node_id: node_id,
+    category: category,
+    page: page
+  };
+  var args = new Fuji.Item.ItemService_SalesRanking_args(params);
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_SalesRanking();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.recv_SalesRanking = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new Fuji.Item.ItemService_SalesRanking_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'SalesRanking failed: unknown result';
+};
+Fuji.Item.ItemServiceClient.prototype.ItemLookup = function(item_id, id_type, callback) {
+  this.send_ItemLookup(item_id, id_type, callback); 
+  if (!callback) {
+    return this.recv_ItemLookup();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.send_ItemLookup = function(item_id, id_type, callback) {
+  this.output.writeMessageBegin('ItemLookup', Thrift.MessageType.CALL, this.seqid);
+  var params = {
+    item_id: item_id,
+    id_type: id_type
+  };
+  var args = new Fuji.Item.ItemService_ItemLookup_args(params);
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_ItemLookup();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.recv_ItemLookup = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new Fuji.Item.ItemService_ItemLookup_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'ItemLookup failed: unknown result';
+};
+Fuji.Item.ItemServiceClient.prototype.ItemList = function(keyword, page, callback) {
+  this.send_ItemList(keyword, page, callback); 
+  if (!callback) {
+    return this.recv_ItemList();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.send_ItemList = function(keyword, page, callback) {
+  this.output.writeMessageBegin('ItemList', Thrift.MessageType.CALL, this.seqid);
+  var params = {
+    keyword: keyword,
+    page: page
+  };
+  var args = new Fuji.Item.ItemService_ItemList_args(params);
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_ItemList();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.recv_ItemList = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new Fuji.Item.ItemService_ItemList_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'ItemList failed: unknown result';
+};
+Fuji.Item.ItemServiceClient.prototype.NodeList = function(node_id, callback) {
+  this.send_NodeList(node_id, callback); 
+  if (!callback) {
+    return this.recv_NodeList();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.send_NodeList = function(node_id, callback) {
+  this.output.writeMessageBegin('NodeList', Thrift.MessageType.CALL, this.seqid);
+  var params = {
+    node_id: node_id
+  };
+  var args = new Fuji.Item.ItemService_NodeList_args(params);
+  args.write(this.output);
+  this.output.writeMessageEnd();
+  if (callback) {
+    var self = this;
+    this.output.getTransport().flush(true, function() {
+      var result = null;
+      try {
+        result = self.recv_NodeList();
+      } catch (e) {
+        result = e;
+      }
+      callback(result);
+    });
+  } else {
+    return this.output.getTransport().flush();
+  }
+};
+
+Fuji.Item.ItemServiceClient.prototype.recv_NodeList = function() {
+  var ret = this.input.readMessageBegin();
+  var fname = ret.fname;
+  var mtype = ret.mtype;
+  var rseqid = ret.rseqid;
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(this.input);
+    this.input.readMessageEnd();
+    throw x;
+  }
+  var result = new Fuji.Item.ItemService_NodeList_result();
+  result.read(this.input);
+  this.input.readMessageEnd();
+
+  if (null !== result.success) {
+    return result.success;
+  }
+  throw 'NodeList failed: unknown result';
 };

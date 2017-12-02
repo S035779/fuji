@@ -22,57 +22,129 @@ class Item {
 
   static $_TSPEC = array(
     1 => array(
-      'var' => 'id',
+      'var' => 'Rank',
       'isRequired' => false,
       'type' => TType::I64,
       ),
     2 => array(
-      'var' => 'name',
+      'var' => 'ASIN',
       'isRequired' => false,
       'type' => TType::STRING,
       ),
     3 => array(
-      'var' => 'language',
+      'var' => 'Title',
       'isRequired' => false,
       'type' => TType::STRING,
       ),
     4 => array(
-      'var' => 'iconUrl',
+      'var' => 'Release',
       'isRequired' => false,
       'type' => TType::STRING,
+      ),
+    5 => array(
+      'var' => 'ItemUrl',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    6 => array(
+      'var' => 'ImageUrl',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    7 => array(
+      'var' => 'ListPrice',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    8 => array(
+      'var' => 'LowestNewPrice',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    9 => array(
+      'var' => 'LowestUsedPrice',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    10 => array(
+      'var' => 'OfferPrice',
+      'isRequired' => false,
+      'type' => TType::I64,
       ),
     );
 
   /**
    * @var int
    */
-  public $id = null;
+  public $Rank = null;
   /**
    * @var string
    */
-  public $name = null;
+  public $ASIN = null;
   /**
    * @var string
    */
-  public $language = null;
+  public $Title = null;
   /**
    * @var string
    */
-  public $iconUrl = null;
+  public $Release = null;
+  /**
+   * @var string
+   */
+  public $ItemUrl = null;
+  /**
+   * @var string
+   */
+  public $ImageUrl = null;
+  /**
+   * @var int
+   */
+  public $ListPrice = null;
+  /**
+   * @var int
+   */
+  public $LowestNewPrice = null;
+  /**
+   * @var int
+   */
+  public $LowestUsedPrice = null;
+  /**
+   * @var int
+   */
+  public $OfferPrice = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
-      if (isset($vals['id'])) {
-        $this->id = $vals['id'];
+      if (isset($vals['Rank'])) {
+        $this->Rank = $vals['Rank'];
       }
-      if (isset($vals['name'])) {
-        $this->name = $vals['name'];
+      if (isset($vals['ASIN'])) {
+        $this->ASIN = $vals['ASIN'];
       }
-      if (isset($vals['language'])) {
-        $this->language = $vals['language'];
+      if (isset($vals['Title'])) {
+        $this->Title = $vals['Title'];
       }
-      if (isset($vals['iconUrl'])) {
-        $this->iconUrl = $vals['iconUrl'];
+      if (isset($vals['Release'])) {
+        $this->Release = $vals['Release'];
+      }
+      if (isset($vals['ItemUrl'])) {
+        $this->ItemUrl = $vals['ItemUrl'];
+      }
+      if (isset($vals['ImageUrl'])) {
+        $this->ImageUrl = $vals['ImageUrl'];
+      }
+      if (isset($vals['ListPrice'])) {
+        $this->ListPrice = $vals['ListPrice'];
+      }
+      if (isset($vals['LowestNewPrice'])) {
+        $this->LowestNewPrice = $vals['LowestNewPrice'];
+      }
+      if (isset($vals['LowestUsedPrice'])) {
+        $this->LowestUsedPrice = $vals['LowestUsedPrice'];
+      }
+      if (isset($vals['OfferPrice'])) {
+        $this->OfferPrice = $vals['OfferPrice'];
       }
     }
   }
@@ -98,28 +170,70 @@ class Item {
       {
         case 1:
           if ($ftype == TType::I64) {
-            $xfer += $input->readI64($this->id);
+            $xfer += $input->readI64($this->Rank);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 2:
           if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->name);
+            $xfer += $input->readString($this->ASIN);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 3:
           if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->language);
+            $xfer += $input->readString($this->Title);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 4:
           if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->iconUrl);
+            $xfer += $input->readString($this->Release);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 5:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->ItemUrl);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 6:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->ImageUrl);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 7:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->ListPrice);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 8:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->LowestNewPrice);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 9:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->LowestUsedPrice);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 10:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->OfferPrice);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -137,24 +251,54 @@ class Item {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('Item');
-    if ($this->id !== null) {
-      $xfer += $output->writeFieldBegin('id', TType::I64, 1);
-      $xfer += $output->writeI64($this->id);
+    if ($this->Rank !== null) {
+      $xfer += $output->writeFieldBegin('Rank', TType::I64, 1);
+      $xfer += $output->writeI64($this->Rank);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->name !== null) {
-      $xfer += $output->writeFieldBegin('name', TType::STRING, 2);
-      $xfer += $output->writeString($this->name);
+    if ($this->ASIN !== null) {
+      $xfer += $output->writeFieldBegin('ASIN', TType::STRING, 2);
+      $xfer += $output->writeString($this->ASIN);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->language !== null) {
-      $xfer += $output->writeFieldBegin('language', TType::STRING, 3);
-      $xfer += $output->writeString($this->language);
+    if ($this->Title !== null) {
+      $xfer += $output->writeFieldBegin('Title', TType::STRING, 3);
+      $xfer += $output->writeString($this->Title);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->iconUrl !== null) {
-      $xfer += $output->writeFieldBegin('iconUrl', TType::STRING, 4);
-      $xfer += $output->writeString($this->iconUrl);
+    if ($this->Release !== null) {
+      $xfer += $output->writeFieldBegin('Release', TType::STRING, 4);
+      $xfer += $output->writeString($this->Release);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->ItemUrl !== null) {
+      $xfer += $output->writeFieldBegin('ItemUrl', TType::STRING, 5);
+      $xfer += $output->writeString($this->ItemUrl);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->ImageUrl !== null) {
+      $xfer += $output->writeFieldBegin('ImageUrl', TType::STRING, 6);
+      $xfer += $output->writeString($this->ImageUrl);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->ListPrice !== null) {
+      $xfer += $output->writeFieldBegin('ListPrice', TType::I64, 7);
+      $xfer += $output->writeI64($this->ListPrice);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->LowestNewPrice !== null) {
+      $xfer += $output->writeFieldBegin('LowestNewPrice', TType::I64, 8);
+      $xfer += $output->writeI64($this->LowestNewPrice);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->LowestUsedPrice !== null) {
+      $xfer += $output->writeFieldBegin('LowestUsedPrice', TType::I64, 9);
+      $xfer += $output->writeI64($this->LowestUsedPrice);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->OfferPrice !== null) {
+      $xfer += $output->writeFieldBegin('OfferPrice', TType::I64, 10);
+      $xfer += $output->writeI64($this->OfferPrice);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -164,44 +308,68 @@ class Item {
 
 }
 
-class ItemOption {
+class Tops {
   static $isValidate = false;
 
   static $_TSPEC = array(
     1 => array(
-      'var' => 'withLanguage',
+      'var' => 'ASIN',
       'isRequired' => false,
-      'type' => TType::BOOL,
+      'type' => TType::STRING,
       ),
     2 => array(
-      'var' => 'withIcon',
+      'var' => 'Title',
       'isRequired' => false,
-      'type' => TType::BOOL,
+      'type' => TType::STRING,
+      ),
+    3 => array(
+      'var' => 'ItemUrl',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    4 => array(
+      'var' => 'Category',
+      'isRequired' => false,
+      'type' => TType::STRING,
       ),
     );
 
   /**
-   * @var bool
+   * @var string
    */
-  public $withLanguage = false;
+  public $ASIN = null;
   /**
-   * @var bool
+   * @var string
    */
-  public $withIcon = false;
+  public $Title = null;
+  /**
+   * @var string
+   */
+  public $ItemUrl = null;
+  /**
+   * @var string
+   */
+  public $Category = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
-      if (isset($vals['withLanguage'])) {
-        $this->withLanguage = $vals['withLanguage'];
+      if (isset($vals['ASIN'])) {
+        $this->ASIN = $vals['ASIN'];
       }
-      if (isset($vals['withIcon'])) {
-        $this->withIcon = $vals['withIcon'];
+      if (isset($vals['Title'])) {
+        $this->Title = $vals['Title'];
+      }
+      if (isset($vals['ItemUrl'])) {
+        $this->ItemUrl = $vals['ItemUrl'];
+      }
+      if (isset($vals['Category'])) {
+        $this->Category = $vals['Category'];
       }
     }
   }
 
   public function getName() {
-    return 'ItemOption';
+    return 'Tops';
   }
 
   public function read($input)
@@ -220,15 +388,29 @@ class ItemOption {
       switch ($fid)
       {
         case 1:
-          if ($ftype == TType::BOOL) {
-            $xfer += $input->readBool($this->withLanguage);
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->ASIN);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 2:
-          if ($ftype == TType::BOOL) {
-            $xfer += $input->readBool($this->withIcon);
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->Title);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->ItemUrl);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 4:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->Category);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -245,15 +427,25 @@ class ItemOption {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemOption');
-    if ($this->withLanguage !== null) {
-      $xfer += $output->writeFieldBegin('withLanguage', TType::BOOL, 1);
-      $xfer += $output->writeBool($this->withLanguage);
+    $xfer += $output->writeStructBegin('Tops');
+    if ($this->ASIN !== null) {
+      $xfer += $output->writeFieldBegin('ASIN', TType::STRING, 1);
+      $xfer += $output->writeString($this->ASIN);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->withIcon !== null) {
-      $xfer += $output->writeFieldBegin('withIcon', TType::BOOL, 2);
-      $xfer += $output->writeBool($this->withIcon);
+    if ($this->Title !== null) {
+      $xfer += $output->writeFieldBegin('Title', TType::STRING, 2);
+      $xfer += $output->writeString($this->Title);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->ItemUrl !== null) {
+      $xfer += $output->writeFieldBegin('ItemUrl', TType::STRING, 3);
+      $xfer += $output->writeString($this->ItemUrl);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->Category !== null) {
+      $xfer += $output->writeFieldBegin('Category', TType::STRING, 4);
+      $xfer += $output->writeString($this->Category);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -263,17 +455,103 @@ class ItemOption {
 
 }
 
-final class Constant extends \Thrift\Type\TConstant {
-  static protected $LANGUAGE_JA;
-  static protected $LANGUAGE_EN;
+class Node {
+  static $isValidate = false;
 
-  static protected function init_LANGUAGE_JA() {
-    return "JA";
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'BrowseNode',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    2 => array(
+      'var' => 'Name',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $BrowseNode = null;
+  /**
+   * @var string
+   */
+  public $Name = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['BrowseNode'])) {
+        $this->BrowseNode = $vals['BrowseNode'];
+      }
+      if (isset($vals['Name'])) {
+        $this->Name = $vals['Name'];
+      }
+    }
   }
 
-  static protected function init_LANGUAGE_EN() {
-    return "EN";
+  public function getName() {
+    return 'Node';
   }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->BrowseNode);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->Name);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('Node');
+    if ($this->BrowseNode !== null) {
+      $xfer += $output->writeFieldBegin('BrowseNode', TType::I64, 1);
+      $xfer += $output->writeI64($this->BrowseNode);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->Name !== null) {
+      $xfer += $output->writeFieldBegin('Name', TType::STRING, 2);
+      $xfer += $output->writeString($this->Name);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
 }
 
 

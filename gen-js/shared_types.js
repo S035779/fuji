@@ -5,7 +5,10 @@
 //
 
 
-SharedStruct = function(args) {
+if (typeof shared === 'undefined') {
+  shared = {};
+}
+shared.SharedStruct = function(args) {
   this.key = null;
   this.value = null;
   if (args) {
@@ -17,8 +20,8 @@ SharedStruct = function(args) {
     }
   }
 };
-SharedStruct.prototype = {};
-SharedStruct.prototype.read = function(input) {
+shared.SharedStruct.prototype = {};
+shared.SharedStruct.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -54,7 +57,7 @@ SharedStruct.prototype.read = function(input) {
   return;
 };
 
-SharedStruct.prototype.write = function(output) {
+shared.SharedStruct.prototype.write = function(output) {
   output.writeStructBegin('SharedStruct');
   if (this.key !== null && this.key !== undefined) {
     output.writeFieldBegin('key', Thrift.Type.I32, 1);

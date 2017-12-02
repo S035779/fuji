@@ -18,28 +18,46 @@ use Thrift\Exception\TApplicationException;
 
 interface ItemServiceIf {
   /**
+   * @param int $node_id
+   * @return \Fuji\Item\Tops[]
    */
-  public function ping();
+  public function NewReleases($node_id);
   /**
+   * @param int $node_id
+   * @return \Fuji\Item\Tops[]
    */
-  public function zip();
+  public function BestSellers($node_id);
   /**
-   * @param int $num1
-   * @param int $num2
-   * @return int
-   */
-  public function add($num1, $num2);
-  /**
-   * @param int $id
-   * @return \Fuji\Item\Item
-   */
-  public function findById($id);
-  /**
-   * @param int[] $ids
-   * @param \Fuji\Item\ItemOption $opt
+   * @param int $node_id
+   * @param string $category
+   * @param int $page
    * @return \Fuji\Item\Item[]
    */
-  public function findByIds(array $ids, \Fuji\Item\ItemOption $opt);
+  public function ReleaseDate($node_id, $category, $page);
+  /**
+   * @param int $node_id
+   * @param string $category
+   * @param int $page
+   * @return \Fuji\Item\Item[]
+   */
+  public function SalesRanking($node_id, $category, $page);
+  /**
+   * @param string $item_id
+   * @param string $id_type
+   * @return \Fuji\Item\Item[]
+   */
+  public function ItemLookup($item_id, $id_type);
+  /**
+   * @param string $keyword
+   * @param int $page
+   * @return \Fuji\Item\Item[]
+   */
+  public function ItemList($keyword, $page);
+  /**
+   * @param int $node_id
+   * @return \Fuji\Item\Node[]
+   */
+  public function NodeList($node_id);
 }
 
 
@@ -54,33 +72,34 @@ class ItemServiceClient implements \Fuji\Item\ItemServiceIf {
     $this->output_ = $output ? $output : $input;
   }
 
-  public function ping()
+  public function NewReleases($node_id)
   {
-    $this->send_ping();
-    $this->recv_ping();
+    $this->send_NewReleases($node_id);
+    return $this->recv_NewReleases();
   }
 
-  public function send_ping()
+  public function send_NewReleases($node_id)
   {
-    $args = new \Fuji\Item\ItemService_ping_args();
+    $args = new \Fuji\Item\ItemService_NewReleases_args();
+    $args->node_id = $node_id;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($this->output_, 'ping', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+      thrift_protocol_write_binary($this->output_, 'NewReleases', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
     }
     else
     {
-      $this->output_->writeMessageBegin('ping', TMessageType::CALL, $this->seqid_);
+      $this->output_->writeMessageBegin('NewReleases', TMessageType::CALL, $this->seqid_);
       $args->write($this->output_);
       $this->output_->writeMessageEnd();
       $this->output_->getTransport()->flush();
     }
   }
 
-  public function recv_ping()
+  public function recv_NewReleases()
   {
     $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_ping_result', $this->input_->isStrictRead());
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_NewReleases_result', $this->input_->isStrictRead());
     else
     {
       $rseqid = 0;
@@ -94,114 +113,44 @@ class ItemServiceClient implements \Fuji\Item\ItemServiceIf {
         $this->input_->readMessageEnd();
         throw $x;
       }
-      $result = new \Fuji\Item\ItemService_ping_result();
-      $result->read($this->input_);
-      $this->input_->readMessageEnd();
-    }
-    return;
-  }
-
-  public function zip()
-  {
-    $this->send_zip();
-  }
-
-  public function send_zip()
-  {
-    $args = new \Fuji\Item\ItemService_zip_args();
-    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
-    if ($bin_accel)
-    {
-      thrift_protocol_write_binary($this->output_, 'zip', TMessageType::ONEWAY, $args, $this->seqid_, $this->output_->isStrictWrite());
-    }
-    else
-    {
-      $this->output_->writeMessageBegin('zip', TMessageType::ONEWAY, $this->seqid_);
-      $args->write($this->output_);
-      $this->output_->writeMessageEnd();
-      $this->output_->getTransport()->flush();
-    }
-  }
-  public function add($num1, $num2)
-  {
-    $this->send_add($num1, $num2);
-    return $this->recv_add();
-  }
-
-  public function send_add($num1, $num2)
-  {
-    $args = new \Fuji\Item\ItemService_add_args();
-    $args->num1 = $num1;
-    $args->num2 = $num2;
-    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
-    if ($bin_accel)
-    {
-      thrift_protocol_write_binary($this->output_, 'add', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
-    }
-    else
-    {
-      $this->output_->writeMessageBegin('add', TMessageType::CALL, $this->seqid_);
-      $args->write($this->output_);
-      $this->output_->writeMessageEnd();
-      $this->output_->getTransport()->flush();
-    }
-  }
-
-  public function recv_add()
-  {
-    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_add_result', $this->input_->isStrictRead());
-    else
-    {
-      $rseqid = 0;
-      $fname = null;
-      $mtype = 0;
-
-      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
-      if ($mtype == TMessageType::EXCEPTION) {
-        $x = new TApplicationException();
-        $x->read($this->input_);
-        $this->input_->readMessageEnd();
-        throw $x;
-      }
-      $result = new \Fuji\Item\ItemService_add_result();
+      $result = new \Fuji\Item\ItemService_NewReleases_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
     if ($result->success !== null) {
       return $result->success;
     }
-    throw new \Exception("add failed: unknown result");
+    throw new \Exception("NewReleases failed: unknown result");
   }
 
-  public function findById($id)
+  public function BestSellers($node_id)
   {
-    $this->send_findById($id);
-    return $this->recv_findById();
+    $this->send_BestSellers($node_id);
+    return $this->recv_BestSellers();
   }
 
-  public function send_findById($id)
+  public function send_BestSellers($node_id)
   {
-    $args = new \Fuji\Item\ItemService_findById_args();
-    $args->id = $id;
+    $args = new \Fuji\Item\ItemService_BestSellers_args();
+    $args->node_id = $node_id;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($this->output_, 'findById', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+      thrift_protocol_write_binary($this->output_, 'BestSellers', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
     }
     else
     {
-      $this->output_->writeMessageBegin('findById', TMessageType::CALL, $this->seqid_);
+      $this->output_->writeMessageBegin('BestSellers', TMessageType::CALL, $this->seqid_);
       $args->write($this->output_);
       $this->output_->writeMessageEnd();
       $this->output_->getTransport()->flush();
     }
   }
 
-  public function recv_findById()
+  public function recv_BestSellers()
   {
     $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_findById_result', $this->input_->isStrictRead());
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_BestSellers_result', $this->input_->isStrictRead());
     else
     {
       $rseqid = 0;
@@ -215,45 +164,46 @@ class ItemServiceClient implements \Fuji\Item\ItemServiceIf {
         $this->input_->readMessageEnd();
         throw $x;
       }
-      $result = new \Fuji\Item\ItemService_findById_result();
+      $result = new \Fuji\Item\ItemService_BestSellers_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
     if ($result->success !== null) {
       return $result->success;
     }
-    throw new \Exception("findById failed: unknown result");
+    throw new \Exception("BestSellers failed: unknown result");
   }
 
-  public function findByIds(array $ids, \Fuji\Item\ItemOption $opt)
+  public function ReleaseDate($node_id, $category, $page)
   {
-    $this->send_findByIds($ids, $opt);
-    return $this->recv_findByIds();
+    $this->send_ReleaseDate($node_id, $category, $page);
+    return $this->recv_ReleaseDate();
   }
 
-  public function send_findByIds(array $ids, \Fuji\Item\ItemOption $opt)
+  public function send_ReleaseDate($node_id, $category, $page)
   {
-    $args = new \Fuji\Item\ItemService_findByIds_args();
-    $args->ids = $ids;
-    $args->opt = $opt;
+    $args = new \Fuji\Item\ItemService_ReleaseDate_args();
+    $args->node_id = $node_id;
+    $args->category = $category;
+    $args->page = $page;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($this->output_, 'findByIds', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+      thrift_protocol_write_binary($this->output_, 'ReleaseDate', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
     }
     else
     {
-      $this->output_->writeMessageBegin('findByIds', TMessageType::CALL, $this->seqid_);
+      $this->output_->writeMessageBegin('ReleaseDate', TMessageType::CALL, $this->seqid_);
       $args->write($this->output_);
       $this->output_->writeMessageEnd();
       $this->output_->getTransport()->flush();
     }
   }
 
-  public function recv_findByIds()
+  public function recv_ReleaseDate()
   {
     $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_findByIds_result', $this->input_->isStrictRead());
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_ReleaseDate_result', $this->input_->isStrictRead());
     else
     {
       $rseqid = 0;
@@ -267,14 +217,222 @@ class ItemServiceClient implements \Fuji\Item\ItemServiceIf {
         $this->input_->readMessageEnd();
         throw $x;
       }
-      $result = new \Fuji\Item\ItemService_findByIds_result();
+      $result = new \Fuji\Item\ItemService_ReleaseDate_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
     if ($result->success !== null) {
       return $result->success;
     }
-    throw new \Exception("findByIds failed: unknown result");
+    throw new \Exception("ReleaseDate failed: unknown result");
+  }
+
+  public function SalesRanking($node_id, $category, $page)
+  {
+    $this->send_SalesRanking($node_id, $category, $page);
+    return $this->recv_SalesRanking();
+  }
+
+  public function send_SalesRanking($node_id, $category, $page)
+  {
+    $args = new \Fuji\Item\ItemService_SalesRanking_args();
+    $args->node_id = $node_id;
+    $args->category = $category;
+    $args->page = $page;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'SalesRanking', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('SalesRanking', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_SalesRanking()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_SalesRanking_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Fuji\Item\ItemService_SalesRanking_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("SalesRanking failed: unknown result");
+  }
+
+  public function ItemLookup($item_id, $id_type)
+  {
+    $this->send_ItemLookup($item_id, $id_type);
+    return $this->recv_ItemLookup();
+  }
+
+  public function send_ItemLookup($item_id, $id_type)
+  {
+    $args = new \Fuji\Item\ItemService_ItemLookup_args();
+    $args->item_id = $item_id;
+    $args->id_type = $id_type;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'ItemLookup', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('ItemLookup', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_ItemLookup()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_ItemLookup_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Fuji\Item\ItemService_ItemLookup_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("ItemLookup failed: unknown result");
+  }
+
+  public function ItemList($keyword, $page)
+  {
+    $this->send_ItemList($keyword, $page);
+    return $this->recv_ItemList();
+  }
+
+  public function send_ItemList($keyword, $page)
+  {
+    $args = new \Fuji\Item\ItemService_ItemList_args();
+    $args->keyword = $keyword;
+    $args->page = $page;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'ItemList', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('ItemList', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_ItemList()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_ItemList_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Fuji\Item\ItemService_ItemList_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("ItemList failed: unknown result");
+  }
+
+  public function NodeList($node_id)
+  {
+    $this->send_NodeList($node_id);
+    return $this->recv_NodeList();
+  }
+
+  public function send_NodeList($node_id)
+  {
+    $args = new \Fuji\Item\ItemService_NodeList_args();
+    $args->node_id = $node_id;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'NodeList', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('NodeList', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_NodeList()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Fuji\Item\ItemService_NodeList_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Fuji\Item\ItemService_NodeList_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    throw new \Exception("NodeList failed: unknown result");
   }
 
 }
@@ -282,164 +440,12 @@ class ItemServiceClient implements \Fuji\Item\ItemServiceIf {
 
 // HELPER FUNCTIONS AND STRUCTURES
 
-class ItemService_ping_args {
-  static $isValidate = false;
-
-  static $_TSPEC = array(
-    );
-
-
-  public function __construct() {
-  }
-
-  public function getName() {
-    return 'ItemService_ping_args';
-  }
-
-  public function read($input)
-  {
-    $xfer = 0;
-    $fname = null;
-    $ftype = 0;
-    $fid = 0;
-    $xfer += $input->readStructBegin($fname);
-    while (true)
-    {
-      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-      if ($ftype == TType::STOP) {
-        break;
-      }
-      switch ($fid)
-      {
-        default:
-          $xfer += $input->skip($ftype);
-          break;
-      }
-      $xfer += $input->readFieldEnd();
-    }
-    $xfer += $input->readStructEnd();
-    return $xfer;
-  }
-
-  public function write($output) {
-    $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_ping_args');
-    $xfer += $output->writeFieldStop();
-    $xfer += $output->writeStructEnd();
-    return $xfer;
-  }
-
-}
-
-class ItemService_ping_result {
-  static $isValidate = false;
-
-  static $_TSPEC = array(
-    );
-
-
-  public function __construct() {
-  }
-
-  public function getName() {
-    return 'ItemService_ping_result';
-  }
-
-  public function read($input)
-  {
-    $xfer = 0;
-    $fname = null;
-    $ftype = 0;
-    $fid = 0;
-    $xfer += $input->readStructBegin($fname);
-    while (true)
-    {
-      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-      if ($ftype == TType::STOP) {
-        break;
-      }
-      switch ($fid)
-      {
-        default:
-          $xfer += $input->skip($ftype);
-          break;
-      }
-      $xfer += $input->readFieldEnd();
-    }
-    $xfer += $input->readStructEnd();
-    return $xfer;
-  }
-
-  public function write($output) {
-    $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_ping_result');
-    $xfer += $output->writeFieldStop();
-    $xfer += $output->writeStructEnd();
-    return $xfer;
-  }
-
-}
-
-class ItemService_zip_args {
-  static $isValidate = false;
-
-  static $_TSPEC = array(
-    );
-
-
-  public function __construct() {
-  }
-
-  public function getName() {
-    return 'ItemService_zip_args';
-  }
-
-  public function read($input)
-  {
-    $xfer = 0;
-    $fname = null;
-    $ftype = 0;
-    $fid = 0;
-    $xfer += $input->readStructBegin($fname);
-    while (true)
-    {
-      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-      if ($ftype == TType::STOP) {
-        break;
-      }
-      switch ($fid)
-      {
-        default:
-          $xfer += $input->skip($ftype);
-          break;
-      }
-      $xfer += $input->readFieldEnd();
-    }
-    $xfer += $input->readStructEnd();
-    return $xfer;
-  }
-
-  public function write($output) {
-    $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_zip_args');
-    $xfer += $output->writeFieldStop();
-    $xfer += $output->writeStructEnd();
-    return $xfer;
-  }
-
-}
-
-class ItemService_add_args {
+class ItemService_NewReleases_args {
   static $isValidate = false;
 
   static $_TSPEC = array(
     1 => array(
-      'var' => 'num1',
-      'isRequired' => false,
-      'type' => TType::I64,
-      ),
-    2 => array(
-      'var' => 'num2',
+      'var' => 'node_id',
       'isRequired' => false,
       'type' => TType::I64,
       ),
@@ -448,25 +454,18 @@ class ItemService_add_args {
   /**
    * @var int
    */
-  public $num1 = null;
-  /**
-   * @var int
-   */
-  public $num2 = null;
+  public $node_id = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
-      if (isset($vals['num1'])) {
-        $this->num1 = $vals['num1'];
-      }
-      if (isset($vals['num2'])) {
-        $this->num2 = $vals['num2'];
+      if (isset($vals['node_id'])) {
+        $this->node_id = $vals['node_id'];
       }
     }
   }
 
   public function getName() {
-    return 'ItemService_add_args';
+    return 'ItemService_NewReleases_args';
   }
 
   public function read($input)
@@ -486,14 +485,7 @@ class ItemService_add_args {
       {
         case 1:
           if ($ftype == TType::I64) {
-            $xfer += $input->readI64($this->num1);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 2:
-          if ($ftype == TType::I64) {
-            $xfer += $input->readI64($this->num2);
+            $xfer += $input->readI64($this->node_id);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -510,15 +502,10 @@ class ItemService_add_args {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_add_args');
-    if ($this->num1 !== null) {
-      $xfer += $output->writeFieldBegin('num1', TType::I64, 1);
-      $xfer += $output->writeI64($this->num1);
-      $xfer += $output->writeFieldEnd();
-    }
-    if ($this->num2 !== null) {
-      $xfer += $output->writeFieldBegin('num2', TType::I64, 2);
-      $xfer += $output->writeI64($this->num2);
+    $xfer += $output->writeStructBegin('ItemService_NewReleases_args');
+    if ($this->node_id !== null) {
+      $xfer += $output->writeFieldBegin('node_id', TType::I64, 1);
+      $xfer += $output->writeI64($this->node_id);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -528,279 +515,37 @@ class ItemService_add_args {
 
 }
 
-class ItemService_add_result {
+class ItemService_NewReleases_result {
   static $isValidate = false;
 
   static $_TSPEC = array(
     0 => array(
       'var' => 'success',
-      'isRequired' => false,
-      'type' => TType::I64,
-      ),
-    );
-
-  /**
-   * @var int
-   */
-  public $success = null;
-
-  public function __construct($vals=null) {
-    if (is_array($vals)) {
-      if (isset($vals['success'])) {
-        $this->success = $vals['success'];
-      }
-    }
-  }
-
-  public function getName() {
-    return 'ItemService_add_result';
-  }
-
-  public function read($input)
-  {
-    $xfer = 0;
-    $fname = null;
-    $ftype = 0;
-    $fid = 0;
-    $xfer += $input->readStructBegin($fname);
-    while (true)
-    {
-      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-      if ($ftype == TType::STOP) {
-        break;
-      }
-      switch ($fid)
-      {
-        case 0:
-          if ($ftype == TType::I64) {
-            $xfer += $input->readI64($this->success);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        default:
-          $xfer += $input->skip($ftype);
-          break;
-      }
-      $xfer += $input->readFieldEnd();
-    }
-    $xfer += $input->readStructEnd();
-    return $xfer;
-  }
-
-  public function write($output) {
-    $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_add_result');
-    if ($this->success !== null) {
-      $xfer += $output->writeFieldBegin('success', TType::I64, 0);
-      $xfer += $output->writeI64($this->success);
-      $xfer += $output->writeFieldEnd();
-    }
-    $xfer += $output->writeFieldStop();
-    $xfer += $output->writeStructEnd();
-    return $xfer;
-  }
-
-}
-
-class ItemService_findById_args {
-  static $isValidate = false;
-
-  static $_TSPEC = array(
-    1 => array(
-      'var' => 'id',
-      'isRequired' => false,
-      'type' => TType::I64,
-      ),
-    );
-
-  /**
-   * @var int
-   */
-  public $id = null;
-
-  public function __construct($vals=null) {
-    if (is_array($vals)) {
-      if (isset($vals['id'])) {
-        $this->id = $vals['id'];
-      }
-    }
-  }
-
-  public function getName() {
-    return 'ItemService_findById_args';
-  }
-
-  public function read($input)
-  {
-    $xfer = 0;
-    $fname = null;
-    $ftype = 0;
-    $fid = 0;
-    $xfer += $input->readStructBegin($fname);
-    while (true)
-    {
-      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-      if ($ftype == TType::STOP) {
-        break;
-      }
-      switch ($fid)
-      {
-        case 1:
-          if ($ftype == TType::I64) {
-            $xfer += $input->readI64($this->id);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        default:
-          $xfer += $input->skip($ftype);
-          break;
-      }
-      $xfer += $input->readFieldEnd();
-    }
-    $xfer += $input->readStructEnd();
-    return $xfer;
-  }
-
-  public function write($output) {
-    $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_findById_args');
-    if ($this->id !== null) {
-      $xfer += $output->writeFieldBegin('id', TType::I64, 1);
-      $xfer += $output->writeI64($this->id);
-      $xfer += $output->writeFieldEnd();
-    }
-    $xfer += $output->writeFieldStop();
-    $xfer += $output->writeStructEnd();
-    return $xfer;
-  }
-
-}
-
-class ItemService_findById_result {
-  static $isValidate = false;
-
-  static $_TSPEC = array(
-    0 => array(
-      'var' => 'success',
-      'isRequired' => false,
-      'type' => TType::STRUCT,
-      'class' => '\Fuji\Item\Item',
-      ),
-    );
-
-  /**
-   * @var \Fuji\Item\Item
-   */
-  public $success = null;
-
-  public function __construct($vals=null) {
-    if (is_array($vals)) {
-      if (isset($vals['success'])) {
-        $this->success = $vals['success'];
-      }
-    }
-  }
-
-  public function getName() {
-    return 'ItemService_findById_result';
-  }
-
-  public function read($input)
-  {
-    $xfer = 0;
-    $fname = null;
-    $ftype = 0;
-    $fid = 0;
-    $xfer += $input->readStructBegin($fname);
-    while (true)
-    {
-      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
-      if ($ftype == TType::STOP) {
-        break;
-      }
-      switch ($fid)
-      {
-        case 0:
-          if ($ftype == TType::STRUCT) {
-            $this->success = new \Fuji\Item\Item();
-            $xfer += $this->success->read($input);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        default:
-          $xfer += $input->skip($ftype);
-          break;
-      }
-      $xfer += $input->readFieldEnd();
-    }
-    $xfer += $input->readStructEnd();
-    return $xfer;
-  }
-
-  public function write($output) {
-    $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_findById_result');
-    if ($this->success !== null) {
-      if (!is_object($this->success)) {
-        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-      }
-      $xfer += $output->writeFieldBegin('success', TType::STRUCT, 0);
-      $xfer += $this->success->write($output);
-      $xfer += $output->writeFieldEnd();
-    }
-    $xfer += $output->writeFieldStop();
-    $xfer += $output->writeStructEnd();
-    return $xfer;
-  }
-
-}
-
-class ItemService_findByIds_args {
-  static $isValidate = false;
-
-  static $_TSPEC = array(
-    1 => array(
-      'var' => 'ids',
       'isRequired' => false,
       'type' => TType::LST,
-      'etype' => TType::I64,
+      'etype' => TType::STRUCT,
       'elem' => array(
-        'type' => TType::I64,
+        'type' => TType::STRUCT,
+        'class' => '\Fuji\Item\Tops',
         ),
-      ),
-    2 => array(
-      'var' => 'opt',
-      'isRequired' => false,
-      'type' => TType::STRUCT,
-      'class' => '\Fuji\Item\ItemOption',
       ),
     );
 
   /**
-   * @var int[]
+   * @var \Fuji\Item\Tops[]
    */
-  public $ids = null;
-  /**
-   * @var \Fuji\Item\ItemOption
-   */
-  public $opt = null;
+  public $success = null;
 
   public function __construct($vals=null) {
     if (is_array($vals)) {
-      if (isset($vals['ids'])) {
-        $this->ids = $vals['ids'];
-      }
-      if (isset($vals['opt'])) {
-        $this->opt = $vals['opt'];
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
       }
     }
   }
 
   public function getName() {
-    return 'ItemService_findByIds_args';
+    return 'ItemService_NewReleases_result';
   }
 
   public function read($input)
@@ -818,27 +563,20 @@ class ItemService_findByIds_args {
       }
       switch ($fid)
       {
-        case 1:
+        case 0:
           if ($ftype == TType::LST) {
-            $this->ids = array();
+            $this->success = array();
             $_size0 = 0;
             $_etype3 = 0;
             $xfer += $input->readListBegin($_etype3, $_size0);
             for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
             {
               $elem5 = null;
-              $xfer += $input->readI64($elem5);
-              $this->ids []= $elem5;
+              $elem5 = new \Fuji\Item\Tops();
+              $xfer += $elem5->read($input);
+              $this->success []= $elem5;
             }
             $xfer += $input->readListEnd();
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 2:
-          if ($ftype == TType::STRUCT) {
-            $this->opt = new \Fuji\Item\ItemOption();
-            $xfer += $this->opt->read($input);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -855,30 +593,22 @@ class ItemService_findByIds_args {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_findByIds_args');
-    if ($this->ids !== null) {
-      if (!is_array($this->ids)) {
+    $xfer += $output->writeStructBegin('ItemService_NewReleases_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('ids', TType::LST, 1);
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
       {
-        $output->writeListBegin(TType::I64, count($this->ids));
+        $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->ids as $iter6)
+          foreach ($this->success as $iter6)
           {
-            $xfer += $output->writeI64($iter6);
+            $xfer += $iter6->write($output);
           }
         }
         $output->writeListEnd();
       }
-      $xfer += $output->writeFieldEnd();
-    }
-    if ($this->opt !== null) {
-      if (!is_object($this->opt)) {
-        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-      }
-      $xfer += $output->writeFieldBegin('opt', TType::STRUCT, 2);
-      $xfer += $this->opt->write($output);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
@@ -888,7 +618,308 @@ class ItemService_findByIds_args {
 
 }
 
-class ItemService_findByIds_result {
+class ItemService_BestSellers_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'node_id',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $node_id = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['node_id'])) {
+        $this->node_id = $vals['node_id'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_BestSellers_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->node_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_BestSellers_args');
+    if ($this->node_id !== null) {
+      $xfer += $output->writeFieldBegin('node_id', TType::I64, 1);
+      $xfer += $output->writeI64($this->node_id);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_BestSellers_result {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    0 => array(
+      'var' => 'success',
+      'isRequired' => false,
+      'type' => TType::LST,
+      'etype' => TType::STRUCT,
+      'elem' => array(
+        'type' => TType::STRUCT,
+        'class' => '\Fuji\Item\Tops',
+        ),
+      ),
+    );
+
+  /**
+   * @var \Fuji\Item\Tops[]
+   */
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_BestSellers_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::LST) {
+            $this->success = array();
+            $_size7 = 0;
+            $_etype10 = 0;
+            $xfer += $input->readListBegin($_etype10, $_size7);
+            for ($_i11 = 0; $_i11 < $_size7; ++$_i11)
+            {
+              $elem12 = null;
+              $elem12 = new \Fuji\Item\Tops();
+              $xfer += $elem12->read($input);
+              $this->success []= $elem12;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_BestSellers_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $iter13)
+          {
+            $xfer += $iter13->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_ReleaseDate_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'node_id',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    2 => array(
+      'var' => 'category',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    3 => array(
+      'var' => 'page',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $node_id = null;
+  /**
+   * @var string
+   */
+  public $category = null;
+  /**
+   * @var int
+   */
+  public $page = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['node_id'])) {
+        $this->node_id = $vals['node_id'];
+      }
+      if (isset($vals['category'])) {
+        $this->category = $vals['category'];
+      }
+      if (isset($vals['page'])) {
+        $this->page = $vals['page'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_ReleaseDate_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->node_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->category);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->page);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_ReleaseDate_args');
+    if ($this->node_id !== null) {
+      $xfer += $output->writeFieldBegin('node_id', TType::I64, 1);
+      $xfer += $output->writeI64($this->node_id);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->category !== null) {
+      $xfer += $output->writeFieldBegin('category', TType::STRING, 2);
+      $xfer += $output->writeString($this->category);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->page !== null) {
+      $xfer += $output->writeFieldBegin('page', TType::I64, 3);
+      $xfer += $output->writeI64($this->page);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_ReleaseDate_result {
   static $isValidate = false;
 
   static $_TSPEC = array(
@@ -918,7 +949,7 @@ class ItemService_findByIds_result {
   }
 
   public function getName() {
-    return 'ItemService_findByIds_result';
+    return 'ItemService_ReleaseDate_result';
   }
 
   public function read($input)
@@ -939,15 +970,15 @@ class ItemService_findByIds_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size7 = 0;
-            $_etype10 = 0;
-            $xfer += $input->readListBegin($_etype10, $_size7);
-            for ($_i11 = 0; $_i11 < $_size7; ++$_i11)
+            $_size14 = 0;
+            $_etype17 = 0;
+            $xfer += $input->readListBegin($_etype17, $_size14);
+            for ($_i18 = 0; $_i18 < $_size14; ++$_i18)
             {
-              $elem12 = null;
-              $elem12 = new \Fuji\Item\Item();
-              $xfer += $elem12->read($input);
-              $this->success []= $elem12;
+              $elem19 = null;
+              $elem19 = new \Fuji\Item\Item();
+              $xfer += $elem19->read($input);
+              $this->success []= $elem19;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -966,7 +997,7 @@ class ItemService_findByIds_result {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('ItemService_findByIds_result');
+    $xfer += $output->writeStructBegin('ItemService_ReleaseDate_result');
     if ($this->success !== null) {
       if (!is_array($this->success)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
@@ -975,9 +1006,817 @@ class ItemService_findByIds_result {
       {
         $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->success as $iter13)
+          foreach ($this->success as $iter20)
           {
-            $xfer += $iter13->write($output);
+            $xfer += $iter20->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_SalesRanking_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'node_id',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    2 => array(
+      'var' => 'category',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    3 => array(
+      'var' => 'page',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $node_id = null;
+  /**
+   * @var string
+   */
+  public $category = null;
+  /**
+   * @var int
+   */
+  public $page = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['node_id'])) {
+        $this->node_id = $vals['node_id'];
+      }
+      if (isset($vals['category'])) {
+        $this->category = $vals['category'];
+      }
+      if (isset($vals['page'])) {
+        $this->page = $vals['page'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_SalesRanking_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->node_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->category);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 3:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->page);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_SalesRanking_args');
+    if ($this->node_id !== null) {
+      $xfer += $output->writeFieldBegin('node_id', TType::I64, 1);
+      $xfer += $output->writeI64($this->node_id);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->category !== null) {
+      $xfer += $output->writeFieldBegin('category', TType::STRING, 2);
+      $xfer += $output->writeString($this->category);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->page !== null) {
+      $xfer += $output->writeFieldBegin('page', TType::I64, 3);
+      $xfer += $output->writeI64($this->page);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_SalesRanking_result {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    0 => array(
+      'var' => 'success',
+      'isRequired' => false,
+      'type' => TType::LST,
+      'etype' => TType::STRUCT,
+      'elem' => array(
+        'type' => TType::STRUCT,
+        'class' => '\Fuji\Item\Item',
+        ),
+      ),
+    );
+
+  /**
+   * @var \Fuji\Item\Item[]
+   */
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_SalesRanking_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::LST) {
+            $this->success = array();
+            $_size21 = 0;
+            $_etype24 = 0;
+            $xfer += $input->readListBegin($_etype24, $_size21);
+            for ($_i25 = 0; $_i25 < $_size21; ++$_i25)
+            {
+              $elem26 = null;
+              $elem26 = new \Fuji\Item\Item();
+              $xfer += $elem26->read($input);
+              $this->success []= $elem26;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_SalesRanking_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $iter27)
+          {
+            $xfer += $iter27->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_ItemLookup_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'item_id',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    2 => array(
+      'var' => 'id_type',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    );
+
+  /**
+   * @var string
+   */
+  public $item_id = null;
+  /**
+   * @var string
+   */
+  public $id_type = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['item_id'])) {
+        $this->item_id = $vals['item_id'];
+      }
+      if (isset($vals['id_type'])) {
+        $this->id_type = $vals['id_type'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_ItemLookup_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->item_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->id_type);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_ItemLookup_args');
+    if ($this->item_id !== null) {
+      $xfer += $output->writeFieldBegin('item_id', TType::STRING, 1);
+      $xfer += $output->writeString($this->item_id);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->id_type !== null) {
+      $xfer += $output->writeFieldBegin('id_type', TType::STRING, 2);
+      $xfer += $output->writeString($this->id_type);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_ItemLookup_result {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    0 => array(
+      'var' => 'success',
+      'isRequired' => false,
+      'type' => TType::LST,
+      'etype' => TType::STRUCT,
+      'elem' => array(
+        'type' => TType::STRUCT,
+        'class' => '\Fuji\Item\Item',
+        ),
+      ),
+    );
+
+  /**
+   * @var \Fuji\Item\Item[]
+   */
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_ItemLookup_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::LST) {
+            $this->success = array();
+            $_size28 = 0;
+            $_etype31 = 0;
+            $xfer += $input->readListBegin($_etype31, $_size28);
+            for ($_i32 = 0; $_i32 < $_size28; ++$_i32)
+            {
+              $elem33 = null;
+              $elem33 = new \Fuji\Item\Item();
+              $xfer += $elem33->read($input);
+              $this->success []= $elem33;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_ItemLookup_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $iter34)
+          {
+            $xfer += $iter34->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_ItemList_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'keyword',
+      'isRequired' => false,
+      'type' => TType::STRING,
+      ),
+    2 => array(
+      'var' => 'page',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    );
+
+  /**
+   * @var string
+   */
+  public $keyword = null;
+  /**
+   * @var int
+   */
+  public $page = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['keyword'])) {
+        $this->keyword = $vals['keyword'];
+      }
+      if (isset($vals['page'])) {
+        $this->page = $vals['page'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_ItemList_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->keyword);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->page);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_ItemList_args');
+    if ($this->keyword !== null) {
+      $xfer += $output->writeFieldBegin('keyword', TType::STRING, 1);
+      $xfer += $output->writeString($this->keyword);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->page !== null) {
+      $xfer += $output->writeFieldBegin('page', TType::I64, 2);
+      $xfer += $output->writeI64($this->page);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_ItemList_result {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    0 => array(
+      'var' => 'success',
+      'isRequired' => false,
+      'type' => TType::LST,
+      'etype' => TType::STRUCT,
+      'elem' => array(
+        'type' => TType::STRUCT,
+        'class' => '\Fuji\Item\Item',
+        ),
+      ),
+    );
+
+  /**
+   * @var \Fuji\Item\Item[]
+   */
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_ItemList_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::LST) {
+            $this->success = array();
+            $_size35 = 0;
+            $_etype38 = 0;
+            $xfer += $input->readListBegin($_etype38, $_size35);
+            for ($_i39 = 0; $_i39 < $_size35; ++$_i39)
+            {
+              $elem40 = null;
+              $elem40 = new \Fuji\Item\Item();
+              $xfer += $elem40->read($input);
+              $this->success []= $elem40;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_ItemList_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $iter41)
+          {
+            $xfer += $iter41->write($output);
+          }
+        }
+        $output->writeListEnd();
+      }
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_NodeList_args {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    1 => array(
+      'var' => 'node_id',
+      'isRequired' => false,
+      'type' => TType::I64,
+      ),
+    );
+
+  /**
+   * @var int
+   */
+  public $node_id = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['node_id'])) {
+        $this->node_id = $vals['node_id'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_NodeList_args';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 1:
+          if ($ftype == TType::I64) {
+            $xfer += $input->readI64($this->node_id);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_NodeList_args');
+    if ($this->node_id !== null) {
+      $xfer += $output->writeFieldBegin('node_id', TType::I64, 1);
+      $xfer += $output->writeI64($this->node_id);
+      $xfer += $output->writeFieldEnd();
+    }
+    $xfer += $output->writeFieldStop();
+    $xfer += $output->writeStructEnd();
+    return $xfer;
+  }
+
+}
+
+class ItemService_NodeList_result {
+  static $isValidate = false;
+
+  static $_TSPEC = array(
+    0 => array(
+      'var' => 'success',
+      'isRequired' => false,
+      'type' => TType::LST,
+      'etype' => TType::STRUCT,
+      'elem' => array(
+        'type' => TType::STRUCT,
+        'class' => '\Fuji\Item\Node',
+        ),
+      ),
+    );
+
+  /**
+   * @var \Fuji\Item\Node[]
+   */
+  public $success = null;
+
+  public function __construct($vals=null) {
+    if (is_array($vals)) {
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
+      }
+    }
+  }
+
+  public function getName() {
+    return 'ItemService_NodeList_result';
+  }
+
+  public function read($input)
+  {
+    $xfer = 0;
+    $fname = null;
+    $ftype = 0;
+    $fid = 0;
+    $xfer += $input->readStructBegin($fname);
+    while (true)
+    {
+      $xfer += $input->readFieldBegin($fname, $ftype, $fid);
+      if ($ftype == TType::STOP) {
+        break;
+      }
+      switch ($fid)
+      {
+        case 0:
+          if ($ftype == TType::LST) {
+            $this->success = array();
+            $_size42 = 0;
+            $_etype45 = 0;
+            $xfer += $input->readListBegin($_etype45, $_size42);
+            for ($_i46 = 0; $_i46 < $_size42; ++$_i46)
+            {
+              $elem47 = null;
+              $elem47 = new \Fuji\Item\Node();
+              $xfer += $elem47->read($input);
+              $this->success []= $elem47;
+            }
+            $xfer += $input->readListEnd();
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        default:
+          $xfer += $input->skip($ftype);
+          break;
+      }
+      $xfer += $input->readFieldEnd();
+    }
+    $xfer += $input->readStructEnd();
+    return $xfer;
+  }
+
+  public function write($output) {
+    $xfer = 0;
+    $xfer += $output->writeStructBegin('ItemService_NodeList_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      {
+        $output->writeListBegin(TType::STRUCT, count($this->success));
+        {
+          foreach ($this->success as $iter48)
+          {
+            $xfer += $iter48->write($output);
           }
         }
         $output->writeListEnd();
@@ -1018,124 +1857,190 @@ class ItemServiceProcessor {
     return true;
   }
 
-  protected function process_ping($seqid, $input, $output) {
+  protected function process_NewReleases($seqid, $input, $output) {
     $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
     if ($bin_accel)
     {
-      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_ping_args', $input->isStrictRead());
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_NewReleases_args', $input->isStrictRead());
     }
     else
     {
-      $args = new \Fuji\Item\ItemService_ping_args();
+      $args = new \Fuji\Item\ItemService_NewReleases_args();
       $args->read($input);
       $input->readMessageEnd();
     }
-    $result = new \Fuji\Item\ItemService_ping_result();
-    $this->handler_->ping();
+    $result = new \Fuji\Item\ItemService_NewReleases_result();
+    $result->success = $this->handler_->NewReleases($args->node_id);
     $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($output, 'ping', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+      thrift_protocol_write_binary($output, 'NewReleases', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
     }
     else
     {
-      $output->writeMessageBegin('ping', TMessageType::REPLY, $seqid);
+      $output->writeMessageBegin('NewReleases', TMessageType::REPLY, $seqid);
       $result->write($output);
       $output->writeMessageEnd();
       $output->getTransport()->flush();
     }
   }
-  protected function process_zip($seqid, $input, $output) {
+  protected function process_BestSellers($seqid, $input, $output) {
     $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
     if ($bin_accel)
     {
-      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_zip_args', $input->isStrictRead());
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_BestSellers_args', $input->isStrictRead());
     }
     else
     {
-      $args = new \Fuji\Item\ItemService_zip_args();
+      $args = new \Fuji\Item\ItemService_BestSellers_args();
       $args->read($input);
       $input->readMessageEnd();
     }
-    $this->handler_->zip();
-    return;
-  }
-  protected function process_add($seqid, $input, $output) {
-    $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
-    if ($bin_accel)
-    {
-      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_add_args', $input->isStrictRead());
-    }
-    else
-    {
-      $args = new \Fuji\Item\ItemService_add_args();
-      $args->read($input);
-      $input->readMessageEnd();
-    }
-    $result = new \Fuji\Item\ItemService_add_result();
-    $result->success = $this->handler_->add($args->num1, $args->num2);
+    $result = new \Fuji\Item\ItemService_BestSellers_result();
+    $result->success = $this->handler_->BestSellers($args->node_id);
     $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($output, 'add', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+      thrift_protocol_write_binary($output, 'BestSellers', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
     }
     else
     {
-      $output->writeMessageBegin('add', TMessageType::REPLY, $seqid);
+      $output->writeMessageBegin('BestSellers', TMessageType::REPLY, $seqid);
       $result->write($output);
       $output->writeMessageEnd();
       $output->getTransport()->flush();
     }
   }
-  protected function process_findById($seqid, $input, $output) {
+  protected function process_ReleaseDate($seqid, $input, $output) {
     $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
     if ($bin_accel)
     {
-      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_findById_args', $input->isStrictRead());
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_ReleaseDate_args', $input->isStrictRead());
     }
     else
     {
-      $args = new \Fuji\Item\ItemService_findById_args();
+      $args = new \Fuji\Item\ItemService_ReleaseDate_args();
       $args->read($input);
       $input->readMessageEnd();
     }
-    $result = new \Fuji\Item\ItemService_findById_result();
-    $result->success = $this->handler_->findById($args->id);
+    $result = new \Fuji\Item\ItemService_ReleaseDate_result();
+    $result->success = $this->handler_->ReleaseDate($args->node_id, $args->category, $args->page);
     $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($output, 'findById', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+      thrift_protocol_write_binary($output, 'ReleaseDate', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
     }
     else
     {
-      $output->writeMessageBegin('findById', TMessageType::REPLY, $seqid);
+      $output->writeMessageBegin('ReleaseDate', TMessageType::REPLY, $seqid);
       $result->write($output);
       $output->writeMessageEnd();
       $output->getTransport()->flush();
     }
   }
-  protected function process_findByIds($seqid, $input, $output) {
+  protected function process_SalesRanking($seqid, $input, $output) {
     $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
     if ($bin_accel)
     {
-      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_findByIds_args', $input->isStrictRead());
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_SalesRanking_args', $input->isStrictRead());
     }
     else
     {
-      $args = new \Fuji\Item\ItemService_findByIds_args();
+      $args = new \Fuji\Item\ItemService_SalesRanking_args();
       $args->read($input);
       $input->readMessageEnd();
     }
-    $result = new \Fuji\Item\ItemService_findByIds_result();
-    $result->success = $this->handler_->findByIds($args->ids, $args->opt);
+    $result = new \Fuji\Item\ItemService_SalesRanking_result();
+    $result->success = $this->handler_->SalesRanking($args->node_id, $args->category, $args->page);
     $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($output, 'findByIds', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+      thrift_protocol_write_binary($output, 'SalesRanking', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
     }
     else
     {
-      $output->writeMessageBegin('findByIds', TMessageType::REPLY, $seqid);
+      $output->writeMessageBegin('SalesRanking', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_ItemLookup($seqid, $input, $output) {
+    $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
+    if ($bin_accel)
+    {
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_ItemLookup_args', $input->isStrictRead());
+    }
+    else
+    {
+      $args = new \Fuji\Item\ItemService_ItemLookup_args();
+      $args->read($input);
+      $input->readMessageEnd();
+    }
+    $result = new \Fuji\Item\ItemService_ItemLookup_result();
+    $result->success = $this->handler_->ItemLookup($args->item_id, $args->id_type);
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'ItemLookup', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('ItemLookup', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_ItemList($seqid, $input, $output) {
+    $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
+    if ($bin_accel)
+    {
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_ItemList_args', $input->isStrictRead());
+    }
+    else
+    {
+      $args = new \Fuji\Item\ItemService_ItemList_args();
+      $args->read($input);
+      $input->readMessageEnd();
+    }
+    $result = new \Fuji\Item\ItemService_ItemList_result();
+    $result->success = $this->handler_->ItemList($args->keyword, $args->page);
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'ItemList', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('ItemList', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_NodeList($seqid, $input, $output) {
+    $bin_accel = ($input instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary_after_message_begin');
+    if ($bin_accel)
+    {
+      $args = thrift_protocol_read_binary_after_message_begin($input, '\Fuji\Item\ItemService_NodeList_args', $input->isStrictRead());
+    }
+    else
+    {
+      $args = new \Fuji\Item\ItemService_NodeList_args();
+      $args->read($input);
+      $input->readMessageEnd();
+    }
+    $result = new \Fuji\Item\ItemService_NodeList_result();
+    $result->success = $this->handler_->NodeList($args->node_id);
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'NodeList', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('NodeList', TMessageType::REPLY, $seqid);
       $result->write($output);
       $output->writeMessageEnd();
       $output->getTransport()->flush();

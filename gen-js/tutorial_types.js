@@ -5,13 +5,16 @@
 //
 
 
-Operation = {
+if (typeof tutorial === 'undefined') {
+  tutorial = {};
+}
+tutorial.Operation = {
   'ADD' : 1,
   'SUBTRACT' : 2,
   'MULTIPLY' : 3,
   'DIVIDE' : 4
 };
-Work = function(args) {
+tutorial.Work = function(args) {
   this.num1 = 0;
   this.num2 = null;
   this.op = null;
@@ -31,8 +34,8 @@ Work = function(args) {
     }
   }
 };
-Work.prototype = {};
-Work.prototype.read = function(input) {
+tutorial.Work.prototype = {};
+tutorial.Work.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -82,7 +85,7 @@ Work.prototype.read = function(input) {
   return;
 };
 
-Work.prototype.write = function(output) {
+tutorial.Work.prototype.write = function(output) {
   output.writeStructBegin('Work');
   if (this.num1 !== null && this.num1 !== undefined) {
     output.writeFieldBegin('num1', Thrift.Type.I32, 1);
@@ -109,7 +112,7 @@ Work.prototype.write = function(output) {
   return;
 };
 
-InvalidOperation = function(args) {
+tutorial.InvalidOperation = function(args) {
   this.whatOp = null;
   this.why = null;
   if (args) {
@@ -121,9 +124,9 @@ InvalidOperation = function(args) {
     }
   }
 };
-Thrift.inherits(InvalidOperation, Thrift.TException);
-InvalidOperation.prototype.name = 'InvalidOperation';
-InvalidOperation.prototype.read = function(input) {
+Thrift.inherits(tutorial.InvalidOperation, Thrift.TException);
+tutorial.InvalidOperation.prototype.name = 'InvalidOperation';
+tutorial.InvalidOperation.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -159,7 +162,7 @@ InvalidOperation.prototype.read = function(input) {
   return;
 };
 
-InvalidOperation.prototype.write = function(output) {
+tutorial.InvalidOperation.prototype.write = function(output) {
   output.writeStructBegin('InvalidOperation');
   if (this.whatOp !== null && this.whatOp !== undefined) {
     output.writeFieldBegin('whatOp', Thrift.Type.I32, 1);
@@ -176,8 +179,8 @@ InvalidOperation.prototype.write = function(output) {
   return;
 };
 
-INT32CONSTANT = 9853;
-MAPCONSTANT = {
+tutorial.INT32CONSTANT = 9853;
+tutorial.MAPCONSTANT = {
   'hello' : 'world',
   'goodnight' : 'moon'
 };

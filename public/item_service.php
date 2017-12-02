@@ -1,45 +1,180 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+
+namespace S035779\Fuji;
+
+require __DIR__ . '/../inc/bootstrap.php';
+require __DIR__ . '/../php/services/AppApiClient.php';
+
 use Thrift\Protocol\TBinaryProtocol;
 use Thrift\Transport\TPhpStream;
 use Thrift\Transport\TBufferedTransport;
-
 use Fuji\Item\ItemServiceIf;
 use Fuji\Item\ItemServiceProcessor;
-use Fuji\Item\ItemOption;
+use Fuji\Item\Tops;
 use Fuji\Item\Item;
-use Fuji\Item\Constant;
+use Fuji\Item\Node;;
+
+use Fuji\Service\AppApiClient\Amazon;
 
 class ItemServiceHandler implements ItemServiceIf {
-  public function ping() {
-    error_log("ping()");
+  public function NewReleases($node_id) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchTopItems([
+      'BrowseNodeId'    => $node_id
+      , "ResponseGroup" => 'NewReleases'
+    ]);
+    return $this->mapTops($Items);
   }
 
-  public function zip() {
-    error_log("zip()");
+  public function BestSellers($node_id) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchTopItems([
+      'BrowseNodeId'    => $node_id
+      , "ResponseGroup" => 'TopSellers'
+    ]);
+    return $this->mapTops($Items);
   }
 
-  public function add($num1, $num2) {
-    error_log("add({$num1}, {$num2})");
-    return $num1 + $num2;
+  public function ReleaseDate($node_id, $category, $page) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchItemSearch([
+      'BrowseNode'      => $node_id
+      , 'SearchIndex'   => $category
+      , 'ItemPage'      => $page
+      , 'Sort'          => '-release-date'
+      , 'ResponseGroup' => 'Large'
+    ]);
+    return $this->mapItems($Items->Item);
   }
 
-  public function findById($id) {
-    error_log('findById');
-    return new Item(array(
-      'id'          =>  1
-      , 'name'      =>  'S035779'
-      , 'language'=>Constant::get('LANGUAGE_EN')
-    ));
+  public function SalesRanking($node_id, $category, $page) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchItemSearch([
+      'BrowseNode'      => $node_id
+      , 'SearchIndex'   => $category
+      , 'ItemPage'      => $page
+      , 'Sort'          => 'salesrank'
+      , 'ResponseGroup' => 'Large'
+    ]);
+    return $this->mapItems($Items->Item);
+  }
+  
+  public function NodeList($node_id) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchBrowseNodeLookup([
+      'BrowseNodeId'    => $node_id
+      , 'ResponseGroup' => 'BrowseNodeInfo'
+    ]);
+    return $this->mapNode($Items);
   }
 
-  public function findByIds(array $ids, ItemOption $opt) {
-    error_log('findByIds');
-    return [new Item(array(
-      'id'          =>  1
-      , 'name'      =>  'S035779'
-      , 'language'=>Constant::get('LANGUAGE_EN')
-    ))];
+  public function ItemLookup($item_id, $id_type) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchItemLookup([
+      'IdType'          => $id_type
+      , 'ItemId'        => $item_id
+      , 'ResponseGroup' => 'Large'
+    ]);
+    return $this->mapItems($Items->Item);
+  }
+
+  public function ItemList($keyword, $page) {
+    $amazon = new Amazon();
+    $Items = $amazon->fetchItemSearch([
+      'Keywords'        => $keyword
+      , 'ItemPage'      => $page
+      , 'SearchIndex'   => 'All'
+      , 'ResponseGroup' => 'Large'
+    ]);
+    return $this->mapItems($Items->Item);
+  }
+
+  private function mapTops($items) {
+    $results = [];
+    foreach($items as $item) {
+      array_push($results, $this->setTops($item));
+    }
+    //$this->info_log($results);
+    return $results;
+  }
+
+  private function mapItems($items) {
+    $results = [];
+    foreach($items as $item) {
+      array_push($results, $this->setItems($item));
+    }
+    return $results;
+  }
+
+  private function mapNode($items) {
+    $results = [];
+    foreach($items as $item) {
+      array_push($results, $this->setNode($item));
+    }
+    return $results;
+  }
+
+  private function setTops($item) {
+    return new Tops([
+      'ASIN' =>  
+        empty($item->ASIN) ? ''  : $item->ASIN,
+      'Title' =>  
+        empty($item->Title) ? ''  : $item->Title,
+      'ItemUrl' => 
+        empty($item->DetailPageURL) ? ''  : $item->DetailPageURL,
+      'Category' => 
+        empty($item->ProductGroup) ? ''  : $item->ProductGroup,
+    ]);
+  }
+
+  private function setItems($item) {
+    return new Item([
+      'Rank' => 
+        empty($item->SalesRank) 
+        ? 0   : $item->SalesRank,
+      'ASIN' => 
+        empty($item->ASIN) 
+        ? ''  : $item->ASIN,
+      'Title' => 
+        empty($item->ItemAttributes->Title) 
+        ? ''  : $item->ItemAttributes->Title,
+      'Release' => 
+        empty($item->ItemAttributes->ReleaseDate)
+        ? ''  : $item->ItemAttributes->ReleaseDate,
+      'ItemUrl' => 
+        empty($item->DetailPageURL)
+        ? ''  : $item->DetailPageURL,
+      'ImageUrl' => 
+        empty($item->MediumImage->URL)
+        ? ''  : $item->MediumImage->URL,
+      'ListPrice' => 
+        empty($item->ItemAttributes->ListPrice->Amount)
+        ? 0   : $item->ItemAttributes->ListPrice->Amount,
+      'LowestNewPrice' => 
+        empty($item->OfferSummary->LowestNewPrice->Amount) 
+        ? 0   : $item->OfferSummary->LowestNewPrice->Amount,
+      'LowestUsedPrice' => 
+        empty($item->OfferSummary->LowestUsedPrice->Amount) 
+        ? 0   : $item->OfferSummary->LowestUsedPrice->Amount,
+      'OfferPrice' => 
+        empty($item->Offers->Offer->OfferListing->Price->Amount)
+        ? 0   : $item->Offers->Offer->OfferListing->Price->Amount,
+    ]);
+  }
+
+  private function setNode($item) {
+    return new Node([
+      'BrowseNode' => 
+        empty($item->BrowseNodeId) 
+        ? 0   : $item->BrowseNodeId,
+      'Name' => 
+        empty($item->Name) 
+        ? ''  : $item->Name,
+    ]);
+  }
+
+  private function trace_log($arr) {
+    file_put_contents('php://stderr', print_r($arr, TRUE));
   }
 }
 

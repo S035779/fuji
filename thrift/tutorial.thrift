@@ -1,6 +1,8 @@
 include "shared.thrift"
 
+namespace java tutorial
 namespace php tutorial
+namespace js tutorial
 
 typedef i32 MyInteger
 

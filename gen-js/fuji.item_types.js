@@ -12,22 +12,46 @@ if (typeof Fuji.Item === 'undefined') {
   Fuji.Item = {};
 }
 Fuji.Item.Item = function(args) {
-  this.id = null;
-  this.name = null;
-  this.language = null;
-  this.iconUrl = null;
+  this.Rank = null;
+  this.ASIN = null;
+  this.Title = null;
+  this.Release = null;
+  this.ItemUrl = null;
+  this.ImageUrl = null;
+  this.ListPrice = null;
+  this.LowestNewPrice = null;
+  this.LowestUsedPrice = null;
+  this.OfferPrice = null;
   if (args) {
-    if (args.id !== undefined && args.id !== null) {
-      this.id = args.id;
+    if (args.Rank !== undefined && args.Rank !== null) {
+      this.Rank = args.Rank;
     }
-    if (args.name !== undefined && args.name !== null) {
-      this.name = args.name;
+    if (args.ASIN !== undefined && args.ASIN !== null) {
+      this.ASIN = args.ASIN;
     }
-    if (args.language !== undefined && args.language !== null) {
-      this.language = args.language;
+    if (args.Title !== undefined && args.Title !== null) {
+      this.Title = args.Title;
     }
-    if (args.iconUrl !== undefined && args.iconUrl !== null) {
-      this.iconUrl = args.iconUrl;
+    if (args.Release !== undefined && args.Release !== null) {
+      this.Release = args.Release;
+    }
+    if (args.ItemUrl !== undefined && args.ItemUrl !== null) {
+      this.ItemUrl = args.ItemUrl;
+    }
+    if (args.ImageUrl !== undefined && args.ImageUrl !== null) {
+      this.ImageUrl = args.ImageUrl;
+    }
+    if (args.ListPrice !== undefined && args.ListPrice !== null) {
+      this.ListPrice = args.ListPrice;
+    }
+    if (args.LowestNewPrice !== undefined && args.LowestNewPrice !== null) {
+      this.LowestNewPrice = args.LowestNewPrice;
+    }
+    if (args.LowestUsedPrice !== undefined && args.LowestUsedPrice !== null) {
+      this.LowestUsedPrice = args.LowestUsedPrice;
+    }
+    if (args.OfferPrice !== undefined && args.OfferPrice !== null) {
+      this.OfferPrice = args.OfferPrice;
     }
   }
 };
@@ -47,28 +71,70 @@ Fuji.Item.Item.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.I64) {
-        this.id = input.readI64().value;
+        this.Rank = input.readI64().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
       if (ftype == Thrift.Type.STRING) {
-        this.name = input.readString().value;
+        this.ASIN = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 3:
       if (ftype == Thrift.Type.STRING) {
-        this.language = input.readString().value;
+        this.Title = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 4:
       if (ftype == Thrift.Type.STRING) {
-        this.iconUrl = input.readString().value;
+        this.Release = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 5:
+      if (ftype == Thrift.Type.STRING) {
+        this.ItemUrl = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 6:
+      if (ftype == Thrift.Type.STRING) {
+        this.ImageUrl = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 7:
+      if (ftype == Thrift.Type.I64) {
+        this.ListPrice = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 8:
+      if (ftype == Thrift.Type.I64) {
+        this.LowestNewPrice = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 9:
+      if (ftype == Thrift.Type.I64) {
+        this.LowestUsedPrice = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 10:
+      if (ftype == Thrift.Type.I64) {
+        this.OfferPrice = input.readI64().value;
       } else {
         input.skip(ftype);
       }
@@ -84,24 +150,54 @@ Fuji.Item.Item.prototype.read = function(input) {
 
 Fuji.Item.Item.prototype.write = function(output) {
   output.writeStructBegin('Item');
-  if (this.id !== null && this.id !== undefined) {
-    output.writeFieldBegin('id', Thrift.Type.I64, 1);
-    output.writeI64(this.id);
+  if (this.Rank !== null && this.Rank !== undefined) {
+    output.writeFieldBegin('Rank', Thrift.Type.I64, 1);
+    output.writeI64(this.Rank);
     output.writeFieldEnd();
   }
-  if (this.name !== null && this.name !== undefined) {
-    output.writeFieldBegin('name', Thrift.Type.STRING, 2);
-    output.writeString(this.name);
+  if (this.ASIN !== null && this.ASIN !== undefined) {
+    output.writeFieldBegin('ASIN', Thrift.Type.STRING, 2);
+    output.writeString(this.ASIN);
     output.writeFieldEnd();
   }
-  if (this.language !== null && this.language !== undefined) {
-    output.writeFieldBegin('language', Thrift.Type.STRING, 3);
-    output.writeString(this.language);
+  if (this.Title !== null && this.Title !== undefined) {
+    output.writeFieldBegin('Title', Thrift.Type.STRING, 3);
+    output.writeString(this.Title);
     output.writeFieldEnd();
   }
-  if (this.iconUrl !== null && this.iconUrl !== undefined) {
-    output.writeFieldBegin('iconUrl', Thrift.Type.STRING, 4);
-    output.writeString(this.iconUrl);
+  if (this.Release !== null && this.Release !== undefined) {
+    output.writeFieldBegin('Release', Thrift.Type.STRING, 4);
+    output.writeString(this.Release);
+    output.writeFieldEnd();
+  }
+  if (this.ItemUrl !== null && this.ItemUrl !== undefined) {
+    output.writeFieldBegin('ItemUrl', Thrift.Type.STRING, 5);
+    output.writeString(this.ItemUrl);
+    output.writeFieldEnd();
+  }
+  if (this.ImageUrl !== null && this.ImageUrl !== undefined) {
+    output.writeFieldBegin('ImageUrl', Thrift.Type.STRING, 6);
+    output.writeString(this.ImageUrl);
+    output.writeFieldEnd();
+  }
+  if (this.ListPrice !== null && this.ListPrice !== undefined) {
+    output.writeFieldBegin('ListPrice', Thrift.Type.I64, 7);
+    output.writeI64(this.ListPrice);
+    output.writeFieldEnd();
+  }
+  if (this.LowestNewPrice !== null && this.LowestNewPrice !== undefined) {
+    output.writeFieldBegin('LowestNewPrice', Thrift.Type.I64, 8);
+    output.writeI64(this.LowestNewPrice);
+    output.writeFieldEnd();
+  }
+  if (this.LowestUsedPrice !== null && this.LowestUsedPrice !== undefined) {
+    output.writeFieldBegin('LowestUsedPrice', Thrift.Type.I64, 9);
+    output.writeI64(this.LowestUsedPrice);
+    output.writeFieldEnd();
+  }
+  if (this.OfferPrice !== null && this.OfferPrice !== undefined) {
+    output.writeFieldBegin('OfferPrice', Thrift.Type.I64, 10);
+    output.writeI64(this.OfferPrice);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -109,20 +205,28 @@ Fuji.Item.Item.prototype.write = function(output) {
   return;
 };
 
-Fuji.Item.ItemOption = function(args) {
-  this.withLanguage = false;
-  this.withIcon = false;
+Fuji.Item.Tops = function(args) {
+  this.ASIN = null;
+  this.Title = null;
+  this.ItemUrl = null;
+  this.Category = null;
   if (args) {
-    if (args.withLanguage !== undefined && args.withLanguage !== null) {
-      this.withLanguage = args.withLanguage;
+    if (args.ASIN !== undefined && args.ASIN !== null) {
+      this.ASIN = args.ASIN;
     }
-    if (args.withIcon !== undefined && args.withIcon !== null) {
-      this.withIcon = args.withIcon;
+    if (args.Title !== undefined && args.Title !== null) {
+      this.Title = args.Title;
+    }
+    if (args.ItemUrl !== undefined && args.ItemUrl !== null) {
+      this.ItemUrl = args.ItemUrl;
+    }
+    if (args.Category !== undefined && args.Category !== null) {
+      this.Category = args.Category;
     }
   }
 };
-Fuji.Item.ItemOption.prototype = {};
-Fuji.Item.ItemOption.prototype.read = function(input) {
+Fuji.Item.Tops.prototype = {};
+Fuji.Item.Tops.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -136,15 +240,29 @@ Fuji.Item.ItemOption.prototype.read = function(input) {
     switch (fid)
     {
       case 1:
-      if (ftype == Thrift.Type.BOOL) {
-        this.withLanguage = input.readBool().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.ASIN = input.readString().value;
       } else {
         input.skip(ftype);
       }
       break;
       case 2:
-      if (ftype == Thrift.Type.BOOL) {
-        this.withIcon = input.readBool().value;
+      if (ftype == Thrift.Type.STRING) {
+        this.Title = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.STRING) {
+        this.ItemUrl = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.STRING) {
+        this.Category = input.readString().value;
       } else {
         input.skip(ftype);
       }
@@ -158,16 +276,26 @@ Fuji.Item.ItemOption.prototype.read = function(input) {
   return;
 };
 
-Fuji.Item.ItemOption.prototype.write = function(output) {
-  output.writeStructBegin('ItemOption');
-  if (this.withLanguage !== null && this.withLanguage !== undefined) {
-    output.writeFieldBegin('withLanguage', Thrift.Type.BOOL, 1);
-    output.writeBool(this.withLanguage);
+Fuji.Item.Tops.prototype.write = function(output) {
+  output.writeStructBegin('Tops');
+  if (this.ASIN !== null && this.ASIN !== undefined) {
+    output.writeFieldBegin('ASIN', Thrift.Type.STRING, 1);
+    output.writeString(this.ASIN);
     output.writeFieldEnd();
   }
-  if (this.withIcon !== null && this.withIcon !== undefined) {
-    output.writeFieldBegin('withIcon', Thrift.Type.BOOL, 2);
-    output.writeBool(this.withIcon);
+  if (this.Title !== null && this.Title !== undefined) {
+    output.writeFieldBegin('Title', Thrift.Type.STRING, 2);
+    output.writeString(this.Title);
+    output.writeFieldEnd();
+  }
+  if (this.ItemUrl !== null && this.ItemUrl !== undefined) {
+    output.writeFieldBegin('ItemUrl', Thrift.Type.STRING, 3);
+    output.writeString(this.ItemUrl);
+    output.writeFieldEnd();
+  }
+  if (this.Category !== null && this.Category !== undefined) {
+    output.writeFieldBegin('Category', Thrift.Type.STRING, 4);
+    output.writeString(this.Category);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -175,5 +303,69 @@ Fuji.Item.ItemOption.prototype.write = function(output) {
   return;
 };
 
-Fuji.Item.LANGUAGE_JA = 'JA';
-Fuji.Item.LANGUAGE_EN = 'EN';
+Fuji.Item.Node = function(args) {
+  this.BrowseNode = null;
+  this.Name = null;
+  if (args) {
+    if (args.BrowseNode !== undefined && args.BrowseNode !== null) {
+      this.BrowseNode = args.BrowseNode;
+    }
+    if (args.Name !== undefined && args.Name !== null) {
+      this.Name = args.Name;
+    }
+  }
+};
+Fuji.Item.Node.prototype = {};
+Fuji.Item.Node.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I64) {
+        this.BrowseNode = input.readI64().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.STRING) {
+        this.Name = input.readString().value;
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+Fuji.Item.Node.prototype.write = function(output) {
+  output.writeStructBegin('Node');
+  if (this.BrowseNode !== null && this.BrowseNode !== undefined) {
+    output.writeFieldBegin('BrowseNode', Thrift.Type.I64, 1);
+    output.writeI64(this.BrowseNode);
+    output.writeFieldEnd();
+  }
+  if (this.Name !== null && this.Name !== undefined) {
+    output.writeFieldBegin('Name', Thrift.Type.STRING, 2);
+    output.writeString(this.Name);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
