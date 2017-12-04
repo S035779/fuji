@@ -12,7 +12,7 @@ use Thrift\Transport\TBufferedTransport;
 use Thrift\Exception\TException;
 
 try {
-  $socket = new THttpClient('localhost', 8080, 'tutorial_server.php');
+  $socket = new THttpClient('localhost', 8080, 'tutorial_service.php');
   $transport = new TBufferedTransport($socket, 1024, 1024);
   $protocol = new TBinaryProtocol($transport);
   $client = new CalculatorClient($protocol);

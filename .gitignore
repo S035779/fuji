@@ -1,5 +1,6 @@
+.env
+*.log
+/node_modules/*
 /vendor/*
 /.git/*
 /tmp/*
-.env
-*.log

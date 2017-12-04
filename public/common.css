@@ -1,0 +1,163 @@
+@charset "utf-8";
+body,div,ul,ol,li,h1,h2,h3,p,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+ul,ol,li {
+  list-style: none;
+}
+img {
+  border: 0;
+  vertical-align: text-bottom;
+}
+h1,h2,h3 {
+  font-weight: normal;
+}
+img {
+  width: 260px;
+  height: 255px;
+}
+div.window {
+  position: absolute;
+  width: 1070px; height: 300px;
+  background: #CCC;
+}
+div.titlebar {
+  position: absolute;
+  top: 0px; height: 40px;
+  width: 1070px;
+  background: #000;
+  text-align: center;
+  color: #FFF;
+  padding: 7px 0;
+  font: bold 14pt sans-serif;
+}
+div.content {
+  position: absolute;
+  top: 40px; height: 260px;
+  width: 1080px;
+  margin: 0 -10px 0 0;
+  overflow: auto;
+  background: #FFF;
+}
+figure {
+  position: relative;
+  overflow: hidden;
+  width: 260px;
+}
+figcaption h3,
+figcaption p {
+  position: absolute;
+  z-index: 2;
+  background: rgba(0,0,0,.6);
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+figcaption h3 {
+  top: 10px;    left: 10px;
+  height: 35px; width: 100px;
+  font: bold 20pt sans-serif;
+  padding: 10px 0;
+  text-align: center;
+  color: #FFF;
+}
+figcaption p {
+  bottom: 0;
+  left: 0; 
+  height: 60px; width: 100%;
+  line-height: 40px;
+  font: bold 16pt sans-serif;
+  text-align: center;
+  color: #FFF;
+}
+figure:hover figcaption h3 {
+  left: -110px;
+}
+figure:hover figcaption p {
+  bottom: -60px;
+}
+#picture ul li {
+  float: left;
+  width: 260px;
+  margin-right: 10px;
+  background-image:url(bg.gif);
+}
+#picture ul li.sellers {
+  position: relative;
+  overflow: hidden;
+}
+#picture ul li.sellers:after {
+  position: absolute;
+  background: #26ACC0;
+  content: "Best Seller";
+  font: bold 11pt sans-serif;
+  top: 10px;
+  right: -40px;
+  padding: 5px 10px;
+  text-align: center;
+  color: #FFF;
+  width: 150px;
+  box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#picture ul li.discount {
+  position: relative;
+  overflow: hidden;
+}
+#picture ul li.discount:after {
+  position: absolute;
+  background: #4f2cf5;
+  content: "Discount!!";
+  font: bold 11pt sans-serif;
+  top: 10px;
+  right: -40px;
+  padding: 5px 10px;
+  text-align: center;
+  color: #FFF;
+  width: 150px;
+  box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#picture ul li.release {
+  position: relative;
+  overflow: hidden;
+}
+#picture ul li.release:before {
+  position: absolute;
+  background: #ea046a;
+  content: "New !!";
+  font: bold 11pt sans-serif;
+  top: 10px;
+  right: -40px;
+  padding: 5px 10px;
+  text-align: center;
+  color: #FFF;
+  width: 150px;
+  box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#picture ul li.salesrnk {
+  position: relative;
+  overflow: hidden;
+}
+#picture ul li.salesrnk:after {
+  position: absolute;
+  background: #f9b304;
+  content: "Rank-In!!";
+  font: bold 11pt sans-serif;
+  top: 10px;
+  right: -40px;
+  padding: 5px 10px;
+  text-align: center;
+  color: #FFF;
+  width: 150px;
+  box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+
+/*# sourceMappingURL=common.css.map*/

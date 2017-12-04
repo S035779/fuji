@@ -72,7 +72,6 @@ final class Amazon {
 
   private function getItem($request) {
     $xml =  $this->parseXml($request);
-    //logger()->trace($xml->Items);
     if (!empty($xml->Items->Request->Errors))
       logger()->error($xml->Items->Request->Errors->Error->Message);
     return $xml->Items;
@@ -80,7 +79,6 @@ final class Amazon {
 
   private function getTopItems($request) {
     $xml =  $this->parseXml($request);
-    //logger()->trace($xml->BrowseNodes->TopItemSet);
     if (!empty($xml->BrowseNodes->Request->Errors))
       logger()->error($xml->BrowseNodes->Request->Errors->Error->Message);
     return $xml->BrowseNodes->BrowseNode->TopItemSet->TopItem;
@@ -88,10 +86,6 @@ final class Amazon {
 
   private function getItems($request) {
     $xml =  $this->parseXml($request);
-    //logger()->trace($xml->Items);
-    //logger()->trace($xml->Items->Request->ItemSearchRequest->ItemPage);
-    //logger()->trace($xml->Items->TotalPages);
-    //logger()->trace($xml->Items->TotalResults);
     if (!empty($xml->Items->Request->Errors))
       logger()->error($xml->Items->Request->Errors->Error->Message);
     return $xml->Items;
@@ -99,14 +93,12 @@ final class Amazon {
 
   private function getNodes($request) {
     $xml =  $this->parseXml($request);
-    //logger()->trace($xml->BrowseNodes->BrowseNode);
     if (!empty($xml->BrowseNodes->Request->Errors))
       logger()->error($xml->BrowseNodes->Request->Errors->Error->Message);
     return $xml->BrowseNodes->BrowseNode->Children->BrowseNode;
   }
 
   private function parseXml($url) {
-    //return simplexml_load_string(file_get_contents($url));
     $client = new \GuzzleHttp\Client();
     return simplexml_load_string($client->get($url)->getBody());
   }

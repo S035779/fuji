@@ -94,7 +94,6 @@ class ItemServiceHandler implements ItemServiceIf {
     foreach($items as $item) {
       array_push($results, $this->setTops($item));
     }
-    //$this->info_log($results);
     return $results;
   }
 

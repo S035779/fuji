@@ -1,0 +1,19 @@
+#picture ul li.salesrnk {
+  position: relative;
+  overflow: hidden;
+}
+#picture ul li.salesrnk:after {
+  position: absolute;
+  background: #f9b304;
+  content: "Rank-In!!";
+  font: bold 11pt sans-serif;
+  top: 10px;
+  right: -40px;
+  padding: 5px 10px;
+  text-align: center;
+  color: #FFF;
+  width: 150px;
+  box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}

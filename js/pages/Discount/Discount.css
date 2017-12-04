@@ -1,0 +1,19 @@
+#picture ul li.discount {
+  position: relative;
+  overflow: hidden;
+}
+#picture ul li.discount:after {
+  position: absolute;
+  background: #4f2cf5;
+  content: "Discount!!";
+  font: bold 11pt sans-serif;
+  top: 10px;
+  right: -40px;
+  padding: 5px 10px;
+  text-align: center;
+  color: #FFF;
+  width: 150px;
+  box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
