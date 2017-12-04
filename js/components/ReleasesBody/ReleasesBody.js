@@ -1,6 +1,11 @@
 import React from 'react';
+import ReleasesAction from '../../actions/ReleasesAction';
 
 class ReleasesBody extends React.Component {
+  componentDidMount() {
+    ReleasesAction.fetchItems();
+  }
+
   render() {
     return (
       <div id="picture" className="content">

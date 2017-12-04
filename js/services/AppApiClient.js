@@ -1,57 +1,117 @@
 import R from 'ramda';
 import Rx from 'rx';
-import { M, log } from '../utils/webutils';
+import { M, log, api } from '../utils/webutils';
+
+log.config('console', 'basic', 'ALL', 'note-renderer');
+
+const pspid = 'AMZApiClient';
+const path = '/item_service.php';
 
 export default {
   request(action, response) {
     switch(action) {
-      case 'item/fetch/bestsell':
+      case 'fetch/newreleases':
         return new Promise(resolve => {
+          api.client(path)
+            .NewReleases(2189374051, items => {
+            resolve(items);
+          });
         });
-      case 'item/fetch/discount':
+      case 'fetch/bestsellers':
         return new Promise(resolve => {
+          api.client(path)
+            .BestSellers(2189374051, items => {
+            resolve(items);
+          });
         });
-      case 'item/fetch/salesrnk':
+      case 'fetch/releasedate':
         return new Promise(resolve => {
+          api.client(path)
+            .ReleaseDate(2189374051, 'Hobbies', 1, items => {
+            resolve(items);
+          });
         });
-      case 'item/fetch/releases':
+      case 'fetch/salesranking':
         return new Promise(resolve => {
+          api.client(path)
+            .SalesRanking(2189374051, 'Hobbies', 1, items => {
+            resolve(items);
+          });
         });
+      case 'fetch/itemlookup':
+        return new Promise(resolve => {
+          api.client(path)
+            .ItemLookup('B075CLGPC9', 'ASIN', items => {
+            resolve(items);
+          });
+        });
+      case 'fetch/itemlist':
+        return new Promise(resolve => {
+          api.client(path)
+            .ItemList('HarryPotter', 1, items => {
+            resolve(items);
+          });
+        });
+      case 'fetch/nodelist':
       default:
         return new Promise(resolve => {
+          api.client(path)
+            .NodeList(2189366051, items => {
+            resolve(items);
+          });
         });
     }
   },
 
-  getBestsell(options) {
-    return this.request('item/fetch/bestsell', options);
+  getNewReleases(options) {
+    return this.request('fetch/newreleases', options);
   },
 
-  getDiscount(options) {
-    return this.request('item/fetch/discount', options);
+  getBestSellers(options) {
+    return this.request('fetch/bestsellers', options);
   },
 
-  getSalesrnk(options) {
-    return this.request('item/fetch/salesrnk', options);
+  getReleaseDate(options) {
+    return this.request('fetch/releasedate', options);
   },
 
-  getReleases(options) {
-    return this.request('item/fetch/releases', options);
+  getSalesRanking(options) {
+    return this.request('fetch/salesranking', options);
+  },
+
+  getItemLookup(options) {
+    return this.request('fetch/itemlookup', options);
+  },
+
+  getItemList(options) {
+    return this.request('fetch/itemlist', options);
+  },
+
+  getNodeList(options) {
+    return this.request('fetch/nodelist', options);
   },
 
   fetchBestsell(options) {
-    return this.getBestsell(options);
+    return this.getBestSellers(options).then(items => {
+      log.trace(`${pspid}>`, 'Response:', items);
+    });
   },
 
   fetchDiscount(options) {
-    return this.getDiscount(options);
+    return this.getSalesRanking(options).then(items => {
+      log.trace(`${pspid}>`, 'Response:', items);
+    });
   },
 
   fetchSalesrnk(options) {
-    return this.getSalesrnk(options);
+    return this.getSalesRanking(options).then(items => {
+      log.trace(`${pspid}>`, 'Response:', items);
+    });
   },
 
   fetchReleases(options) {
-    return this.getRelease(options);
+    return this.getNewReleases(options).then(items => {
+      log.trace(`${pspid}>`, 'Response:', items);
+    });
   },
 }

@@ -6,6 +6,8 @@ require __DIR__ . '/../inc/bootstrap.php';
 require __DIR__ . '/../php/services/AppApiClient.php';
 
 use Thrift\Protocol\TBinaryProtocol;
+use Thrift\Protocol\TJSONProtocol;
+use Thrift\Protocol\TSimpleJSONProtocol;
 use Thrift\Transport\TPhpStream;
 use Thrift\Transport\TBufferedTransport;
 use Fuji\Item\ItemServiceIf;
@@ -180,9 +182,11 @@ class ItemServiceHandler implements ItemServiceIf {
 try {
   $handler = new ItemServiceHandler();
   $processor = new ItemServiceProcessor($handler);
-  $transport = new TBufferedTransport(
-    new TPhpStream(TPhpStream::MODE_R | TPhpStream::MODE_W));
-  $protocol = new TBinaryProtocol($transport, true, true);
+  //$transport = new TBufferedTransport( new TPhpStream(TPhpStream::MODE_R | TPhpStream::MODE_W));
+  $transport = new TPhpStream(TPhpStream::MODE_R | TPhpStream::MODE_W);
+  //$protocol = new TSimpleJSONProtocol($transport);
+  $protocol = new TJSONProtocol($transport);
+  //$protocol = new TBinaryProtocol($transport, true, true);
   header('Content-Type','application/x-thrift');
   $transport->open();
   $processor->process($protocol, $protocol);

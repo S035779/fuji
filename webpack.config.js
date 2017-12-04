@@ -41,9 +41,10 @@ const config = {
     port: 8080,
     historyApiFallback: true,
     watchContentBase: true,
-    //proxy: {
-    //  '*': 'http://127.0.0.1:8081'
-    //}
+    stats: {colors: true},
+    proxy: {
+      '*': 'http://localhost:8081'
+    }
   },
   performance: {
     hints: "warning",

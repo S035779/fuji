@@ -1,6 +1,11 @@
 import React from 'react';
+import BestsellAction from '../../actions/BestsellAction';
 
 class BestsellBody extends React.Component {
+  componentDidMount() {
+    BestsellAction.fetchItems();
+  }
+
   render() {
     return (
       <div id="picture" className="content">

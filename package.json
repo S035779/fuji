@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack",
     "dev-server": "webpack-dev-server",
-    "ssr-server": "php -S 0.0.0.0:8081 -t public"
+    "ssr-server": "php -S 0.0.0.0:8080 -t public",
+    "start": "npm-run-all --parallel dev-server ssr-server"
   },
   "license": "ISC",
   "devDependencies": {
@@ -16,6 +17,7 @@
     "css-loader": "0.28.7",
     "extract-text-webpack-plugin": "3.0.1",
     "file-loader": "1.1.5",
+    "npm-run-all": "4.1.2",
     "postcss-easy-import": "3.0.0",
     "postcss-loader": "2.0.7",
     "webpack": "3.6.0",

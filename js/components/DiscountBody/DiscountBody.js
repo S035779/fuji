@@ -1,6 +1,11 @@
 import React from 'react';
+import DiscountAction from '../../actions/DiscountAction';
 
 class DiscountBody extends React.Component {
+  componentDidMount() {
+    DiscountAction.fetchItems();
+  }
+
   render() {
     return (
       <div id="picture" className="content">

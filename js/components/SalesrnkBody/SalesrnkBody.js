@@ -1,6 +1,11 @@
 import React from 'react';
+import SalesrnkAction from '../../actions/SalesrnkAction';
 
 class SalesrnkBody extends React.Component {
+  componentDidMount() {
+    SalesrnkAction.fetchItems();
+  }
+
   render() {
     return (
       <div id="picture" className="content">
