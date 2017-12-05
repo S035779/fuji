@@ -1,7 +1,7 @@
 require('dotenv').config();
 import thrift from 'thrift';
 import ItemService from '../gen-nodejs/ItemService';
-//import ttypes from '../gen-nodejs/fuji_types';
+import ttypes from '../gen-nodejs/fuji_types';
 import Amazon from './utils/Amazon';
 import {logs as log} from './utils/logutils';
 

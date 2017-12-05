@@ -8,4 +8,4 @@ thrift -r -gen js thrift/fuji.thrift
 thrift -r -gen py thrift/fuji.thrift
 thrift -r -gen html thrift/fuji.thrift
 
-cp -r gen-js public/assets/
+cp -r gen-js public/assets/js/
