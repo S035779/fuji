@@ -5,11 +5,11 @@ import { M, log, api } from '../utils/webutils';
 log.config('console', 'basic', 'ALL', 'note-renderer');
 
 const pspid = 'AMZApiClient';
-const path = '/item_service.php';
+const path = '/api';
 
 export default {
-  request(action, response) {
-    switch(action) {
+  request(operation, options) {
+    switch(operation) {
       case 'fetch/newreleases':
         return new Promise(resolve => {
           api.client(path)

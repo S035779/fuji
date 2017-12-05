@@ -43,7 +43,7 @@ const config = {
     watchContentBase: true,
     stats: {colors: true},
     proxy: {
-      '*': 'http://localhost:8081'
+      '/api': 'http://localhost:8081'
     }
   },
   performance: {

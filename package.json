@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack",
     "dev-server": "webpack-dev-server",
-    "ssr-server": "php -S 0.0.0.0:8080 -t public",
+    "php-server": "php -S 0.0.0.0:8080 -t public",
+    "ssr-server": "node --require ./js/hook/babel-register.js js/server.js",
     "start": "npm-run-all --parallel dev-server ssr-server"
   },
   "license": "ISC",
@@ -14,6 +15,7 @@
     "babel-loader": "7.1.2",
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
+    "babel-register": "6.26.0",
     "css-loader": "0.28.7",
     "extract-text-webpack-plugin": "3.0.1",
     "file-loader": "1.1.5",
@@ -31,6 +33,7 @@
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-router-dom": "4.2.2",
-    "rx": "4.1.0"
+    "rx": "4.1.0",
+    "thrift": "0.10.0"
   }
 }

@@ -8,5 +8,4 @@ thrift -r -gen js thrift/fuji.thrift
 thrift -r -gen py thrift/fuji.thrift
 thrift -r -gen html thrift/fuji.thrift
 
-find gen-js -name "*_types.js" | xargs cat > public/client.js
-find gen-js -type f -and -not -name "*_types.js" | xargs cat >> public/client.js
+cp -r gen-js public/assets/
