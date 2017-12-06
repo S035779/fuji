@@ -1,33 +1,17 @@
+import querystring from 'querystring';
+import crypto from 'crypto';
+import { URL } from 'url';
 import R from 'ramda';
 import Rx from 'rx';
-import {logs as log} from './logutils';
+import std from './stdutils';
+import net from './netutils';
+import { logs as log } from './logutils';
 
-const AppUrl = 'http://ecs.amazonaws.jp/onca/xml';
-
-const top = {
-  ASIN: '橋本　衛',
-  Title: 'ああああ',
-  ItemUrl: '１１１１',
-  Category: 'AAAA'
-};
-
-const item = {
-  Rank: 0,
-  ASIN: '橋本　衛',
-  Title: 'ああああ',
-  Release: '１１１１',
-  ItemUrl: 'BBBB',
-  ImageUrl: 'ＣＣＣ',
-  ListPrice: 0,
-  LowestNewPrice: 0,
-  LowestUsedPrice: 0,
-  OfferPrice: 0
-};
-
-const node = {
-  BrowseNode: 0,
-  Name: '橋本　衛'
-};
+const baseurl = 'http://ecs.amazonaws.jp/onca/xml';
+const params = {
+  Service:   'AWSECommerceService'
+  , Version: '2011-07-27'
+}
 
 const pspid = 'AmazonApiClient';
 /**
@@ -40,9 +24,54 @@ const pspid = 'AmazonApiClient';
  */
 class Amazon {
   constructor(access_key, secret_key, associ_tag) {
-    this.access_key = access_key | 'access_key';
-    this.secret_key = secret_key | 'secret_key';
-    this.associ_tag = associ_tag | 'associ_tag';
+    this.access_key = access_key;
+    this.secret_key = secret_key;
+    this.associ_tag = associ_tag;
+  }
+
+  static of({ access_key, secret_key, associ_tag }) {
+    return new Amazon(access_key, secret_key, associ_tag);
+  }
+
+  request(action, options) {
+    options = Object.assign({}, params, options);
+    options['AssociateTag']   = this.associ_tag;
+    options['AWSAccessKeyId'] = this.access_key;
+    options['Operation']      = action;
+    options['TimeStamp']      = std.getTimeStamp();
+    const query = this.query(options);
+    const signature = this.signature(query);
+    const url = this.url(query, signature);
+
+    console.log(options);
+    console.log(query);
+    console.log(signature);
+    console.log(url);
+
+    switch(action) {
+      case 'BrowseNodeLookup':
+        return new Promise((resolve, reject) => {
+          net.get(url, objs => {
+            resolve(objs);
+          });
+        });
+      case 'ItemSearch':
+        return new Promise((resolve, reject) => {
+          net.get(url, objs => {
+            resolve(objs);
+          });
+        });
+      case 'ItemLookup':
+        return new Promise((resolve, reject) => {
+          net.get(url, objs => {
+            resolve(objs);
+          });
+        });
+      default:
+        return new Promise((resolve, reject) => {
+          if(reject) reject(new Error('Unknown Operation.'));
+        });
+    }
   }
 
   fetchNewReleases(node_id) {
@@ -80,59 +109,90 @@ class Amazon {
       .fromPromise(this.getNodeList(node_id));
   }
 
+  getNodeList(node_id) {
+    const options = {};
+    options['BrowserNodeId'] = node_id;
+    options['ResponseGroup'] ='BrowseNodeInfo' ;
+    return this.request('BrowseNodeLookup', options);
+  }
+
   getNewReleases(node_id) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const tops = [ top ];
-      resolve(tops);
-    });
+    const options = {};
+    options['BrowserNodeId'] = node_id;
+    options['ResponseGroup'] ='NewReleases' ;
+    return this.request('BrowseNodeLookup', options);
   }
 
   getBestSellers(node_id) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const tops = [ top ];
-      resolve(tops);
-    });
+    const options = {};
+    options['BrowserNodeId'] = node_id;
+    options['ResponseGroup'] ='TopSellers' ;
+    return this.request('BrowseNodeLookup', options);
   }
 
   getReleaseDate(node_id, category, page) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const items = [ item ];
-      resolve(items);
-    });
+    const options = {};
+    options['BrowseNode']     = node_id;
+    options['SearchIndex']    = category;
+    options['ItemPage']       = page;
+    options['Sort']           = '-release-date';
+    options['ResponseGroup']  = 'Large';
+    return this.request('ItemSearch', options);
   }
 
   getSalesRanking(node_id, category, page) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const items = [ item ];
-      resolve(items);
-    });
-  }
-
-  getItemLookup(item_id, id_type) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const items = [ item ];
-      resolve(items);
-    });
+    const options = {};
+    options['BrowseNode']     = node_id;
+    options['SearchIndex']    = category;
+    options['ItemPage']       = page;
+    options['Sort']           = 'salesrank';
+    options['ResponseGroup']  = 'Large';
+    return this.request('ItemSearch', options);
   }
 
   getItemList(keyword, page) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const items = [ item ];
-      resolve(items);
-    });
+    const options = {};
+    options['Keywords']       = keyword;
+    options['ItemPage']       = page;
+    options['SearchIndex']    = 'All';
+    options['ResponseGroup']  = 'Large';
+    return this.request('ItemSearch', options);
   }
-  getNodeList(node_id) {
-    return new Promise((resolve, reject) => {
-      //if(reject) reject(new Error('IO Error'));
-      const nodes = [ node ];
-      resolve(nodes);
-    });
+
+  getItemLookup(item_id, id_type) {
+    const options = {};
+    options['IdType']         = id_type;
+    options['ItemId']         = item_id;
+    options['ResponseGroup']  = 'Large';
+    return this.request('ItemLookup', options);
+  }
+
+  query(object) {
+    return this.urlencode_rfc3986(std.ksort(object));
+  }
+
+  urlencode_rfc3986(object) {
+    return querystring.stringify(object);
+  }
+
+  signature(query) {
+    const parsed_url = new URL(baseurl);
+    const string = "GET\n"
+      + parsed_url.host + "\n"
+      + parsed_url.pathname + "\n"
+      + query;
+    return crypto
+      .createHmac('sha256', this.secret_key)
+      .update(string)
+      .digest('base64');
+  }
+
+  url(query, signature) {
+    const object = {};
+    object['Signature'] = signature;
+    return baseurl
+      + '?' + query
+      + '&' + this.urlencode_rfc3986(signature);
   }
 };
 export default Amazon;

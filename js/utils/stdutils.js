@@ -355,14 +355,63 @@ var makeRandInt = function(length) {
 }
 module.exports.makeRandInt = makeRandInt;
 
+/**
+ * Base64 decode.
+ *
+ * @param {string} string - Base64 charactor strings.
+ * @return {string}
+ */
 var btoa = function(string) {
   var b = new Buffer(string, 'base64')
   return b.toString();
 };
 module.exports.btoa = btoa;
 
+/**
+ * Base64 encode.
+ *
+ * @param {string} string - Ascii charactor strings.
+ * @return {string}
+ */
 var atob = function(string) {
   var b = new Buffer(string);
   return b.toString('base64');
 };
 module.exports.atob = atob;
+
+/**
+ * fork-join function.
+ * 
+ * @param {function} join - fork-join function.
+ * @param {function} func1 - function.
+ * @param {function} func2 - function.
+ * @return {function}
+ */
+var fork = function(join, func1, func2) {
+  return val => join(func1(val), func2(val));
+};
+module.exports.fork = fork;
+
+/**
+ * key-value object sort
+ *
+ * @param {object} obj - object.
+ * @return {object} 
+ */
+var ksort = function(obj){
+  var keys = [];
+  for (let key in obj) {
+    if(obj.hasOwnProperty(key)) keys.push(key);
+  }
+  keys.sort();
+  var res = {};
+  keys.forEach((k, i) => {
+    res[k[i]] = obj[k[i]];
+  });
+  console.log(obj);
+  console.log(keys);
+  console.log(res);
+  return res;
+}
+module.exports.ksort = ksort;
+

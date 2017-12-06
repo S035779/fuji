@@ -4,12 +4,6 @@ let Logger = null;
 let Spiner = null;
 let target = null;
 
-export const M = {
-  fork(join, func1, func2) {
-    return val => join(func1(val), func2(val));
-  }
-};
-
 export const log = {
   Logger,
   config(apd, lyt, flv, nam) {

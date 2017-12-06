@@ -8,10 +8,11 @@ const app = express();
 const router = express.Router();
 const port = process.env.PORT || 8081
 
-const access_key = process.env.ACCESS_KEY;
-const secret_key = process.env.SECRET_KEY;
-const associ_tag = process.env.ASSOCI_TAG;
-const amazon = new Amazon(access_key, secret_key, associ_tag);
+const keyset = {
+  access_key:   process.env.ACCESS_KEY
+  , secret_key: process.env.SECRET_KEY
+  , associ_tag: process.env.ASSOCI_TAG
+};
 
 log.config('console', 'color', 'note-app', 'ALL');
 
@@ -30,7 +31,7 @@ router.route('/newreleases')
 .get((req, res, next) => {
   const node_id = 0;
   log.trace(`${pspid}>`, node_id);
-  amazon.fetchNewReleases(node_id).subscribe(
+  Amazon.of(keyset).fetchNewReleases(node_id).subscribe(
     tops    => { res.json(tops); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -48,9 +49,9 @@ router.route('/newreleases')
 
 router.route('/bestsellers')
 .get((req, res) => {
-  const node_id = 0;
+  const node_id = 2189374051;
   log.trace(`${pspid}>`, node_id);
-  amazon.fetchBestSellers(node_id).subscribe(
+  Amazon.of(keyset).fetchBestSellers(node_id).subscribe(
     tops    => { res.json(tops); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -72,7 +73,7 @@ router.route('/releasedate')
   const category = '';
   const page = 0;
   log.trace(`${pspid}>`, node_id, category, page);
-  amazon.fetchReleaseDate(node_id, category, page).subscribe(
+  Amazon.of(keyset).fetchReleaseDate(node_id, category, page).subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -94,7 +95,7 @@ router.route('/salesranking')
   const category = '';
   const page = 0;
   log.trace(`${pspid}>`, node_id, category, page);
-  amazon.fetchSalesRanking(node_id, category, page).subscribe(
+  Amazon.of(keyset).fetchSalesRanking(node_id, category, page).subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -115,7 +116,7 @@ router.route('/itemlookup')
   const item_id = '';
   const id_type = '';
   log.trace(`${pspid}>`, item_id, id_type);
-  amazon.fetchItemLookup(item_id, id_type).subscribe(
+  Amazon.of(keyset).fetchItemLookup(item_id, id_type).subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -136,7 +137,7 @@ router.route('/itemlist')
   const keyword = '';
   const page = 0;
   log.trace(`${pspid}>`, keyword, page);
-  amazon.fetchItemList(keyword, page).subscribe(
+  Amazon.of(keyset).fetchItemList(keyword, page).subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -156,7 +157,7 @@ router.route('/nodelist')
 .get((req, res) => {
   const node_id = 0;
   log.trace(`${pspid}>`, node_id);
-  amazon.fetchNodeList(node_id).subscribe(
+  Amazon.of(keyset).fetchNodeList(node_id).subscribe(
     nodes   => { res.json(nodes); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
