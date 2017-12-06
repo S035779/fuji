@@ -1,12 +1,8 @@
-require('dotenv').config();
 import R from 'ramda';
 import Rx from 'rx';
 import {logs as log} from './logutils';
 
 const AppUrl = 'http://ecs.amazonaws.jp/onca/xml';
-const Access = process.env.ACCESS_KEY;
-const Secret = process.env.SECRET_KEY;
-const Associ = process.env.ASSOCI_TAG;
 
 const top = {
   ASIN: '橋本　衛',
@@ -44,9 +40,9 @@ const pspid = 'AmazonApiClient';
  */
 class Amazon {
   constructor(access_key, secret_key, associ_tag) {
-    this.access_key = access_key | Access;
-    this.secret_key = secret_key | Secret;
-    this.associ_tag = associ_tag | Associ;
+    this.access_key = access_key | 'access_key';
+    this.secret_key = secret_key | 'secret_key';
+    this.associ_tag = associ_tag | 'associ_tag';
   }
 
   fetchNewReleases(node_id) {
@@ -95,7 +91,6 @@ class Amazon {
   getBestSellers(node_id) {
     return new Promise((resolve, reject) => {
       //if(reject) reject(new Error('IO Error'));
-      log.trace(`${pspid}>`, node_id)
       const tops = [ top ];
       resolve(tops);
     });

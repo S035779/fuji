@@ -4,14 +4,6 @@ let Logger = null;
 let Spiner = null;
 let target = null;
 
-export const api = {
-  client(path) {
-    const transport = new Thrift.Transport(path);
-    const protocol  = new Thrift.Protocol(transport);
-    return new Fuji.Item.ItemServiceClient(protocol);
-  }
-};
-
 export const M = {
   fork(join, func1, func2) {
     return val => join(func1(val), func2(val));
