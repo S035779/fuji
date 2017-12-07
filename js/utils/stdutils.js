@@ -1,3 +1,7 @@
+import querystring from 'querystring';
+import crypto from 'crypto';
+import { URL } from 'url';
+
 /**
  * Copy the enumerable properties of p to o, and return o.
  * If o and p have a property by the same name, o's property is 
@@ -405,13 +409,36 @@ var ksort = function(obj){
   }
   keys.sort();
   var res = {};
-  keys.forEach((k, i) => {
-    res[k[i]] = obj[k[i]];
+  keys.forEach((key) => {
+    res[key] = obj[key];
   });
-  console.log(obj);
-  console.log(keys);
-  console.log(res);
   return res;
-}
+};
 module.exports.ksort = ksort;
 
+/**
+ * Return urlencode charactor string by rfc3986.
+ * 
+ * @param {objct} object - query parameter object.
+ * @return {string}
+ */
+var urlencode_rfc3986 = function(object) {
+  return querystring.stringify(object);
+};
+module.exports.urlencode_rfc3986 = urlencode_rfc3986;
+
+/**
+ * Return hash 
+ */
+var crypto_sha256 = function(string, secret_key) {
+  return crypto
+    .createHmac('sha256', secret_key)
+    .update(string)
+    .digest('base64');
+};
+module.exports.crypto_sha256 = crypto_sha256;
+
+var parse_url = function(url) {
+  return new URL(url)
+};
+module.exports.parse_url = parse_url;

@@ -1,6 +1,3 @@
-import querystring from 'querystring';
-import crypto from 'crypto';
-import { URL } from 'url';
 import R from 'ramda';
 import Rx from 'rx';
 import std from './stdutils';
@@ -38,33 +35,33 @@ class Amazon {
     options['AssociateTag']   = this.associ_tag;
     options['AWSAccessKeyId'] = this.access_key;
     options['Operation']      = action;
-    options['TimeStamp']      = std.getTimeStamp();
+    options['Timestamp']      = std.getTimeStamp();
     const query = this.query(options);
     const signature = this.signature(query);
     const url = this.url(query, signature);
 
-    console.log(options);
-    console.log(query);
-    console.log(signature);
     console.log(url);
 
     switch(action) {
       case 'BrowseNodeLookup':
         return new Promise((resolve, reject) => {
-          net.get(url, objs => {
-            resolve(objs);
+          net.get(url, (stat, head, body) => {
+            log.trace(`${pspid}>`, stat, head, body);
+            resolve(body);
           });
         });
       case 'ItemSearch':
         return new Promise((resolve, reject) => {
-          net.get(url, objs => {
-            resolve(objs);
+          net.get(url, (stat, head, body) => {
+            log.trace(`${pspid}>`, stat, head, body);
+            resolve(body);
           });
         });
       case 'ItemLookup':
         return new Promise((resolve, reject) => {
-          net.get(url, objs => {
-            resolve(objs);
+          net.get(url, (stat, head, body) => {
+            log.trace(`${pspid}>`, stat, head, body);
+            resolve(body);
           });
         });
       default:
@@ -118,14 +115,14 @@ class Amazon {
 
   getNewReleases(node_id) {
     const options = {};
-    options['BrowserNodeId'] = node_id;
+    options['BrowseNodeId'] = node_id;
     options['ResponseGroup'] ='NewReleases' ;
     return this.request('BrowseNodeLookup', options);
   }
 
   getBestSellers(node_id) {
     const options = {};
-    options['BrowserNodeId'] = node_id;
+    options['BrowseNodeId'] = node_id;
     options['ResponseGroup'] ='TopSellers' ;
     return this.request('BrowseNodeLookup', options);
   }
@@ -168,31 +165,22 @@ class Amazon {
   }
 
   query(object) {
-    return this.urlencode_rfc3986(std.ksort(object));
-  }
-
-  urlencode_rfc3986(object) {
-    return querystring.stringify(object);
+    return std.urlencode_rfc3986(std.ksort(object));
   }
 
   signature(query) {
-    const parsed_url = new URL(baseurl);
+    const parsed_url = std.parse_url(baseurl);
     const string = "GET\n"
       + parsed_url.host + "\n"
       + parsed_url.pathname + "\n"
       + query;
-    return crypto
-      .createHmac('sha256', this.secret_key)
-      .update(string)
-      .digest('base64');
+    return std.crypto_sha256(string, this.secret_key);
   }
 
   url(query, signature) {
-    const object = {};
-    object['Signature'] = signature;
     return baseurl
       + '?' + query
-      + '&' + this.urlencode_rfc3986(signature);
+      + '&' + std.urlencode_rfc3986({ Signature: signature });
   }
 };
 export default Amazon;
