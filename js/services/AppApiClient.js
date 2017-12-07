@@ -98,25 +98,25 @@ export default {
 
   fetchBestsell(options) {
     return this.getBestSellers(options).then(items => {
-      log.trace(`${pspid}>`, 'Response:', items);
+      //log.trace(`${pspid}>`, 'Response:', items);
     });
   },
 
   fetchDiscount(options) {
     return this.getSalesRanking(options).then(items => {
-      log.trace(`${pspid}>`, 'Response:', items);
+      //log.trace(`${pspid}>`, 'Response:', items);
     });
   },
 
   fetchSalesrnk(options) {
     return this.getSalesRanking(options).then(items => {
-      log.trace(`${pspid}>`, 'Response:', items);
+      //log.trace(`${pspid}>`, 'Response:', items);
     });
   },
 
   fetchReleases(options) {
     return this.getNewReleases(options).then(items => {
-      log.trace(`${pspid}>`, 'Response:', items);
+      //log.trace(`${pspid}>`, 'Response:', items);
     });
   },
 }

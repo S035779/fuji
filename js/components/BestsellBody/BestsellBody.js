@@ -3,7 +3,7 @@ import BestsellAction from '../../actions/BestsellAction';
 
 class BestsellBody extends React.Component {
   componentDidMount() {
-    BestsellAction.fetchItems();
+    BestsellAction.fetchItems({ node_id: 2189374051 });
   }
 
   render() {

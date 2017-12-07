@@ -3,7 +3,7 @@ import ReleasesAction from '../../actions/ReleasesAction';
 
 class ReleasesBody extends React.Component {
   componentDidMount() {
-    ReleasesAction.fetchItems();
+    ReleasesAction.fetchItems({ node_id: 2189374051 });
   }
 
   render() {

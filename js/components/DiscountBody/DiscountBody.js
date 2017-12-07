@@ -3,7 +3,9 @@ import DiscountAction from '../../actions/DiscountAction';
 
 class DiscountBody extends React.Component {
   componentDidMount() {
-    DiscountAction.fetchItems();
+    DiscountAction.fetchItems({
+      node_id: 2189374051, category: 'Hobbies', page: 1
+    });
   }
 
   render() {

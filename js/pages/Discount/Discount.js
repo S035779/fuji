@@ -15,9 +15,15 @@ class Discount extends React.Component {
     return discountStore.getState();
   }
 
+  componentDidMount() {
+    const search = this.props.location.search.split('?');
+    const obj = std.decodeFormData(search[1]);
+    console.log(obj);
+  }
+
   render() {
     return (
-      <div className="window" style={{left:"10px",top:"10px"}}>
+      <div className="window">
       <DiscountHeader />
       <DiscountBody
         items={this.state.items}

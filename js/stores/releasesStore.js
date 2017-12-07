@@ -6,7 +6,9 @@ class ReleasesStore extends ReduceStore<number> {
   getInitialState() {
     return {
       items:    [],
-      options:  {}
+      options:  {
+        node_id: 0
+      }
     };
   }
   

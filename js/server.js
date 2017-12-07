@@ -29,7 +29,7 @@ router.use((req, res, next) => {
 
 router.route('/newreleases')
 .get((req, res, next) => {
-  const node_id = 0;
+  const { node_id } = req.query;
   log.trace(`${pspid}>`, node_id);
   Amazon.of(keyset).fetchNewReleases(node_id).subscribe(
     tops    => { res.json(tops); }
@@ -49,7 +49,7 @@ router.route('/newreleases')
 
 router.route('/bestsellers')
 .get((req, res) => {
-  const node_id = 2189374051;
+  const { node_id } = req.query;
   log.trace(`${pspid}>`, node_id);
   Amazon.of(keyset).fetchBestSellers(node_id).subscribe(
     tops    => { res.json(tops); }
@@ -69,9 +69,7 @@ router.route('/bestsellers')
 
 router.route('/releasedate')
 .get((req, res) => {
-  const node_id = 0;
-  const category = '';
-  const page = 0;
+  const { node_id, category, page } = req.query;
   log.trace(`${pspid}>`, node_id, category, page);
   Amazon.of(keyset).fetchReleaseDate(node_id, category, page).subscribe(
     items   => { res.json(items); }
@@ -91,9 +89,7 @@ router.route('/releasedate')
 
 router.route('/salesranking')
 .get((req, res) => {
-  const node_id = 0;
-  const category = '';
-  const page = 0;
+  const { node_id, category, page } = req.query;
   log.trace(`${pspid}>`, node_id, category, page);
   Amazon.of(keyset).fetchSalesRanking(node_id, category, page).subscribe(
     items   => { res.json(items); }
@@ -113,8 +109,7 @@ router.route('/salesranking')
 
 router.route('/itemlookup')
 .get((req, res) => {
-  const item_id = '';
-  const id_type = '';
+  const { item_id, id_type } = req.query;
   log.trace(`${pspid}>`, item_id, id_type);
   Amazon.of(keyset).fetchItemLookup(item_id, id_type).subscribe(
     items   => { res.json(items); }
@@ -134,8 +129,7 @@ router.route('/itemlookup')
 
 router.route('/itemlist')
 .get((req, res) => {
-  const keyword = '';
-  const page = 0;
+  const { keyword, page } = req.query;
   log.trace(`${pspid}>`, keyword, page);
   Amazon.of(keyset).fetchItemList(keyword, page).subscribe(
     items   => { res.json(items); }
@@ -155,7 +149,7 @@ router.route('/itemlist')
 
 router.route('/nodelist')
 .get((req, res) => {
-  const node_id = 0;
+  const { node_id } = req.query;
   log.trace(`${pspid}>`, node_id);
   Amazon.of(keyset).fetchNodeList(node_id).subscribe(
     nodes   => { res.json(nodes); }

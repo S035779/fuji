@@ -6,7 +6,11 @@ class SalesrnkStore extends ReduceStore<number> {
   getInitialState() {
     return {
       items:    [],
-      options:  {}
+      options:  {
+        node_id: 0
+        , category: ''
+        , page: 1
+      }
     };
   }
   

@@ -10,7 +10,7 @@ const params = {
   , Version: '2011-07-27'
 }
 
-const pspid = 'AmazonApiClient';
+const pspid = 'AMZApiClient';
 /**
  * Amazon Api Client class.
  *
@@ -30,80 +30,129 @@ class Amazon {
     return new Amazon(access_key, secret_key, associ_tag);
   }
 
-  request(action, options) {
+  request(operation, options) {
     options = Object.assign({}, params, options);
     options['AssociateTag']   = this.associ_tag;
     options['AWSAccessKeyId'] = this.access_key;
-    options['Operation']      = action;
+    options['Operation']      = operation;
     options['Timestamp']      = std.getTimeStamp();
     const query = this.query(options);
     const signature = this.signature(query);
     const url = this.url(query, signature);
 
-    console.log(url);
-
-    switch(action) {
-      case 'BrowseNodeLookup':
-        return new Promise((resolve, reject) => {
-          net.get(url, (stat, head, body) => {
-            log.trace(`${pspid}>`, stat, head, body);
-            resolve(body);
-          });
-        });
-      case 'ItemSearch':
-        return new Promise((resolve, reject) => {
-          net.get(url, (stat, head, body) => {
-            log.trace(`${pspid}>`, stat, head, body);
-            resolve(body);
-          });
-        });
-      case 'ItemLookup':
-        return new Promise((resolve, reject) => {
-          net.get(url, (stat, head, body) => {
-            log.trace(`${pspid}>`, stat, head, body);
-            resolve(body);
-          });
-        });
-      default:
-        return new Promise((resolve, reject) => {
-          if(reject) reject(new Error('Unknown Operation.'));
-        });
-    }
+    return new Promise((resolve, reject) => {
+      net.get(url, (stat, head, body) => {
+        if(stat !== 200) reject(new Error(body));
+        resolve(body);
+      });
+    });
   }
 
   fetchNewReleases(node_id) {
     return Rx.Observable
-      .fromPromise(this.getNewReleases(node_id));
+      .fromPromise(this.getNewReleases(node_id))
+      .flatMap(this.parseXml)
+      .map(this.setTopItems)
+      .flatMap(this.forItemLookup.bind(this))
+      .flatMap(this.forParseXml.bind(this))
+      .map(this.forItem.bind(this));
   }
 
   fetchBestSellers(node_id) {
     return Rx.Observable
       .fromPromise(this.getBestSellers(node_id))
+      .flatMap(this.parseXml)
+      .map(this.setTopItems)
+      .flatMap(this.forItemLookup.bind(this))
+      .flatMap(this.forParseXml.bind(this))
+      .map(this.forItem.bind(this));
   }
 
   fetchReleaseDate(node_id, category, page) {
     return Rx.Observable
-      .fromPromise(this.getReleaseDate(node_id, category, page));
+      .fromPromise(this.getReleaseDate(node_id, category, page))
+      .flatMap(this.parseXml)
+      .map(this.setItems);
   }
 
   fetchSalesRanking(node_id, category, page) {
     return Rx.Observable
-      .fromPromise(this.getSalesRanking(node_id, category, page));
+      .fromPromise(this.getSalesRanking(node_id, category, page))
+      .flatMap(this.parseXml)
+      .map(this.setItems);
   }
 
   fetchItemLookup(item_id, id_type) {
     return Rx.Observable
-      .fromPromise(this.getItemLookup(item_id, id_type));
+      .fromPromise(this.getItemLookup(item_id, id_type))
+      .flatMap(this.parseXml)
+      .map(this.setItem);
   }
 
   fetchItemList(keyword, page) {
     return Rx.Observable
-      .fromPromise(this.getItemList(keyword, page));
+      .fromPromise(this.getItemList(keyword, page))
+      .flatMap(this.parseXml)
+      .map(this.setItems);
   }
 
   fetchNodeList(node_id) {
     return Rx.Observable
-      .fromPromise(this.getNodeList(node_id));
+      .fromPromise(this.getNodeList(node_id))
+      .flatMap(this.parseXml)
+      .map(this.setNodes);
+  }
+
+  parseXml(xml) {
+    return Rx.Observable.fromPromise(std.parse_xml(xml));
+  }
+
+  forkJoin(promises) {
+    return Rx.Observable.forkJoin(promises);
+  }
+
+  forItemLookup(objs) {
+    return this.forkJoin(
+      objs.map(obj => this.getItemLookup(obj.ASIN, 'ASIN'))
+    );
+  }
+
+  forParseXml(objs) {
+    return this.forkJoin(
+      objs.map(obj => this.parseXml(obj))
+    );
+  }
+
+  forItem(objs) {
+    return objs.map(obj => this.setItem(obj));
+  }
+
+  setTopItems(tops) {
+    return tops.BrowseNodeLookupResponse
+      .BrowseNodes
+      .BrowseNode
+      .TopItemSet
+      .TopItem;
+  }
+
+  setItems(items) {
+    return items.ItemSearchResponse
+      .Items
+      .Item;
+  }
+
+  setItem(item) {
+    return item.ItemLookupResponse
+      .Items
+      .Item;
+  }
+
+  setNodes(node) {
+    return top.BrowseNodeLookupResponse
+      .BrowseNodes
+      .BrowseNode
+      .Children
+      .BrowseNode;
   }
 
   getNodeList(node_id) {
@@ -182,5 +231,6 @@ class Amazon {
       + '?' + query
       + '&' + std.urlencode_rfc3986({ Signature: signature });
   }
+
 };
 export default Amazon;

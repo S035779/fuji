@@ -5,6 +5,7 @@ import BestsellHeader from
   '../../components/BestsellHeader/BestsellHeader';
 import BestsellBody from
   '../../components/BestsellBody/BestsellBody';
+import std from '../../utils/stdutils';
 
 class Bestsell extends React.Component {
   static getStores() {
@@ -15,9 +16,15 @@ class Bestsell extends React.Component {
     return bestsellStore.getState();
   }
 
+  componentDidMount() {
+    const search = this.props.location.search.split('?');
+    const obj = std.decodeFormData(search[1]);
+    console.log(obj);
+  }
+
   render() {
     return (
-      <div className="window" style={{left:"10px",top:"10px"}}>
+      <div className="window">
       <BestsellHeader />
       <BestsellBody
         items={this.state.items}

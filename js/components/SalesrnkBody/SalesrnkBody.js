@@ -3,7 +3,9 @@ import SalesrnkAction from '../../actions/SalesrnkAction';
 
 class SalesrnkBody extends React.Component {
   componentDidMount() {
-    SalesrnkAction.fetchItems();
+    SalesrnkAction.fetchItems({
+      node_id: 2189374051, category: 'Hobbies', page: 1
+    });
   }
 
   render() {
