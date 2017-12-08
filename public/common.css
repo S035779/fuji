@@ -14,16 +14,31 @@ img {
 h1,h2,h3 {
   font-weight: normal;
 }
-img {
-  width: 260px;
-  height: 255px;
+#large img {
+  width: 260px; height: 255px;
 }
-div.window {
+#medium img {
+  width: 174px; height: 170px;
+}
+#small img {
+  width: 87px; height: 85px;
+}
+#large div.window {
   position: absolute;
   width: 1070px; height: 300px;
   background: #CCC;
 }
-div.titlebar {
+#medium div.window {
+  position: absolute;
+  width: 714px; height: 200px;
+  background: #CCC;
+}
+#small div.window {
+  position: absolute;
+  width: 357px; height: 100px;
+  background: #CCC;
+}
+#large div.titlebar {
   position: absolute;
   top: 0px; height: 40px;
   width: 1070px;
@@ -33,7 +48,27 @@ div.titlebar {
   padding: 7px 0;
   font: bold 14pt sans-serif;
 }
-div.content {
+#medium div.titlebar {
+  position: absolute;
+  top: 0px; height: 26px;
+  width: 714px;
+  background: #000;
+  text-align: center;
+  color: #FFF;
+  padding: 5px 0;
+  font: bold 10pt sans-serif;
+}
+#small div.titlebar {
+  position: absolute;
+  top: 0px; height: 13px;
+  width: 357px;
+  background: #000;
+  text-align: center;
+  color: #FFF;
+  padding: 3px 0;
+  font: bold 6pt sans-serif;
+}
+#large div.content {
   position: absolute;
   top: 40px; height: 260px;
   width: 1080px;
@@ -41,10 +76,36 @@ div.content {
   overflow: auto;
   background: #FFF;
 }
-figure {
+#medium div.content {
+  position: absolute;
+  top: 26px; height: 174px;
+  width: 720px;
+  margin: 0 -6px 0 0;
+  overflow: auto;
+  background: #FFF;
+}
+#small div.content {
+  position: absolute;
+  top: 13px; height: 87px;
+  width: 360px;
+  margin: 0 -3px 0 0;
+  overflow: auto;
+  background: #FFF;
+}
+#large figure {
   position: relative;
   overflow: hidden;
   width: 260px;
+}
+#medium figure {
+  position: relative;
+  overflow: hidden;
+  width: 174px;
+}
+#small figure {
+  position: relative;
+  overflow: hidden;
+  width: 87px;
 }
 figcaption h3,
 figcaption p {
@@ -54,7 +115,7 @@ figcaption p {
   -webkit-transition: .3s;
   transition: .3s;
 }
-figcaption h3 {
+#large figcaption h3 {
   top: 10px;    left: 10px;
   height: 35px; width: 100px;
   font: bold 20pt sans-serif;
@@ -62,7 +123,23 @@ figcaption h3 {
   text-align: center;
   color: #FFF;
 }
-figcaption p {
+#medium figcaption h3 {
+  top: 6px;    left: 6x;
+  height: 23px; width: 66px;
+  font: bold 20pt sans-serif;
+  padding: 6px 0;
+  text-align: center;
+  color: #FFF;
+}
+#small figcaption h3 {
+  top: 3px;    left: 3px;
+  height: 13px; width: 33px;
+  font: bold 20pt sans-serif;
+  padding: 3px 0;
+  text-align: center;
+  color: #FFF;
+}
+#large figcaption p {
   bottom: 0;
   left: 0; 
   height: 60px; width: 100%;
@@ -71,16 +148,58 @@ figcaption p {
   text-align: center;
   color: #FFF;
 }
-figure:hover figcaption h3 {
+#medium figcaption p {
+  bottom: 0;
+  left: 0; 
+  height: 40px; width: 100%;
+  line-height: 26px;
+  font: bold 12pt sans-serif;
+  text-align: center;
+  color: #FFF;
+}
+#small figcaption p {
+  bottom: 0;
+  left: 0; 
+  height: 20px; width: 100%;
+  line-height: 13px;
+  font: bold 8pt sans-serif;
+  text-align: center;
+  color: #FFF;
+}
+#large figure:hover figcaption h3 {
   left: -110px;
 }
-figure:hover figcaption p {
+#medium figure:hover figcaption h3 {
+  left: -72px;
+}
+#small figure:hover figcaption h3 {
+  left: -36px;
+}
+#large figure:hover figcaption p {
   bottom: -60px;
 }
-#picture ul li {
+#medium figure:hover figcaption p {
+  bottom: -40px;
+}
+#small figure:hover figcaption p {
+  bottom: -20px;
+}
+#large ul li {
   float: left;
   width: 260px;
   margin-right: 10px;
+  background-image:url(bg.gif);
+}
+#medium ul li {
+  float: left;
+  width: 174px;
+  margin-right: 6px;
+  background-image:url(bg.gif);
+}
+#small ul li {
+  float: left;
+  width: 87px;
+  margin-right: 3px;
   background-image:url(bg.gif);
 }
 #picture ul li.sellers {

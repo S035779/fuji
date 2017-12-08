@@ -1,34 +1,30 @@
 import React from 'react';
-import ReleasesAction from '../../actions/ReleasesAction';
 
 class ReleasesBody extends React.Component {
-  componentDidMount() {
-    ReleasesAction.fetchItems({ node_id: 2189374051 });
-  }
-
   render() {
+    const tops = this.props.tops;
     return (
-      <div id="picture" className="content">
+      <div className="content">
       <ul>
-      <li className="release">
+      <li>
       <figure>
         <a href="#"><img src="assets/images/img02.png" alt="girl0" /></a>
         <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
       </figure>
       </li>
-      <li className="release">
+      <li>
       <figure>
         <a href="#"><img src="assets/images/img03.png" alt="baby1" /></a>
         <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
       </figure>
       </li>
-      <li className="release">
+      <li>
       <figure>
         <a href="#"><img src="assets/images/img04.png" alt="boy0" /></a>
         <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
       </figure>
       </li>
-      <li className="release">
+      <li>
       <figure>
         <a href="#"><img src="assets/images/img05.png" alt="man0" /></a>
         <figcaption><h3>####</h3><p>Caption Title</p></figcaption>

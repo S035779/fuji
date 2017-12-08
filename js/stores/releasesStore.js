@@ -5,9 +5,11 @@ import ReleasesAction from '../actions/ReleasesAction';
 class ReleasesStore extends ReduceStore<number> {
   getInitialState() {
     return {
-      items:    [],
+      size: '',
+      tops: [],
       options:  {
         node_id: 0
+        , associ_tag: ''
       }
     };
   }
@@ -16,8 +18,9 @@ class ReleasesStore extends ReduceStore<number> {
     switch (action.type) { 
       case 'item/fetch/releases':
         return Object.assign({}, state, {
-          items:    action.items,
-          options:  action.options
+          size: action.size,
+          tops: action.tops,
+          options:action.options
         });
       default: 
         return state; 

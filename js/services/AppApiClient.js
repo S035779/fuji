@@ -96,27 +96,31 @@ export default {
     return this.request('/nodelist', options);
   },
 
-  fetchBestsell(options) {
-    return this.getBestSellers(options).then(items => {
+  fetchReleases(options) {
+    return this.getNewReleases(options).then(tops => {
       //log.trace(`${pspid}>`, 'Response:', items);
+      return tops;
+    });
+  },
+  fetchBestsell(options) {
+    return this.getBestSellers(options).then(tops => {
+      //log.trace(`${pspid}>`, 'Response:', items);
+      return tops;
     });
   },
 
   fetchDiscount(options) {
     return this.getSalesRanking(options).then(items => {
       //log.trace(`${pspid}>`, 'Response:', items);
+      return items;
     });
   },
 
   fetchSalesrnk(options) {
     return this.getSalesRanking(options).then(items => {
       //log.trace(`${pspid}>`, 'Response:', items);
+      return items;
     });
   },
 
-  fetchReleases(options) {
-    return this.getNewReleases(options).then(items => {
-      //log.trace(`${pspid}>`, 'Response:', items);
-    });
-  },
 }

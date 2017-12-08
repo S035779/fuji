@@ -29,16 +29,31 @@ var option = {};
 option['associ_tag']  = atag[0].dataset.associ_tag;
 option['node_id']     = atag[0].dataset.node_id;
 option['category']    = atag[0].dataset.category;
+option['size']        = atag[0].dataset.size;
+
 atag[0].style.display = 'none';
 var iframe = document.createElement('iframe');
 iframe.src = 'http://localhost:8080/'
   + parts + '?' + encodeFormData(option);
+
+switch(option['size']) {
+  case 'small':
+    iframe.width = '350px';
+    iframe.height = '100px';
+    break;
+  case 'middle':
+    iframe.width = '710px';
+    iframe.height = '200px';
+    break;
+  case 'large':
+    iframe.width = '1070px';
+    iframe.height = '300px';
+    break;
+}
 iframe.scrolling = 'no';
 iframe.frameBorder = 0;
 iframe.marginWidth = 0;
 iframe.marginHeight = 0;
-iframe.width = '1070px';
-iframe.height = '300px';
 iframe.id = 'amazon-widget';
 
 // atagの隣にiframeを挿入
