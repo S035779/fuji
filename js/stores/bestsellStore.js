@@ -1,13 +1,15 @@
 import { ReduceStore } from 'flux/utils';
 import dispatcher from '../dispatcher';
-import BestsellAction from '../actions/BestsellAction';
+import BestsellAction from 
+  '../actions/BestsellAction';
 
 class BestsellStore extends ReduceStore<number> {
   getInitialState() {
     return {
-      items:    [],
+      tops:    [],
       options:  {
         node_id: 0
+        , associ_tag: ''
       }
     };
   }
@@ -16,7 +18,7 @@ class BestsellStore extends ReduceStore<number> {
     switch (action.type) { 
       case 'item/fetch/bestsell':
         return Object.assign({}, state, {
-          items:    action.items,
+          tops:     action.tops,
           options:  action.options
         });
       default: 

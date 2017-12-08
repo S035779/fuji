@@ -1,6 +1,7 @@
 import { ReduceStore } from 'flux/utils';
 import dispatcher from '../dispatcher';
-import DiscountAction from '../actions/DiscountAction';
+import DiscountAction from 
+  '../actions/DiscountAction';
 
 class DiscountStore extends ReduceStore<number> {
   getInitialState() {
@@ -9,7 +10,7 @@ class DiscountStore extends ReduceStore<number> {
       options:  {
         node_id: 0
         , category: ''
-        , page: 1
+        , associ_tag: ''
       }
     };
   }

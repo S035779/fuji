@@ -23,30 +23,30 @@ var encodeFormData = function(data) {
 'use strict';
 
 // 目印のaタグからパラメータとってきたら消す
-var atag = document.getElementsByClassName('amazon-widget');
+var atag  = document.getElementsByClassName('amazon-widget');
 var parts = atag[0].dataset.parts;
+var size  = atag[0].dataset.size;
 var option = {};
 option['associ_tag']  = atag[0].dataset.associ_tag;
 option['node_id']     = atag[0].dataset.node_id;
 option['category']    = atag[0].dataset.category;
-option['size']        = atag[0].dataset.size;
 
 atag[0].style.display = 'none';
 var iframe = document.createElement('iframe');
-iframe.src = 'http://localhost:8080/'
-  + parts + '?' + encodeFormData(option);
+iframe.src = 'http://localhost:8080/' + parts + '/' + size + '?'
+  + encodeFormData(option);
 
-switch(option['size']) {
+switch(size) {
   case 'small':
-    iframe.width = '350px';
+    iframe.width = '360px';
     iframe.height = '100px';
     break;
   case 'middle':
-    iframe.width = '710px';
+    iframe.width = '720px';
     iframe.height = '200px';
     break;
   case 'large':
-    iframe.width = '1070px';
+    iframe.width = '1080px';
     iframe.height = '300px';
     break;
 }

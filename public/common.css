@@ -126,7 +126,7 @@ figcaption p {
 #medium figcaption h3 {
   top: 6px;    left: 6x;
   height: 23px; width: 66px;
-  font: bold 20pt sans-serif;
+  font: bold 14pt sans-serif;
   padding: 6px 0;
   text-align: center;
   color: #FFF;
@@ -134,7 +134,7 @@ figcaption p {
 #small figcaption h3 {
   top: 3px;    left: 3px;
   height: 13px; width: 33px;
-  font: bold 20pt sans-serif;
+  font: bold 8pt sans-serif;
   padding: 3px 0;
   text-align: center;
   color: #FFF;
@@ -202,12 +202,13 @@ figcaption p {
   margin-right: 3px;
   background-image:url(bg.gif);
 }
-#picture ul li.sellers {
+ul li.sellers {
   position: relative;
   overflow: hidden;
 }
-#picture ul li.sellers:after {
+#large ul li.sellers:after {
   position: absolute;
+  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 11pt sans-serif;
@@ -221,12 +222,45 @@ figcaption p {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#picture ul li.discount {
+#medium ul li.sellers:before {
+  position: absolute;
+  z-index: 3;
+  background: #26ACC0;
+  content: "Best Seller";
+  font: bold 8pt sans-serif;
+  top: 6px;
+  right: -26px;
+  padding: 3px 6px;
+  text-align: center;
+  color: #FFF;
+  width: 100px;
+  box-shadow: 0 1px 2px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#small ul li.sellers:before {
+  position: absolute;
+  z-index: 3;
+  background: #26ACC0;
+  content: "Best Seller";
+  font: bold 6pt sans-serif;
+  top: 3px;
+  right: -13px;
+  padding: 1px 3px;
+  text-align: center;
+  color: #FFF;
+  width: 50px;
+  box-shadow: 0 1px 1px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+ul li.discount {
   position: relative;
   overflow: hidden;
 }
-#picture ul li.discount:after {
+#large ul li.discount:after {
   position: absolute;
+  z-index: 3;
   background: #4f2cf5;
   content: "Discount!!";
   font: bold 11pt sans-serif;
@@ -240,12 +274,45 @@ figcaption p {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#picture ul li.release {
+#medium ul li.discount:before {
+  position: absolute;
+  z-index: 3;
+  background: #4f2cf5;
+  content: "Discount!!";
+  font: bold 8pt sans-serif;
+  top: 6px;
+  right: -26px;
+  padding: 3px 6px;
+  text-align: center;
+  color: #FFF;
+  width: 100px;
+  box-shadow: 0 1px 2px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#small ul li.discount:before {
+  position: absolute;
+  z-index: 3;
+  background: #4f2cf5;
+  content: "Discount!!";
+  font: bold 6pt sans-serif;
+  top: 3px;
+  right: -13px;
+  padding: 1px 3px;
+  text-align: center;
+  color: #FFF;
+  width: 50px;
+  box-shadow: 0 1px 1px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+ul li.releases {
   position: relative;
   overflow: hidden;
 }
-#picture ul li.release:before {
+#large ul li.releases:before {
   position: absolute;
+  z-index: 3;
   background: #ea046a;
   content: "New !!";
   font: bold 11pt sans-serif;
@@ -259,12 +326,45 @@ figcaption p {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#picture ul li.salesrnk {
+#medium ul li.releases:before {
+  position: absolute;
+  z-index: 3;
+  background: #ea046a;
+  content: "New !!";
+  font: bold 8pt sans-serif;
+  top: 6px;
+  right: -26px;
+  padding: 3px 6px;
+  text-align: center;
+  color: #FFF;
+  width: 100px;
+  box-shadow: 0 1px 2px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#small ul li.releases:before {
+  position: absolute;
+  z-index: 3;
+  background: #ea046a;
+  content: "New !!";
+  font: bold 6pt sans-serif;
+  top: 3px;
+  right: -13px;
+  padding: 1px 3px;
+  text-align: center;
+  color: #FFF;
+  width: 50px;
+  box-shadow: 0 1px 1px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+ul li.salesrnk {
   position: relative;
   overflow: hidden;
 }
-#picture ul li.salesrnk:after {
+#large ul li.salesrnk:after {
   position: absolute;
+  z-index: 3;
   background: #f9b304;
   content: "Rank-In!!";
   font: bold 11pt sans-serif;
@@ -275,6 +375,38 @@ figcaption p {
   color: #FFF;
   width: 150px;
   box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#medium ul li.salesrnk:before {
+  position: absolute;
+  z-index: 3;
+  background: #f9b304;
+  content: "Rank-In!!";
+  font: bold 8pt sans-serif;
+  top: 6px;
+  right: -26px;
+  padding: 3px 6px;
+  text-align: center;
+  color: #FFF;
+  width: 100px;
+  box-shadow: 0 1px 2px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#small ul li.salesrnk:before {
+  position: absolute;
+  z-index: 3;
+  background: #f9b304;
+  content: "Rank-In!!";
+  font: bold 6pt sans-serif;
+  top: 3px;
+  right: -13px;
+  padding: 1px 3px;
+  text-align: center;
+  color: #FFF;
+  width: 50px;
+  box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }

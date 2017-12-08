@@ -1,10 +1,14 @@
 import React from 'react';
 import { Container } from 'flux/utils';
-import salesrnkStore from '../../stores/salesrnkStore';
+import salesrnkStore from
+  '../../stores/salesrnkStore';
+import SalesrnkAction from
+   '../../actions/SalesrnkAction';
 import SalesrnkHeader from
   '../../components/SalesrnkHeader/SalesrnkHeader';
 import SalesrnkBody from
   '../../components/SalesrnkBody/SalesrnkBody';
+import std from '../../utils/stdutils';
 
 class Salesrnk extends React.Component {
   static getStores() {
@@ -16,18 +20,21 @@ class Salesrnk extends React.Component {
   }
 
   componentDidMount() {
-    const search = this.props.location.search.split('?');
-    const obj = std.decodeFormData(search[1]);
-    console.log(obj);
+    const search = this.props.location.search
+      .split('?');
+    const { node_id, category, associ_tag } 
+      = std.decodeFormData(search[1]);
+    SalesrnkAction.fetchItems({
+       node_id, category, associ_tag
+    });
   }
 
   render() {
+    const size = this.props.match.params.size;
     return (
-      <div className="window">
+      <div id={size} className="window">
       <SalesrnkHeader />
-      <SalesrnkBody
-        items={this.state.items}
-        options={this.state.options} />
+      <SalesrnkBody items={this.state.items} />
       </div>
     );
   }

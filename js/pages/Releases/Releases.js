@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container } from 'flux/utils';
-import releasesStore from '../../stores/releasesStore';
-import ReleasesAction from '../../actions/ReleasesAction';
+import releasesStore from
+  '../../stores/releasesStore';
+import ReleasesAction from
+   '../../actions/ReleasesAction';
 import ReleasesHeader from
   '../../components/ReleasesHeader/ReleasesHeader';
 import ReleasesBody from
@@ -18,21 +20,21 @@ class Releases extends React.Component {
   }
 
   componentDidMount() {
-    const search = this.props.location.search.split('?');
-    const { size, node_id, associ_tag } = std.decodeFormData(search[1]);
-    ReleasesAction.fetchItems(size, { node_id, associ_tag });
+    const search = this.props.location.search
+      .split('?');
+    const { node_id, associ_tag }
+      = std.decodeFormData(search[1]);
+    ReleasesAction.fetchItems({
+      node_id, associ_tag
+    });
   }
 
   render() {
-    const size = this.state.size | 'large';
-    console.log(this.state);
+    const size = this.props.match.params.size;
     return (
-      <div id="medium" className="window">
+      <div id={size} className="window">
       <ReleasesHeader />
-      <ReleasesBody
-        size={this.state.size}
-        tops={this.state.tops}
-      />
+      <ReleasesBody tops={this.state.tops} />
       </div>
     );
   }

@@ -1,6 +1,9 @@
 import React from 'react';
 import { Container } from 'flux/utils';
-import bestsellStore from '../../stores/bestsellStore';
+import bestsellStore from
+  '../../stores/bestsellStore';
+import BestsellAction from
+   '../../actions/BestsellAction';
 import BestsellHeader from
   '../../components/BestsellHeader/BestsellHeader';
 import BestsellBody from
@@ -17,18 +20,21 @@ class Bestsell extends React.Component {
   }
 
   componentDidMount() {
-    const search = this.props.location.search.split('?');
-    const obj = std.decodeFormData(search[1]);
-    console.log(obj);
+    const search = this.props.location.search
+      .split('?');
+    const { node_id, associ_tag } 
+      = std.decodeFormData(search[1]);
+    BestsellAction.fetchItems({ 
+      node_id, associ_tag 
+    });
   }
 
   render() {
+    const size = this.props.match.params.size;
     return (
-      <div className="window">
+      <div id={size} className="window">
       <BestsellHeader />
-      <BestsellBody
-        items={this.state.items}
-        options={this.state.options} />
+      <BestsellBody tops={this.state.tops} />
       </div>
     );
   }

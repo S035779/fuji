@@ -1,40 +1,33 @@
 import React from 'react';
-import BestsellAction from '../../actions/BestsellAction';
+import std from '../../utils/stdutils';
 
 class BestsellBody extends React.Component {
-  componentDidMount() {
-    BestsellAction.fetchItems({ node_id: 2189374051 });
+  renderItem(idx, top) {
+    const key = top.ASIN;
+    const hrf = top.DetailPageURL;
+    const img = top.LargeImage.URL;
+    const alt = top.Offers.Offer.OfferListing
+      .Availability;
+    const scr = Number(idx) + 1;
+    const ttl = top.ItemAttributes.Title;
+    return <li className="bestsell" key={key}>
+      <figure>
+        <a href={hrf}><img src={img} alt={alt} /></a>
+        <figcaption>
+          <h3>{scr}位</h3>
+          <p>{ttl}</p>
+        </figcaption>
+      </figure>
+      </li>;
   }
 
   render() {
+    console.log(this.props.tops);
+    const tops = this.props.tops
+      .slice(0,4).map((top, idx) => this.renderItem(idx, top));
     return (
-      <div id="picture" className="content">
-      <ul>
-      <li className="sellers">
-      <figure>
-        <a href="#"><img src="assets/images/img03.png" alt="baby1" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      <li className="sellers">
-      <figure>
-        <a href="#"><img src="assets/images/img04.png" alt="boy0" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      <li className="sellers">
-      <figure>
-        <a href="#"><img src="assets/images/img05.png" alt="man0" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      <li className="sellers">
-      <figure>
-        <a href="#"><img src="assets/images/img06.png" alt="girl1" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      </ul>
+      <div className="content">
+      <ul>{tops}</ul>
       </div>
     );
   }

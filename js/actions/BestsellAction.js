@@ -3,8 +3,10 @@ import AppApiClient from '../services/AppApiClient';
 
 export default {
   fetchItems(options) {
-    return AppApiClient.fetchBestsell(options).then(items => {
-      dispatch({ type: 'item/fetch/bestsell', items, options });
-    });
+    return AppApiClient.fetchBestsell(options)
+      .then(tops => {
+        dispatch({ type: 'item/fetch/bestsell'
+          , tops, options });
+      });
   }
 }

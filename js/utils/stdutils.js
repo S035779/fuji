@@ -268,6 +268,20 @@ const getLocalTimeStamp = function (s) {
 module.exports.getLocalTimeStamp = getLocalTimeStamp;
 
 /**
+ * getLocalDateStamp
+ *
+ * @param {string} s
+ * @returns {string}
+ */
+const getLocalDateStamp = function (s) {
+  const dt = new Date(s);
+  const _mo = dt.getMonth() + 1;
+  const _dy = dt.getDate();
+  return `${_mo}/${_dy}`;
+};
+module.exports.getLocalDateStamp = getLocalDateStamp;
+
+/**
  * Schedule an invocation or invovations of fn() in the future.
  * Note that the call to invoke() does not block: it returns 
  * right away.

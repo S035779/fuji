@@ -1,9 +1,11 @@
-#picture ul li.discount {
+ul li.discount {
   position: relative;
   overflow: hidden;
 }
-#picture ul li.discount:after {
+
+#large ul li.discount:after {
   position: absolute;
+  z-index: 3;
   background: #4f2cf5;
   content: "Discount!!";
   font: bold 11pt sans-serif;
@@ -14,6 +16,38 @@
   color: #FFF;
   width: 150px;
   box-shadow: 0 1px 3px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#medium ul li.discount:before {
+  position: absolute;
+  z-index: 3;
+  background: #4f2cf5;
+  content: "Discount!!";
+  font: bold 8pt sans-serif;
+  top: 6px;
+  right: -26px;
+  padding: 3px 6px;
+  text-align: center;
+  color: #FFF;
+  width: 100px;
+  box-shadow: 0 1px 2px #999;
+  transform: rotate(30deg);
+  -web-kit-transform: rotate(30deg);
+}
+#small ul li.discount:before {
+  position: absolute;
+  z-index: 3;
+  background: #4f2cf5;
+  content: "Discount!!";
+  font: bold 6pt sans-serif;
+  top: 3px;
+  right: -13px;
+  padding: 1px 3px;
+  text-align: center;
+  color: #FFF;
+  width: 50px;
+  box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }

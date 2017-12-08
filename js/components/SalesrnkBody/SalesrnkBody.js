@@ -1,45 +1,35 @@
 import React from 'react';
-import SalesrnkAction from '../../actions/SalesrnkAction';
+import std from '../../utils/stdutils';
 
 class SalesrnkBody extends React.Component {
-  componentDidMount() {
-    SalesrnkAction.fetchItems({
-      node_id: 2189374051, category: 'Hobbies', page: 1
-    });
+  renderItem(idx, item) {
+    const key = item.ASIN;
+    const hrf = item.DetailPageURL;
+    const img = item.LargeImage.URL;
+    const alt = item.Offers.Offer.OfferListing
+      .Availability;
+    const scr = Number(idx) + 1 ;
+    const ttl = item.ItemAttributes.Title;
+    return <li className="salesrnk" key={key}>
+      <figure>
+        <a href={hrf}><img src={img} alt={alt} /></a>
+        <figcaption>
+          <h3>{scr}位</h3>
+          <p>{ttl}</p>
+        </figcaption>
+      </figure>
+      </li>;
   }
 
   render() {
+    const items = this.props.items
+      .slice(0,4).map((item, idx) => this.renderItem(idx, item));
+    console.log(items);
     return (
-      <div id="picture" className="content">
-      <ul>
-      <li className="salesrnk">
-      <figure>
-        <a href="#"><img src="assets/images/img06.png" alt="girl1" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      <li className="salesrnk">
-      <figure>
-        <a href="#"><img src="assets/images/img07.png" alt="boy1" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      <li className="salesrnk">
-      <figure>
-        <a href="#"><img src="assets/images/img08.png" alt="man1" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      <li className="salesrnk">
-      <figure>
-        <a href="#"><img src="assets/images/img09.png" alt="girl2" /></a>
-        <figcaption><h3>####</h3><p>Caption Title</p></figcaption>
-      </figure>
-      </li>
-      </ul>
+      <div className="content">
+      <ul>{items}</ul>
       </div>
     );
   }
-
 };
 export default SalesrnkBody;
