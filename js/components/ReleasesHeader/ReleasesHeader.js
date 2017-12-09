@@ -3,8 +3,7 @@ import React from 'react';
 class ReleasesHeader extends React.Component {
   render() {
     return (
-      <div className="titlebar">
-        New Release</div>
+      <div className="titlebar">- 発売間近 -</div>
     );
   }
 }

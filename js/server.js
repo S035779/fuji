@@ -70,8 +70,9 @@ router.route('/bestsellers')
 router.route('/releasedate')
 .get((req, res) => {
   const { node_id, category, page } = req.query;
-  log.trace(`${pspid}>`, node_id, category, page);
-  Amazon.of(keyset).fetchReleaseDate(node_id, category, page).subscribe(
+  log.trace(`${pspid}>`, node_id, category, page );
+  Amazon.of(keyset).fetchReleaseDate(node_id, category, page)
+  .subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
@@ -87,11 +88,13 @@ router.route('/releasedate')
   next(new Error('not implemented'));
 });
 
-router.route('/salesranking')
+router.route('/salesranking/:patern')
 .get((req, res) => {
-  const { node_id, category, page } = req.query;
-  log.trace(`${pspid}>`, node_id, category, page);
-  Amazon.of(keyset).fetchSalesRanking(node_id, category, page).subscribe(
+  const { node_id, category, rate } = req.query;
+  const { patern } = req.params;
+  log.trace(`${pspid}>`, node_id, category, rate, patern );
+  Amazon.of(keyset).fetchSalesRanking(node_id, category, rate, patern)
+  .subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }

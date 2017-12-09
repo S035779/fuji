@@ -12,7 +12,7 @@ class BestsellBody extends React.Component {
     const ttl = top.ItemAttributes.Title;
     return <li className="bestsell" key={key}>
       <figure>
-        <a href={hrf}><img src={img} alt={alt} /></a>
+        <a href={hrf} target="blank"><img src={img} alt={alt} /></a>
         <figcaption>
           <h3>{scr}位</h3>
           <p>{ttl}</p>

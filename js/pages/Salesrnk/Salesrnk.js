@@ -22,10 +22,10 @@ class Salesrnk extends React.Component {
   componentDidMount() {
     const search = this.props.location.search
       .split('?');
-    const { node_id, category, associ_tag } 
+    const { node_id, category, associ_tag, rate } 
       = std.decodeFormData(search[1]);
     SalesrnkAction.fetchItems({
-       node_id, category, associ_tag
+       node_id, category, associ_tag, rate
     });
   }
 

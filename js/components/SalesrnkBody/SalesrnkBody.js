@@ -12,7 +12,7 @@ class SalesrnkBody extends React.Component {
     const ttl = item.ItemAttributes.Title;
     return <li className="salesrnk" key={key}>
       <figure>
-        <a href={hrf}><img src={img} alt={alt} /></a>
+        <a href={hrf} target="blank"><img src={img} alt={alt} /></a>
         <figcaption>
           <h3>{scr}位</h3>
           <p>{ttl}</p>
@@ -22,9 +22,9 @@ class SalesrnkBody extends React.Component {
   }
 
   render() {
+    console.log(this.props.items);
     const items = this.props.items
       .slice(0,4).map((item, idx) => this.renderItem(idx, item));
-    console.log(items);
     return (
       <div className="content">
       <ul>{items}</ul>

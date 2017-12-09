@@ -13,7 +13,7 @@ class DiscountBody extends React.Component {
     const ttl = item.Offers.Offer.OfferListing.Price.FormattedPrice;
     return <li className="discount" key={key}>
       <figure>
-        <a href={hrf}><img src={img} alt={alt} /></a>
+        <a href={hrf} target="blank"><img src={img} alt={alt} /></a>
         <figcaption>
           <h3>{scr}%OFF</h3>
           <p>{ttl}</p>

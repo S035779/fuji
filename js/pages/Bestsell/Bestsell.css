@@ -5,7 +5,6 @@ ul li.bestsell {
 
 #large ul li.bestsell:after {
   position: absolute;
-  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 11pt sans-serif;
@@ -19,9 +18,8 @@ ul li.bestsell {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#medium ul li.bestsell:before {
+#medium ul li.bestsell:after {
   position: absolute;
-  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 8pt sans-serif;
@@ -35,18 +33,17 @@ ul li.bestsell {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#small ul li.bestsell:before {
+#small ul li.bestsell:after {
   position: absolute;
-  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 6pt sans-serif;
-  top: 3px;
-  right: -13px;
-  padding: 1px 3px;
+  top: 5px;
+  right: -20px;
+  padding: 2px 5px;
   text-align: center;
   color: #FFF;
-  width: 50px;
+  width: 80px;
   box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);

@@ -75,11 +75,15 @@ class Amazon {
       .map(this.setItems);
   }
 
-  fetchSalesRanking(node_id, category, page) {
-    return Rx.Observable
-      .fromPromise(this.getSalesRanking(node_id, category, page))
-      .flatMap(this.parseXml)
-      .map(this.setItems);
+  fetchSalesRanking(node_id, category, rate, patern) {
+    const curriedCheckRate = R.curry(this.checkRate.bind(this))(rate);
+    const curriedDiffRate = R.curry(this.diffRate.bind(this))(patern);
+    return this.forSalesRanking(node_id, category, 10)
+      .flatMap(this.forParseXml.bind(this))
+      .map(this.forItems.bind(this))
+      .map(R.flatten)
+      .map(R.filter(curriedCheckRate))
+      .map(R.sort(curriedDiffRate));
   }
 
   fetchItemLookup(item_id, id_type) {
@@ -111,48 +115,75 @@ class Amazon {
     return Rx.Observable.forkJoin(promises);
   }
 
+  forSalesRanking(node_id, category, pages) {
+    const range = R.range(1, pages+1);
+    return this.forkJoin(
+        R.map(page => this.getSalesRanking(node_id, category, page), range)
+    );
+  }
+
   forItemLookup(objs) {
     return this.forkJoin(
-      objs.map(obj => this.getItemLookup(obj.ASIN, 'ASIN'))
+      R.map(obj => this.getItemLookup(obj.ASIN, 'ASIN'), objs)
     );
   }
 
   forParseXml(objs) {
-    return this.forkJoin(
-      objs.map(obj => this.parseXml(obj))
-    );
+    return this.forkJoin(R.map(obj => this.parseXml(obj), objs));
+  }
+
+  forItems(objs) {
+    return R.map(obj => this.setItems(obj), objs);
   }
 
   forItem(objs) {
-    return objs.map(obj => this.setItem(obj));
+    return R.map(obj => this.setItem(obj), objs);
   }
 
-  setTopItems(tops) {
-    return tops.BrowseNodeLookupResponse
-      .BrowseNodes
-      .BrowseNode
-      .TopItemSet
-      .TopItem;
+  checkRate(val, obj) {
+    if(!obj.ItemAttributes.hasOwnProperty('ListPrice')) return false;
+    return this.discountRate(obj) > val;
   }
 
-  setItems(items) {
-    return items.ItemSearchResponse
-      .Items
-      .Item;
+  diffRate(val, obj1, obj2) {
+    switch(val) {
+      case 'discount':
+        return this.discountRate(obj2) - this.discountRate(obj1);
+      case 'salesrnk':
+        return false;
+      default :
+        break;
+    }
+  };
+
+  discountRate(obj) {
+    const lst = Number(obj.ItemAttributes.ListPrice.Amount);
+    const ofr = Number(obj.Offers.Offer.OfferListing.Price.Amount);
+    const scr = Math.ceil((1 - (ofr / lst))*100);
+    //log.trace('ASIN:', obj.ASIN, 'lst, ofr, scr:', lst, ofr, scr);
+    //log.trace('ASIN:', obj.ASIN, 'scr:', scr);
+    return scr;
   }
 
-  setItem(item) {
-    return item.ItemLookupResponse
-      .Items
-      .Item;
+  setTopItems(obj) {
+    const items = obj.BrowseNodeLookupResponse.BrowseNodes;
+    return items.BrowseNode.TopItemSet.TopItem;
   }
 
-  setNodes(node) {
-    return top.BrowseNodeLookupResponse
-      .BrowseNodes
-      .BrowseNode
-      .Children
-      .BrowseNode;
+  setItems(obj) {
+    const items = obj.ItemSearchResponse.Items
+    log.trace('pages:', items.TotalPages, 'items:', items.TotalResults);
+    return items.Item;
+  }
+
+  setItem(obj) {
+    const items = obj.ItemLookupResponse.Items;
+    return items.Item;
+  }
+
+  setNodes(obj) {
+    const items = obj.BrowseNodeLookupResponse.BrowseNodes;
+    return items.BrowseNode.Children.BrowseNode;
   }
 
   getNodeList(node_id) {

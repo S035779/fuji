@@ -33,7 +33,14 @@ export default {
             , error => { if(reject) reject({error: {message: error}}); } 
           );
         });
-      case '/salesranking':
+      case '/salesranking/discount':
+        return new Promise((resolve, reject) => {
+          xhr.get(uri, options
+            , items => { resolve(items); }
+            , error => { if(reject) reject(error); } 
+          );
+        });
+      case '/salesranking/salesrnk':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , items => { resolve(items); }
@@ -80,8 +87,12 @@ export default {
     return this.request('/releasedate', options);
   },
 
-  getSalesRanking(options) {
-    return this.request('/salesranking', options);
+  getSalesrnk(options) {
+    return this.request('/salesranking/salesrnk', options);
+  },
+
+  getDiscount(options) {
+    return this.request('/salesranking/discount', options);
   },
 
   getItemLookup(options) {
@@ -109,15 +120,15 @@ export default {
     });
   },
 
-  fetchDiscount(options) {
-    return this.getSalesRanking(options).then(items => {
+  fetchSalesrnk(options) {
+    return this.getSalesrnk(options).then(items => {
       //log.trace(`${pspid}>`, 'Response:', items);
       return items;
     });
   },
 
-  fetchSalesrnk(options) {
-    return this.getSalesRanking(options).then(items => {
+  fetchDiscount(options) {
+    return this.getDiscount(options).then(items => {
       //log.trace(`${pspid}>`, 'Response:', items);
       return items;
     });

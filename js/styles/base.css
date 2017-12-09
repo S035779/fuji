@@ -22,7 +22,7 @@ h1,h2,h3 {
   width: 174px; height: 170px;
 }
 #small img {
-  width: 87px; height: 85px;
+  width: 130px; height: 127px;
 }
 
 #large div.window {
@@ -37,7 +37,7 @@ h1,h2,h3 {
 }
 #small div.window {
   position: absolute;
-  width: 357px; height: 100px;
+  width: 535px; height: 150px;
   background: #CCC;
 }
 
@@ -63,8 +63,8 @@ h1,h2,h3 {
 }
 #small div.titlebar {
   position: absolute;
-  top: 0px; height: 13px;
-  width: 357px;
+  top: 0px; height: 20px;
+  width: 535px;
   background: #000;
   text-align: center;
   color: #FFF;
@@ -90,9 +90,9 @@ h1,h2,h3 {
 }
 #small div.content {
   position: absolute;
-  top: 13px; height: 87px;
-  width: 360px;
-  margin: 0 -3px 0 0;
+  top: 20px; height: 130px;
+  width: 540px;
+  margin: 0 -5px 0 0;
   overflow: auto;
   background: #FFF;
 }
@@ -110,7 +110,7 @@ h1,h2,h3 {
 #small figure {
   position: relative;
   overflow: hidden;
-  width: 87px;
+  width: 130px;
 }
 
 figcaption h3,
@@ -124,24 +124,24 @@ figcaption p {
 
 #large figcaption h3 {
   top: 10px;    left: 10px;
-  height: 35px; width: 100px;
-  font: bold 20pt sans-serif;
-  padding: 10px 0;
+  height: 30px; width: 100px;
+  font: bold 15pt sans-serif;
+  padding: 5px 0;
   text-align: center;
   color: #FFF;
 }
 #medium figcaption h3 {
   top: 6px;    left: 6x;
-  height: 23px; width: 66px;
-  font: bold 14pt sans-serif;
-  padding: 6px 0;
+  height: 20px; width: 66px;
+  font: bold 10pt sans-serif;
+  padding: 4px 0;
   text-align: center;
   color: #FFF;
 }
 #small figcaption h3 {
-  top: 3px;    left: 3px;
-  height: 13px; width: 33px;
-  font: bold 8pt sans-serif;
+  top: 5px;    left: 5px;
+  height: 15px; width: 50px;
+  font: bold 7pt sans-serif;
   padding: 3px 0;
   text-align: center;
   color: #FFF;
@@ -152,7 +152,7 @@ figcaption p {
   left: 0; 
   height: 60px; width: 100%;
   line-height: 40px;
-  font: bold 16pt sans-serif;
+  font: bold 15pt sans-serif;
   text-align: center;
   color: #FFF;
 }
@@ -161,14 +161,14 @@ figcaption p {
   left: 0; 
   height: 40px; width: 100%;
   line-height: 26px;
-  font: bold 12pt sans-serif;
+  font: bold 10pt sans-serif;
   text-align: center;
   color: #FFF;
 }
 #small figcaption p {
   bottom: 0;
   left: 0; 
-  height: 20px; width: 100%;
+  height: 30px; width: 100%;
   line-height: 13px;
   font: bold 8pt sans-serif;
   text-align: center;
@@ -182,7 +182,7 @@ figcaption p {
   left: -72px;
 }
 #small figure:hover figcaption h3 {
-  left: -36px;
+  left: -55px;
 }
 
 #large figure:hover figcaption p {
@@ -192,25 +192,22 @@ figcaption p {
   bottom: -40px;
 }
 #small figure:hover figcaption p {
-  bottom: -20px;
+  bottom: -30px;
 }
 
 #large ul li {
   float: left;
   width: 260px;
   margin-right: 10px;
-  background-image:url(bg.gif);
 }
 #medium ul li {
   float: left;
   width: 174px;
   margin-right: 6px;
-  background-image:url(bg.gif);
 }
 #small ul li {
   float: left;
-  width: 87px;
-  margin-right: 3px;
-  background-image:url(bg.gif);
+  width: 130px;
+  margin-right: 5px;
 }
 

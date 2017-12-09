@@ -30,6 +30,7 @@ var option = {};
 option['associ_tag']  = atag[0].dataset.associ_tag;
 option['node_id']     = atag[0].dataset.node_id;
 option['category']    = atag[0].dataset.category;
+option['rate']    = atag[0].dataset.rate;
 
 atag[0].style.display = 'none';
 var iframe = document.createElement('iframe');
@@ -38,10 +39,10 @@ iframe.src = 'http://localhost:8080/' + parts + '/' + size + '?'
 
 switch(size) {
   case 'small':
-    iframe.width = '360px';
-    iframe.height = '100px';
+    iframe.width = '540px';
+    iframe.height = '150px';
     break;
-  case 'middle':
+  case 'medium':
     iframe.width = '720px';
     iframe.height = '200px';
     break;
