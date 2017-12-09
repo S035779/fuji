@@ -188,19 +188,16 @@ figcaption p {
   float: left;
   width: 260px;
   margin-right: 10px;
-  background-image:url(bg.gif);
 }
 #medium ul li {
   float: left;
   width: 174px;
   margin-right: 6px;
-  background-image:url(bg.gif);
 }
 #small ul li {
   float: left;
-  width: 87px;
-  margin-right: 3px;
-  background-image:url(bg.gif);
+  width: 130px;
+  margin-right: 5px;
 }
 ul li.bestsell {
   position: relative;
@@ -208,7 +205,6 @@ ul li.bestsell {
 }
 #large ul li.bestsell:after {
   position: absolute;
-  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 11pt sans-serif;
@@ -222,9 +218,8 @@ ul li.bestsell {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#medium ul li.bestsell:before {
+#medium ul li.bestsell:after {
   position: absolute;
-  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 8pt sans-serif;
@@ -238,18 +233,17 @@ ul li.bestsell {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#small ul li.bestsell:before {
+#small ul li.bestsell:after {
   position: absolute;
-  z-index: 3;
   background: #26ACC0;
   content: "Best Seller";
   font: bold 6pt sans-serif;
-  top: 3px;
-  right: -13px;
-  padding: 1px 3px;
+  top: 5px;
+  right: -20px;
+  padding: 2px 5px;
   text-align: center;
   color: #FFF;
-  width: 50px;
+  width: 80px;
   box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
@@ -298,7 +292,7 @@ ul li.discount {
   padding: 2px 5px;
   text-align: center;
   color: #FFF;
-  width: 125px;
+  width: 80px;
   box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
@@ -307,9 +301,8 @@ ul li.releases {
   position: relative;
   overflow: hidden;
 }
-#large ul li.releases:before {
+#large ul li.releases:after {
   position: absolute;
-  z-index: 3;
   background: #ea046a;
   content: "New !!";
   font: bold 11pt sans-serif;
@@ -323,9 +316,8 @@ ul li.releases {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#medium ul li.releases:before {
+#medium ul li.releases:after {
   position: absolute;
-  z-index: 3;
   background: #ea046a;
   content: "New !!";
   font: bold 8pt sans-serif;
@@ -339,18 +331,17 @@ ul li.releases {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#small ul li.releases:before {
+#small ul li.releases:after {
   position: absolute;
-  z-index: 3;
   background: #ea046a;
   content: "New !!";
   font: bold 6pt sans-serif;
-  top: 3px;
-  right: -13px;
-  padding: 1px 3px;
+  top: 5px;
+  right: -20px;
+  padding: 2px 5px;
   text-align: center;
   color: #FFF;
-  width: 50px;
+  width: 80px;
   box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
@@ -361,7 +352,6 @@ ul li.salesrnk {
 }
 #large ul li.salesrnk:after {
   position: absolute;
-  z-index: 3;
   background: #f9b304;
   content: "Rank-In!!";
   font: bold 11pt sans-serif;
@@ -375,9 +365,8 @@ ul li.salesrnk {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#medium ul li.salesrnk:before {
+#medium ul li.salesrnk:after {
   position: absolute;
-  z-index: 3;
   background: #f9b304;
   content: "Rank-In!!";
   font: bold 8pt sans-serif;
@@ -391,9 +380,8 @@ ul li.salesrnk {
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);
 }
-#small ul li.salesrnk:before {
+#small ul li.salesrnk:after {
   position: absolute;
-  z-index: 3;
   background: #f9b304;
   content: "Rank-In!!";
   font: bold 6pt sans-serif;
@@ -402,7 +390,7 @@ ul li.salesrnk {
   padding: 1px 3px;
   text-align: center;
   color: #FFF;
-  width: 50px;
+  width: 80px;
   box-shadow: 0 1px 1px #999;
   transform: rotate(30deg);
   -web-kit-transform: rotate(30deg);

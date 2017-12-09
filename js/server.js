@@ -11,7 +11,6 @@ const port = process.env.PORT || 8081
 const keyset = {
   access_key:   process.env.ACCESS_KEY
   , secret_key: process.env.SECRET_KEY
-  , associ_tag: process.env.ASSOCI_TAG
 };
 
 log.config('console', 'color', 'note-app', 'ALL');
@@ -29,8 +28,9 @@ router.use((req, res, next) => {
 
 router.route('/newreleases')
 .get((req, res, next) => {
-  const { node_id } = req.query;
-  log.trace(`${pspid}>`, node_id);
+  const { node_id, associ_tag } = req.query;
+  log.trace(`${pspid}>`, node_id, associ_tag);
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchNewReleases(node_id).subscribe(
     tops    => { res.json(tops); }
     , error => { log.error(`${pspid}>`, error); }
@@ -49,8 +49,9 @@ router.route('/newreleases')
 
 router.route('/bestsellers')
 .get((req, res) => {
-  const { node_id } = req.query;
-  log.trace(`${pspid}>`, node_id);
+  const { node_id, associ_tag } = req.query;
+  log.trace(`${pspid}>`, node_id, associ_tag);
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchBestSellers(node_id).subscribe(
     tops    => { res.json(tops); }
     , error => { log.error(`${pspid}>`, error); }
@@ -69,8 +70,9 @@ router.route('/bestsellers')
 
 router.route('/releasedate')
 .get((req, res) => {
-  const { node_id, category, page } = req.query;
-  log.trace(`${pspid}>`, node_id, category, page );
+  const { node_id, category, page, associ_tag } = req.query;
+  log.trace(`${pspid}>`, node_id, category, page, associ_tag );
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchReleaseDate(node_id, category, page)
   .subscribe(
     items   => { res.json(items); }
@@ -90,14 +92,15 @@ router.route('/releasedate')
 
 router.route('/salesranking/:patern')
 .get((req, res) => {
-  const { node_id, category, rate } = req.query;
+  const { node_id, category, rate, associ_tag } = req.query;
   const { patern } = req.params;
-  log.trace(`${pspid}>`, node_id, category, rate, patern );
+  log.trace(`${pspid}>`, node_id, category, rate, patern, associ_tag );
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchSalesRanking(node_id, category, rate, patern)
   .subscribe(
     items   => { res.json(items); }
-    , error => { log.error(`${pspid}>`, error); }
-    , ()    => { log.info(`${pspid}>`, 'Completed'); }
+    //, error => { log.error(`${pspid}>`, error); }
+    //, ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
 .put((req, res, next) => {
@@ -112,8 +115,9 @@ router.route('/salesranking/:patern')
 
 router.route('/itemlookup')
 .get((req, res) => {
-  const { item_id, id_type } = req.query;
-  log.trace(`${pspid}>`, item_id, id_type);
+  const { item_id, id_type, associ_tag } = req.query;
+  log.trace(`${pspid}>`, item_id, id_type, associ_tag);
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchItemLookup(item_id, id_type).subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
@@ -132,8 +136,9 @@ router.route('/itemlookup')
 
 router.route('/itemlist')
 .get((req, res) => {
-  const { keyword, page } = req.query;
-  log.trace(`${pspid}>`, keyword, page);
+  const { keyword, page, associ_tag } = req.query;
+  log.trace(`${pspid}>`, keyword, page, associ_tag);
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchItemList(keyword, page).subscribe(
     items   => { res.json(items); }
     , error => { log.error(`${pspid}>`, error); }
@@ -152,8 +157,9 @@ router.route('/itemlist')
 
 router.route('/nodelist')
 .get((req, res) => {
-  const { node_id } = req.query;
-  log.trace(`${pspid}>`, node_id);
+  const { node_id, associ_tag } = req.query;
+  log.trace(`${pspid}>`, node_id, associ_tag);
+  keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchNodeList(node_id).subscribe(
     nodes   => { res.json(nodes); }
     , error => { log.error(`${pspid}>`, error); }
