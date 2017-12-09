@@ -2,7 +2,7 @@ import React from 'react';
 import std from '../../utils/stdutils';
 
 class ReleasesBody extends React.Component {
-  renderItem(top) {
+  renderItem(idx, top) {
     const key = top.ASIN;
     const hrf = top.DetailPageURL;
     const img = top.LargeImage.URL;
@@ -28,8 +28,11 @@ class ReleasesBody extends React.Component {
 
   render() {
     console.log(this.props.tops);
-    const tops = this.props.tops
-      .slice(0,4).map(this.renderItem.bind(this));
+    const rnd = std.makeRandInt(1);
+    const objs = rnd >4
+      ? this.props.tops.slice(0,4) : this.props.tops.slice(4,8);
+    const tops = objs.map((top, idx) => rnd >4
+      ? this.renderItem(idx, top) : this.renderItem(idx+4, top));
     return (
       <div className="content">
       <ul>{tops}</ul>

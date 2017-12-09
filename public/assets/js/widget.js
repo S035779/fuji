@@ -1,4 +1,17 @@
 /**
+ * Generated a randam characters, using 'Math.random()' method.
+ * $length: number of characters to be generated.
+ */
+const makeRandInt = function(length) {
+  const chars = '123456789';
+  let str = '';
+  for (let i = 0; i < length; ++i) {
+    str += chars[ Math.floor( Math.random() * 9 ) ];
+  }
+  return parseInt(str, 10);
+}
+
+/**
  * encodeFormData
  *
  * @param {object} data 
@@ -32,9 +45,24 @@ option['node_id']     = atag[0].dataset.node_id;
 option['category']    = atag[0].dataset.category;
 option['rate']    = atag[0].dataset.rate;
 
+var api='';
+switch(parts) {
+  case 'bestsellers':
+    api='bestsell';
+    break;
+  case 'newrelease':
+    api='releases';
+    break;
+  case 'salesranking':
+    api = makeRandInt(1) > 5 ? 'discount' :  'salesrnk';
+    break;
+  default:
+    break;
+}
+
 atag[0].style.display = 'none';
 var iframe = document.createElement('iframe');
-iframe.src = 'http://localhost:8080/' + parts + '/' + size + '?'
+iframe.src = 'http://localhost:8080/' + api + '/' + size + '?'
   + encodeFormData(option);
 
 switch(size) {
