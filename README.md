@@ -102,7 +102,9 @@ Ranking site is here!
   Copy this file in the root directory of sample blog site.
 
 **2) Copy 'common.js' file.**
+
 **3) Copy 'app.bundle.js' file.**
+
 **4) Copy 'log4js.js' file.**
 
   Copy this file in the javascript directory of sample blog site.
