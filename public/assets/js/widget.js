@@ -78,7 +78,8 @@ var setSource = function(parts, size, query) {
 };
 
 var setParts = function(className) {
-  var atag  = document.getElementsByClassName(className);
+  var atag  = document.getElementsByClassName(className) 
+  if(!atag.length) return;
   var parts = atag[0].dataset.parts;
   var size  = atag[0].dataset.size;
   var query = {};
@@ -102,7 +103,7 @@ var setParts = function(className) {
 };
 
 (function(){
-  setParts('amazon-widget-bestsellers');
-  setParts('amazon-widget-newrelease');
-  setParts('amazon-widget-salesranking');
+  setParts('amazon-widget-1');
+  setParts('amazon-widget-2');
+  setParts('amazon-widget-3');
 })();

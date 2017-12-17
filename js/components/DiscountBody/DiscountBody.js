@@ -6,7 +6,9 @@ class DiscountBody extends React.Component {
     const key = item.ASIN;
     const hrf = item.DetailPageURL;
     const img = item.LargeImage.URL;
-    const alt = item.Offers.Offer.OfferListing.Availability;
+    const alt = item.Offers.Offer
+      ? item.Offers.Offer.OfferListing.Availability
+      : '';
     const lst = Number(item.ItemAttributes.ListPrice.Amount);
     const ofr = Number(item.Offers.Offer.OfferListing.Price.Amount);
     const scr = Math.ceil((1 - (ofr / lst))*100);

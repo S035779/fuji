@@ -6,8 +6,9 @@ class BestsellBody extends React.Component {
     const key = top.ASIN;
     const hrf = top.DetailPageURL;
     const img = top.LargeImage.URL;
-    const alt = top.Offers.Offer.OfferListing
-      .Availability;
+    const alt = top.Offers.Offer
+      ? top.Offers.Offer.OfferListing.Availability
+      : '';
     const scr = Number(idx) + 1;
     const ttl = top.ItemAttributes.Title;
     return <li className="bestsell" key={key}>
@@ -28,7 +29,6 @@ class BestsellBody extends React.Component {
       ? this.props.tops.slice(0,4) : this.props.tops.slice(4,8);
     const tops = objs.map((top, idx) => rnd >4 
       ? this.renderItem(idx, top) : this.renderItem(idx+4, top));
-    console.log(tops);
     return (
       <div className="content">
       <ul>{tops}</ul>

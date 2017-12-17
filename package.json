@@ -1,7 +1,7 @@
 {
-  "name": "WatchNote",
+  "name": "Fuji",
   "version": "1.0.0",
-  "description": "Amazon.com Search Tool.",
+  "description": "Amazon Blog Parts.",
   "scripts": {
     "build": "webpack",
     "dev-server": "webpack-dev-server",
