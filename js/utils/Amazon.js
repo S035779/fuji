@@ -10,7 +10,7 @@ const params = {
   , Version: '2011-07-27'
 }
 
-const pspid = 'AMZApiClient';
+const pspid = 'amazon-api';
 /**
  * Amazon Api Client class.
  *
@@ -41,8 +41,8 @@ class Amazon {
     const url = this.url(query, signature);
 
     return new Promise((resolve, reject) => {
-      net.get(url, (stat, head, body) => {
-        if(stat !== 200) reject(new Error(body));
+      net.get(url, (err, head, body) => {
+        if(err) reject(err.message);
         resolve(body);
       });
     });
@@ -84,6 +84,11 @@ class Amazon {
       .map(R.flatten)
       .map(R.filter(curriedCheckRate))
       .map(R.sort(curriedDiffRate));
+      //.map(R.tap(this.logTrace.bind(this)))
+  }
+
+  logTrace(message) {
+    log.trace(`${pspid}>`, 'Trace:', message);
   }
 
   fetchItemLookup(item_id, id_type) {
@@ -157,8 +162,10 @@ class Amazon {
   };
 
   discountRate(obj) {
-    const lst = Number(obj.ItemAttributes.ListPrice.Amount);
-    const ofr = Number(obj.Offers.Offer.OfferListing.Price.Amount);
+    const lst = obj.ItemAttributes.ListPrice.Amount;
+    const ofr = obj.Offers.Offer
+      ? obj.Offers.Offer.OfferListing.Price.Amount
+      : lst;
     const scr = Math.ceil((1 - (ofr / lst))*100);
     //log.trace('ASIN:', obj.ASIN, 'lst, ofr, scr:', lst, ofr, scr);
     //log.trace('ASIN:', obj.ASIN, 'scr:', scr);
@@ -172,7 +179,7 @@ class Amazon {
 
   setItems(obj) {
     const items = obj.ItemSearchResponse.Items
-    log.trace('pages:', items.TotalPages, 'items:', items.TotalResults);
+    //log.trace('pages:', items.TotalPages, 'items:', items.TotalResults);
     return items.Item;
   }
 

@@ -31,61 +31,78 @@ var encodeFormData = function(data) {
   return pairs.join('&');
 };
 
+var setApi = function(parts) {
+  switch(parts) {
+    case 'bestsellers':
+      return 'bestsell';
+    case 'newrelease':
+      return 'releases';
+    case 'salesranking':
+      return makeRandInt(1) > 5 ? 'discount' :  'salesrnk';
+    default:
+      return '';
+  }
+};
+
+var setHeight = function(size) {
+  switch(size) {
+    case 'small':
+      return '150px';
+    case 'medium':
+      return '200px';
+    case 'large':
+      return '300px';
+    default:
+      return '';
+  }
+};
+
+var setWidth = function(size) {
+  switch(size) {
+    case 'small':
+      return '540px';
+    case 'medium':
+      return '720px';
+    case 'large':
+      return '1080px';
+    default:
+      return '';
+  }
+};
+
+var setSource = function(parts, size, query) {
+  return 'http://localhost:8080/'
+    + setApi(parts) + '/'
+    + size + '?'
+    + encodeFormData(query)
+};
+
+var setParts = function(className) {
+  var atag  = document.getElementsByClassName(className);
+  var parts = atag[0].dataset.parts;
+  var size  = atag[0].dataset.size;
+  var query = {};
+  query['associ_tag']  = atag[0].dataset.associ_tag;
+  query['node_id']     = atag[0].dataset.node_id;
+  query['category']    = atag[0].dataset.category;
+  query['rate']        = atag[0].dataset.rate;
+
+  atag[0].style.display = 'none';
+  var iframe = document.createElement('iframe');
+  iframe.src = setSource(parts, size, query);
+  iframe.width = setWidth(size);
+  iframe.height = setHeight(size);
+  iframe.scrolling = 'no';
+  iframe.frameBorder = 0;
+  iframe.marginWidth = 0;
+  iframe.marginHeight = 0;
+  iframe.id = className;
+
+  atag[0].parentNode.insertBefore(iframe,atag[0]);
+};
+
 (function(){
-
-'use strict';
-
-// 目印のaタグからパラメータとってきたら消す
-var atag  = document.getElementsByClassName('amazon-widget');
-var parts = atag[0].dataset.parts;
-var size  = atag[0].dataset.size;
-var option = {};
-option['associ_tag']  = atag[0].dataset.associ_tag;
-option['node_id']     = atag[0].dataset.node_id;
-option['category']    = atag[0].dataset.category;
-option['rate']    = atag[0].dataset.rate;
-
-var api='';
-switch(parts) {
-  case 'bestsellers':
-    api='bestsell';
-    break;
-  case 'newrelease':
-    api='releases';
-    break;
-  case 'salesranking':
-    api = makeRandInt(1) > 5 ? 'discount' :  'salesrnk';
-    break;
-  default:
-    break;
-}
-
-atag[0].style.display = 'none';
-var iframe = document.createElement('iframe');
-iframe.src = 'http://localhost:8080/' + api + '/' + size + '?'
-  + encodeFormData(option);
-
-switch(size) {
-  case 'small':
-    iframe.width = '540px';
-    iframe.height = '150px';
-    break;
-  case 'medium':
-    iframe.width = '720px';
-    iframe.height = '200px';
-    break;
-  case 'large':
-    iframe.width = '1080px';
-    iframe.height = '300px';
-    break;
-}
-iframe.scrolling = 'no';
-iframe.frameBorder = 0;
-iframe.marginWidth = 0;
-iframe.marginHeight = 0;
-iframe.id = 'amazon-widget';
-
-// atagの隣にiframeを挿入
- atag[0].parentNode.insertBefore(iframe,atag[0]);
-
+  setParts('amazon-widget-bestsellers');
+  setParts('amazon-widget-newrelease');
+  setParts('amazon-widget-salesranking');
 })();

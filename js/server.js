@@ -15,7 +15,7 @@ const keyset = {
 
 log.config('console', 'color', 'note-app', 'ALL');
 
-const pspid = 'ItemService';
+const pspid = 'ssr-server';
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -33,7 +33,7 @@ router.route('/newreleases')
   keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchNewReleases(node_id).subscribe(
     tops    => { res.json(tops); }
-    , error => { log.error(`${pspid}>`, error); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
@@ -54,7 +54,7 @@ router.route('/bestsellers')
   keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchBestSellers(node_id).subscribe(
     tops    => { res.json(tops); }
-    , error => { log.error(`${pspid}>`, error); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
@@ -76,7 +76,7 @@ router.route('/releasedate')
   Amazon.of(keyset).fetchReleaseDate(node_id, category, page)
   .subscribe(
     items   => { res.json(items); }
-    , error => { log.error(`${pspid}>`, error); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
@@ -99,8 +99,8 @@ router.route('/salesranking/:patern')
   Amazon.of(keyset).fetchSalesRanking(node_id, category, rate, patern)
   .subscribe(
     items   => { res.json(items); }
-    //, error => { log.error(`${pspid}>`, error); }
-    //, ()    => { log.info(`${pspid}>`, 'Completed'); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
+    , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
 .put((req, res, next) => {
@@ -120,7 +120,7 @@ router.route('/itemlookup')
   keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchItemLookup(item_id, id_type).subscribe(
     items   => { res.json(items); }
-    , error => { log.error(`${pspid}>`, error); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
@@ -141,7 +141,7 @@ router.route('/itemlist')
   keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchItemList(keyword, page).subscribe(
     items   => { res.json(items); }
-    , error => { log.error(`${pspid}>`, error); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })
@@ -162,7 +162,7 @@ router.route('/nodelist')
   keyset['associ_tag'] = associ_tag;
   Amazon.of(keyset).fetchNodeList(node_id).subscribe(
     nodes   => { res.json(nodes); }
-    , error => { log.error(`${pspid}>`, error); }
+    , err => { log.error(`${pspid}>`, err.name, err.message); }
     , ()    => { log.info(`${pspid}>`, 'Completed'); }
   );
 })

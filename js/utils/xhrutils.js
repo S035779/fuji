@@ -41,8 +41,14 @@ var get = function(url, data, success, error) {
       }
     }
   };
-  request.error = function() {
-    if(error) error(new Error(req.statusText));
+  request.onerror = function(e) {
+    if(error) error(new Error(request.statusText));
+  };
+  request.onabort = function(e) {
+    if(error) error('XHR aborted.');
+  };
+  request.ontimeout = function(e) {
+    if(error) error('Connection timeout!');
   };
   request.send(null);
 };
@@ -63,8 +69,14 @@ var getData = function(url, data, success, error) {
     if (request.readyState === 4 && request.status === 200)
       success(request);
   };
-  request.error = function() {
-    if(error) error(new Error(req.statusText));
+  request.onerror = function(e) {
+    if(error) error(new Error(request.statusText));
+  };
+  request.onabort = function(e) {
+    if(error) error('XHR aborted.');
+  };
+  request.ontimeout = function(e) {
+    if(error) error('Connection timeout!');
   };
   request.send(null);
 };
@@ -85,8 +97,14 @@ var postData = function(url, data, success, error) {
     if (request.readyState === 4 && request.status === 200)
         success(request);
   };
-  request.error = function() {
-    if(error) error(new Error(req.statusText));
+  request.onerror = function(e) {
+    if(error) error(new Error(request.statusText));
+  };
+  request.onabort = function(e) {
+    if(error) error('XHR aborted.');
+  };
+  request.ontimeout = function(e) {
+    if(error) error('Connection timeout!');
   };
   request.setRequestHeader("Content-Type"
     , "application/x-www-form-urlencoded");
@@ -117,8 +135,14 @@ var postXML = function(url, data, success, error) {
       }
     }
   };
-  request.error = function() {
-    if(error) error(new Error(req.statusText));
+  request.onerror = function(e) {
+    if(error) error(new Error(request.statusText));
+  };
+  request.onabort = function(e) {
+    if(error) error('XHR aborted.');
+  };
+  request.ontimeout = function(e) {
+    if(error) error('Connection timeout!');
   };
   request.setRequestHeader("Content-Type", "text/xml; charset=UTF-8");
   for(var key in data.head) {
@@ -144,8 +168,14 @@ var postJSON = function(url, data, success, error) {
     if (request.readyState === 4 && request.status === 200)
         success(request);
   };
-  request.error = function() {
-    if(error) error(new Error(req.statusText));
+  request.onerror = function(e) {
+    if(error) error(new Error(request.statusText));
+  };
+  request.onabort = function(e) {
+    if(error) error('XHR aborted.');
+  };
+  request.ontimeout = function(e) {
+    if(error) error('Connection timeout!');
   };
   request.setRequestHeader("Content-Type", "application/json");
   request.send(JSON.stringify(data));
@@ -167,8 +197,14 @@ var putJSON = function(url, data, success, error) {
     if (request.readyState === 4 && request.status === 200)
         success(request);
   };
-  request.error = function() {
-    if(error) error(new Error(req.statusText));
+  request.error = function(e) {
+    if(error) error(new Error(request.statusText));
+  };
+  request.onabort = function(e) {
+    if(error) error('XHR aborted.');
+  };
+  request.ontimeout = function(e) {
+    if(error) error('Connection timeout!');
   };
   request.setRequestHeader("Content-Type", "application/json");
   request.send(JSON.stringify(data));

@@ -6,8 +6,9 @@ class ReleasesBody extends React.Component {
     const key = top.ASIN;
     const hrf = top.DetailPageURL;
     const img = top.LargeImage.URL;
-    const alt = top.Offers.Offer.OfferListing
-      .Availability;
+    const alt = top.Offers.Offer
+      ? top.Offers.Offer.OfferListing.Availability
+      : '';
     const now = new Date();
     const dst = new Date(top.ItemAttributes.ReleaseDate);
     let scr;

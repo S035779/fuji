@@ -16,61 +16,61 @@ export default {
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , tops  => { resolve(tops); }
-            , error => { if(reject) reject(error); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/bestsellers':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , tops  => { resolve(tops); }
-            , error => { if(reject) reject(error); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/releasedate':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , items => { resolve(items); }
-            , error => { if(reject) reject({error: {message: error}}); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/salesranking/discount':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , items => { resolve(items); }
-            , error => { if(reject) reject(error); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/salesranking/salesrnk':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , items => { resolve(items); }
-            , error => { if(reject) reject(error); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/itemlookup':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , items => { resolve(items); }
-            , error => { if(reject) reject({error: {message: error}}); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/itemlist':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , items => { resolve(items); }
-            , error => { if(reject) reject(error); } 
+            , error => { reject(error.message); } 
           );
         });
       case '/nodelist':
         return new Promise((resolve, reject) => {
           xhr.get(uri, options
             , nodes => { resolve(nodes); }
-            , error => { if(reject) reject(error); } 
+            , error => { reject(error.message); } 
           );
         });
       default:
         return new Promise((resolve, reject) => {
-          if(reject) reject({error: {message: 'Unknown Operation.'}});
+          if(reject) reject('Unknown Operation.');
         });
     }
   },

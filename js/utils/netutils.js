@@ -30,11 +30,11 @@ var get = function(url, callback) {
       switch (stat) {
         case 200:
           process.stdout.write('-');
-          if (callback) callback(stat, head, body);
+          if (callback) callback(null, head, body);
           break;
         case 400: case 401: case 403: case 404:
           log.error(`HTTP Request Failed. Status Code: ${stat}`);
-          if (callback) callback(stat, head, body);
+          if (callback) callback(new Error(body));
           break; 
         case 500: case 503:
           process.stdout.write('x');
@@ -44,7 +44,7 @@ var get = function(url, callback) {
         default:
           process.stdout.write('?');
           log.warn(`HTTP Request Failed. Status Code: ${stat}`);
-          if (callback) callback(stat, head, body);
+          if (callback) callback(new Error(body));
           break;
       }
     });
@@ -84,11 +84,11 @@ var get2 = function(url, callback) {
       switch (stat) {
         case 200:
           process.stdout.write('-');
-          if (callback) callback(stat, head, body);
+          if (callback) callback(null, head, body);
           break;
         case 400: case 401: case 403: case 404:
           log.error(`HTTP Request Failed. Status Code: ${stat}`);
-          if (callback) callback(stat, head, body);
+          if (callback) callback(new Error(body));
           break; 
         case 500: case 503:
           process.stdout.write('x');
@@ -98,7 +98,7 @@ var get2 = function(url, callback) {
         default:
           process.stdout.write('?');
           log.warn(`HTTP Request Failed. Status Code: ${stat}`);
-          if (callback) callback(stat, head, body);
+          if (callback) callback(new Error(body));
           break;
       }
     });
@@ -154,12 +154,12 @@ var post = function(url, data, callback) {
       switch (stat) {
         case 200:
           process.stdout.write('-');
-          if (callback) callback(stat, head, body);
+          if (callback) callback(null, head, body);
           break;
         case 400: case 401: case 403: case 404:
           log.error(`HTTP Request Failed. Status Code: ${stat}`);
-          res.resume();
-          return; 
+          if (callback) callback(new Error(body));
+          break;
         case 500: case 503:
           process.stdout.write('x');
           log.warn(`HTTP Request Failed. Status Code: ${stat}`);
@@ -168,7 +168,7 @@ var post = function(url, data, callback) {
         default:
           process.stdout.write('?');
           log.warn(`HTTP Request Failed. Status Code: ${stat}`);
-          if (callback) callback(stat, head, body);
+          if (callback) callback(new Error(body));
           break;
       }
     });
@@ -226,14 +226,12 @@ var post2 = function(url, headers, data, callback) {
       switch (stat) {
         case 200:
           process.stdout.write('-');
-          if (callback) callback(stat, head, body);
+          if (callback) callback(null, head, body);
           break;
         case 400: case 401: case 403: case 404:
           log.error(`HTTP Request Failed. Status Code: ${stat}`);
-          log.trace(`Header:`, head);
-          log.trace(`Body:`, body);
-          res.resume();
-          return; 
+          if (callback) callback(new Error(body));
+          break;
         case 500: case 503:
           process.stdout.write('x');
           log.warn(`HTTP Request Failed. Status Code: ${stat}`);
@@ -242,7 +240,7 @@ var post2 = function(url, headers, data, callback) {
         default:
           process.stdout.write('?');
           log.warn(`HTTP Request Failed. Status Code: ${stat}`);
-          if (callback) callback(stat, head, body);
+          if (callback) callback(new Error(body));
           break;
       }
     });
